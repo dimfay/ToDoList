@@ -21,7 +21,7 @@ public final class TaskManager {
         this.count++;
     }
 
-    public void deleteTask(int id) {
+    public void deleteTaskById (int id) {
         Task tmp = this.taskId.get(id);
         if (tmp == null) {
             return;
@@ -30,7 +30,7 @@ public final class TaskManager {
         handleDelete(id, tmp.getName());
     }
 
-    public void deleteTask(String name) {
+    public void deleteTaskByName(String name) {
         Task tmp = this.taskName.get(name);
         if (tmp == null) {
             return;
