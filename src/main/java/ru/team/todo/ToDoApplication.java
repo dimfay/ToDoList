@@ -20,16 +20,23 @@ public class ToDoApplication {
         while("y".equals(token)) {
             Scanner scanner = new Scanner(System.in);
             int response = Integer.parseInt(scanner.nextLine());
-            if (response == 1) {
-                String name = scanner.nextLine();
-                String description = scanner.nextLine();
-                taskManager.addTask(name, description);
-            } else if (response == 2) {
-                Collection<Task> tasks = taskManager.getAllTasks();
-                printAll(tasks);
-            } else if (response == 3) {
-                String name = scanner.nextLine();
-                taskManager.deleteTaskByName(name);
+            switch (response) {
+                case 1: {
+                    String name = scanner.nextLine();
+                    String description = scanner.nextLine();
+                    taskManager.addTask(name, description);
+                    break;
+                }
+                case 2: {
+                    Collection<Task> tasks = taskManager.getAllTasks();
+                    printAll(tasks);
+                    break;
+                }
+                case 3: {
+                    String name = scanner.nextLine();
+                    taskManager.deleteTaskByName(name);
+                    break;
+                }
             }
             System.out.println("Повторить? y/n");
             token = scanner.next();
