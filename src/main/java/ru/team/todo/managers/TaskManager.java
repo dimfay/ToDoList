@@ -21,7 +21,7 @@ public final class TaskManager {
         this.count++;
     }
 
-    public void deleteTaskById (int id) {
+    public void deleteTaskById(int id) {
         Task tmp = this.taskId.get(id);
         if (tmp == null) {
             return;
