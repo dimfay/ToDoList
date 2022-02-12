@@ -23,7 +23,7 @@ public class FindTasksCommand extends Command {
             informMsg();
             return;
         }
-        for (Task task : this.manager.getAllTasks()) {
+        for (Task task : tasks) {
             System.out.println(task.toString());
         }
         informMsg();
