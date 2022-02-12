@@ -9,7 +9,11 @@ import java.util.Map;
 public final class TaskManager {
 
     private final Map<Integer, Task> taskId = new HashMap<>();
-    private final Map<String, Task> taskName = new HashMap<>();
+    private  Map<String, Task> taskName = new HashMap<>();
+    //changed
+
+
+    
 
     private int count = 1;
 
@@ -26,6 +30,7 @@ public final class TaskManager {
         if (tmp == null) {
             return;
         }
+        
 
         handleDelete(id, tmp.getName());
     }
