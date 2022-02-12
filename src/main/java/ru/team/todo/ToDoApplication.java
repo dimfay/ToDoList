@@ -10,12 +10,10 @@ public class ToDoApplication {
 
     public static void main(String[] args) {
         TaskManager manager = new TaskManager();
-        Menu menu = new Menu();
-        menu
+        new Menu()
                 .addCommand(new AddCommand(manager))
                 .addCommand(new FindTasksCommand(manager))
-                .addCommand(new DeleteCommand(manager));
-
-        menu.startUI();
+                .addCommand(new DeleteCommand(manager))
+                .startUI();
     }
 }
