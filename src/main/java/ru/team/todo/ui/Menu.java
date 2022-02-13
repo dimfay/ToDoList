@@ -18,14 +18,13 @@ public class Menu {
             try {
                 System.out.println("Available commands: ");
                 List<Command> sortedCommands = new ArrayList<>(this.commands.values());
-                //Сортируем все элементы
                 Collections.sort(sortedCommands);
                 for (Command cmd : sortedCommands) {
                     System.out.println("'" + cmd.getName() + "': " + cmd.getDescription());
                 }
                 Scanner scanner = new Scanner(System.in);
                 String userInput = scanner.nextLine();
-                //Удаляем пробелы
+               
                 userInput = userInput.trim();
                 if (userInput.isEmpty()) {
                     continue;
