@@ -1,14 +1,15 @@
-package ru.team.todo.ui.commands;
+package ru.team.todo.ui.commands.task;
 
-import ru.team.todo.managers.TaskManager;
+import ru.team.todo.managers.TaskService;
+import ru.team.todo.ui.commands.Command;
 
 import java.util.Scanner;
 
 public class DeleteCommand extends Command {
 
-    private final TaskManager manager;
+    private final TaskService manager;
 
-    public DeleteCommand(TaskManager manager) {
+    public DeleteCommand(TaskService manager) {
         super("delete", "Delete task");
         this.manager = manager;
     }

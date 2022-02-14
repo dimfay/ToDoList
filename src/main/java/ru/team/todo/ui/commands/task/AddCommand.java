@@ -1,15 +1,16 @@
-package ru.team.todo.ui.commands;
+package ru.team.todo.ui.commands.task;
 
-import ru.team.todo.managers.TaskManager;
+import ru.team.todo.managers.TaskService;
+import ru.team.todo.ui.commands.Command;
 
 import java.util.Scanner;
 
 public class AddCommand extends Command {
 
-    private final TaskManager manager;
+    private final TaskService manager;
 
-    public AddCommand(TaskManager manager) {
-        super("add", "Add new task");
+    public AddCommand(TaskService manager) {
+        super("add task", "Add new task");
         this.manager = manager;
     }
 

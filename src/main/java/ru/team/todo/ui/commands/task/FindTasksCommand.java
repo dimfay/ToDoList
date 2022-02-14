@@ -1,16 +1,17 @@
-package ru.team.todo.ui.commands;
+package ru.team.todo.ui.commands.task;
 
-import ru.team.todo.managers.TaskManager;
+import ru.team.todo.managers.TaskService;
 import ru.team.todo.objects.Task;
+import ru.team.todo.ui.commands.Command;
 
 import java.util.Collection;
 import java.util.Scanner;
 
 public class FindTasksCommand extends Command {
 
-    private final TaskManager manager;
+    private final TaskService manager;
 
-    public FindTasksCommand(TaskManager manager) {
+    public FindTasksCommand(TaskService manager) {
         super("find", "Display all tasks");
         this.manager = manager;
     }
