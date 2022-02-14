@@ -66,8 +66,9 @@ public class UserService {
     
     public void findAllUsers() {
     	Collection<User> allUsers = getAllUsers();
+    	System.out.println("All users:");
     	for (User user : allUsers) {
-    		System.out.println(user);
+    		System.out.println(user.getName());
     	}
     }
     

@@ -28,8 +28,8 @@ public class User {
     public void increaseIdSequence() {
     	idSequence++;
     }
-
-	@Override
+    
+    @Override
 	public String toString() {
 		return "User [name=" + name + ", tasks=" + tasks + ", idSequence=" + idSequence + "]";
 	}
