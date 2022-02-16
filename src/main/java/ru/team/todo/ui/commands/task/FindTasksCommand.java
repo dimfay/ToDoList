@@ -1,37 +1,36 @@
 package ru.team.todo.ui.commands.task;
 
-import ru.team.todo.managers.TaskService;
+import ru.team.todo.managers.UserService;
 import ru.team.todo.objects.Task;
+import ru.team.todo.objects.User;
 import ru.team.todo.ui.commands.Command;
 
 import java.util.Collection;
-import java.util.Scanner;
 
 public class FindTasksCommand extends Command {
 
-    private final TaskService manager;
+    private final UserService manager;
 
-    public FindTasksCommand(TaskService manager) {
-        super("find", "Display all tasks");
+    public FindTasksCommand(UserService manager) {
+        super("task find", "Display all tasks");
         this.manager = manager;
     }
 
     @Override
     public void execute() {
-        Collection<Task> tasks = this.manager.getAllTasks();
+        User user = manager.getCurrentUser();
+        if (user == null) {
+            System.out.println("No user selected.");
+            return;
+        }
+
+        Collection<Task> tasks = user.getAllTasks();
         if (tasks.isEmpty()) {
             System.out.println("Tasks not found!");
-            informMsg();
             return;
         }
         for (Task task : tasks) {
             System.out.println(task.toString());
         }
-        informMsg();
-    }
-
-    private static void informMsg() {
-        System.out.println("Enter any key to continue");
-        new Scanner(System.in).nextLine();
     }
 }

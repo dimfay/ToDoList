@@ -7,13 +7,13 @@ public class Task {
 
     private final int id;
     private final String name;
-    private final String desc;
-    private List<Integer> subtaskIds = new ArrayList<Integer>();
+    private final String description;
+    private final List<Integer> subtaskIds = new ArrayList<>();
 
     public Task(int id, String name, String desc) {
         this.id = id;
         this.name = name;
-        this.desc = desc;
+        this.description = desc;
     }
 
     public int getId() {
@@ -24,8 +24,8 @@ public class Task {
         return this.name;
     }
 
-    public String getDesc() {
-        return this.desc;
+    public String getDescription() {
+        return this.description;
     }
 
     @Override
@@ -33,7 +33,7 @@ public class Task {
         return "Task{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", desc='" + desc + '\'' +
+                ", desc='" + description + '\'' +
                 '}';
     }
 }

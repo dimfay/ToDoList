@@ -6,10 +6,10 @@ import ru.team.todo.managers.UserService;
 import ru.team.todo.ui.commands.Command;
 
 public class AddUserCommand extends Command {
-	private final UserService manager;
+    private final UserService manager;
 
     public AddUserCommand(UserService manager) {
-        super("add", "Add new user");
+        super("user add", "Add new user");
         this.manager = manager;
     }
 
@@ -20,6 +20,6 @@ public class AddUserCommand extends Command {
         String name = scanner.nextLine();
 
         manager.addUser(name);
-        System.out.println("User '" + name + "' added");
+        System.out.println("User with name '" + name + "' added");
     }
 }
