@@ -1,23 +1,23 @@
 package ru.team.todo.ui.commands.task;
 
-import ru.team.todo.managers.UserService;
 import ru.team.todo.objects.User;
+import ru.team.todo.services.ConsoleService;
 import ru.team.todo.ui.commands.Command;
 
 import java.util.Scanner;
 
 public class DeleteTaskByNameCommand extends Command {
 
-    private final UserService manager;
+    private final ConsoleService consoleService;
 
-    public DeleteTaskByNameCommand(UserService manager) {
+    public DeleteTaskByNameCommand(ConsoleService consoleService) {
         super("task delete name", "Delete task by name");
-        this.manager = manager;
+        this.consoleService = consoleService;
     }
 
     @Override
     public void execute() {
-        User user = manager.getCurrentUser();
+        User user = this.consoleService.getSwitchedUser();
         if (user == null) {
             System.out.println("No user selected.");
             return;

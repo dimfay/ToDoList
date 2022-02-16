@@ -1,15 +1,15 @@
 package ru.team.todo.ui.commands.user;
 
-import ru.team.todo.managers.UserService;
+import ru.team.todo.repository.UserRepository;
 import ru.team.todo.objects.User;
 import ru.team.todo.ui.commands.Command;
 
 import java.util.Collection;
 
 public class FindAllUsers extends Command {
-	private final UserService manager;
+	private final UserRepository manager;
 
-    public FindAllUsers(UserService manager) {
+    public FindAllUsers(UserRepository manager) {
         super("user find", "Find all available users");
         this.manager = manager;
     }
