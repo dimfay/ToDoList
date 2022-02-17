@@ -2,14 +2,14 @@ package ru.team.todo.ui.commands.user;
 
 import java.util.Scanner;
 
-import ru.team.todo.managers.UserService;
+import ru.team.todo.repository.UserRepository;
 import ru.team.todo.ui.commands.Command;
 
 public class AddUserCommand extends Command {
-	private final UserService manager;
+    private final UserRepository manager;
 
-    public AddUserCommand(UserService manager) {
-        super("add", "Add new user");
+    public AddUserCommand(UserRepository manager) {
+        super("user add", "Add new user");
         this.manager = manager;
     }
 
@@ -20,6 +20,6 @@ public class AddUserCommand extends Command {
         String name = scanner.nextLine();
 
         manager.addUser(name);
-        System.out.println("User '" + name + "' added");
+        System.out.println("User with name '" + name + "' added");
     }
 }

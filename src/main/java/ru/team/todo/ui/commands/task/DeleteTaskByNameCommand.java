@@ -1,18 +1,17 @@
 package ru.team.todo.ui.commands.task;
 
-import ru.team.todo.objects.Task;
 import ru.team.todo.objects.User;
 import ru.team.todo.services.ConsoleService;
 import ru.team.todo.ui.commands.Command;
 
-import java.util.Collection;
+import java.util.Scanner;
 
-public class FindTasksCommand extends Command {
+public class DeleteTaskByNameCommand extends Command {
 
     private final ConsoleService consoleService;
 
-    public FindTasksCommand(ConsoleService consoleService) {
-        super("task find", "Display all tasks");
+    public DeleteTaskByNameCommand(ConsoleService consoleService) {
+        super("task delete name", "Delete task by name");
         this.consoleService = consoleService;
     }
 
@@ -24,13 +23,11 @@ public class FindTasksCommand extends Command {
             return;
         }
 
-        Collection<Task> tasks = user.getAllTasks();
-        if (tasks.isEmpty()) {
-            System.out.println("Tasks not found!");
-            return;
-        }
-        for (Task task : tasks) {
-            System.out.println(task.toString());
-        }
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Please enter task name: ");
+        String name = scanner.nextLine();
+
+        user.deleteTaskByName(name);
+        System.out.println("Task with name '" + name + "' deleted");
     }
 }

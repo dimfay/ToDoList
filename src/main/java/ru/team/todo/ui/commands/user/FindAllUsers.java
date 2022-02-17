@@ -1,24 +1,29 @@
 package ru.team.todo.ui.commands.user;
 
-import java.util.Collections;
-import java.util.Scanner;
-
-import ru.team.todo.managers.UserService;
+import ru.team.todo.repository.UserRepository;
+import ru.team.todo.objects.User;
 import ru.team.todo.ui.commands.Command;
 
-public class FindAllUsers extends Command {
-	private final UserService manager;
+import java.util.Collection;
 
-    public FindAllUsers(UserService manager) {
-        super("find", "Find all available users");
+public class FindAllUsers extends Command {
+	private final UserRepository manager;
+
+    public FindAllUsers(UserRepository manager) {
+        super("user find", "Find all available users");
         this.manager = manager;
     }
 
     @Override
     public void execute() {
-        Scanner scanner = new Scanner(System.in);
-
-        manager.findAllUsers();
+        Collection<User> users = manager.getAllUsers();
+        if (users.isEmpty()) {
+            System.out.println("Users not found!");
+            return;
+        }
+        for (User user : users) {
+            System.out.println(user.toString());
+        }
     }
 
 }

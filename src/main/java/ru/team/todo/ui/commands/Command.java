@@ -1,5 +1,7 @@
 package ru.team.todo.ui.commands;
 
+import java.util.Scanner;
+
 public abstract class Command implements Comparable<Command> {
 
     private final String name;
@@ -28,6 +30,13 @@ public abstract class Command implements Comparable<Command> {
             i = -1;
         }
         return i;
+    }
+
+    public void executeCommand() {
+        execute();
+
+        System.out.println("Enter any key to continue");
+        new Scanner(System.in).nextLine();
     }
 
     public abstract void execute();
