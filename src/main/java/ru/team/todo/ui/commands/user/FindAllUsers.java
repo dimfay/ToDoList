@@ -9,7 +9,7 @@ import java.util.Collection;
 public class FindAllUsers extends Command {
 
     //TODO Скорее всего использовать здесь сервис
-	private final UserRepository manager;
+    private final UserRepository manager;
 
     public FindAllUsers(UserRepository manager) {
         super("user find", "Find all available users");
