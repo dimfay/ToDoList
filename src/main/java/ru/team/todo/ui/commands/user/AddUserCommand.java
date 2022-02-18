@@ -2,15 +2,16 @@ package ru.team.todo.ui.commands.user;
 
 import java.util.Scanner;
 
-import ru.team.todo.repository.UserRepository;
+import ru.team.todo.services.UserService;
 import ru.team.todo.ui.commands.Command;
 
 public class AddUserCommand extends Command {
-    private final UserRepository manager;
 
-    public AddUserCommand(UserRepository manager) {
+    private final UserService service;
+
+    public AddUserCommand(UserService service) {
         super("user add", "Add new user");
-        this.manager = manager;
+        this.service = service;
     }
 
     @Override
@@ -19,7 +20,7 @@ public class AddUserCommand extends Command {
         System.out.println("Please enter username: ");
         String name = scanner.nextLine();
 
-        manager.addUser(name);
+        this.service.addUser(name);
         System.out.println("User with name '" + name + "' added");
     }
 }

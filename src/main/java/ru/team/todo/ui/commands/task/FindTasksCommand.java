@@ -2,16 +2,17 @@ package ru.team.todo.ui.commands.task;
 
 import ru.team.todo.objects.Task;
 import ru.team.todo.objects.User;
-import ru.team.todo.services.ConsoleService;
+import ru.team.todo.ui.ConsoleSession;
 import ru.team.todo.ui.commands.Command;
 
 import java.util.Collection;
 
 public class FindTasksCommand extends Command {
 
-    private final ConsoleService consoleService;
+    //TODO Скорее всего использовать здесь сервис
+    private final ConsoleSession consoleService;
 
-    public FindTasksCommand(ConsoleService consoleService) {
+    public FindTasksCommand(ConsoleSession consoleService) {
         super("task find", "Display all tasks");
         this.consoleService = consoleService;
     }

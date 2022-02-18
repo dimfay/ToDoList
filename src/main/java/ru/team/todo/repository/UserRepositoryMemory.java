@@ -31,6 +31,4 @@ public class UserRepositoryMemory implements UserRepository {
         return users.values();
     }
 
-
-
 }
