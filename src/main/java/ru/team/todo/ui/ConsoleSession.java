@@ -1,8 +1,8 @@
-package ru.team.todo.services;
+package ru.team.todo.ui;
 
 import ru.team.todo.objects.User;
 
-public class ConsoleService {
+public class ConsoleSession {
 
     private User switchedUser = null;
 

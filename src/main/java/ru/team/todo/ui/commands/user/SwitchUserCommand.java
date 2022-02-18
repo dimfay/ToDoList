@@ -4,14 +4,14 @@ import java.util.Scanner;
 
 import ru.team.todo.repository.UserRepository;
 import ru.team.todo.objects.User;
-import ru.team.todo.services.ConsoleService;
+import ru.team.todo.ui.ConsoleSession;
 import ru.team.todo.ui.commands.Command;
 
 public class SwitchUserCommand extends Command {
     private final UserRepository repository;
-    private final ConsoleService consoleService;
+    private final ConsoleSession consoleService;
 
-    public SwitchUserCommand(UserRepository repository, ConsoleService consoleService) {
+    public SwitchUserCommand(UserRepository repository, ConsoleSession consoleService) {
         super("user switch", "Change user");
         this.repository = repository;
         this.consoleService = consoleService;

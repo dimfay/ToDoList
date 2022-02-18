@@ -1,16 +1,16 @@
 package ru.team.todo.ui.commands.task;
 
 import ru.team.todo.objects.User;
-import ru.team.todo.services.ConsoleService;
+import ru.team.todo.ui.ConsoleSession;
 import ru.team.todo.ui.commands.Command;
 
 import java.util.Scanner;
 
 public class AddTaskCommand extends Command {
 
-    private final ConsoleService consoleService;
+    private final ConsoleSession consoleService;
 
-    public AddTaskCommand(ConsoleService consoleService) {
+    public AddTaskCommand(ConsoleSession consoleService) {
         super("task add", "Add new task");
         this.consoleService = consoleService;
     }

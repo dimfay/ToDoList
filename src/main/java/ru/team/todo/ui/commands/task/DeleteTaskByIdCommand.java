@@ -1,16 +1,16 @@
 package ru.team.todo.ui.commands.task;
 
 import ru.team.todo.objects.User;
-import ru.team.todo.services.ConsoleService;
+import ru.team.todo.ui.ConsoleSession;
 import ru.team.todo.ui.commands.Command;
 
 import java.util.Scanner;
 
 public class DeleteTaskByIdCommand extends Command {
 
-    private final ConsoleService consoleService;
+    private final ConsoleSession consoleService;
 
-    public DeleteTaskByIdCommand(ConsoleService consoleService) {
+    public DeleteTaskByIdCommand(ConsoleSession consoleService) {
         super("task delete id", "Delete task by id");
         this.consoleService = consoleService;
     }
