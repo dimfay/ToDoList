@@ -1,35 +1,28 @@
 package ru.team.todo.ui.commands.task;
 
-import ru.team.todo.objects.User;
-import ru.team.todo.ui.ConsoleSession;
+import ru.team.todo.services.TaskService;
 import ru.team.todo.ui.commands.Command;
 
 import java.util.Scanner;
 
 public class AddTaskCommand extends Command {
 
-    private final ConsoleSession consoleService;
+    private final TaskService service;
 
-    public AddTaskCommand(ConsoleSession consoleService) {
+    public AddTaskCommand(TaskService service) {
         super("task add", "Add new task");
-        this.consoleService = consoleService;
+        this.service = service;
     }
 
     @Override
     public void execute() {
-        User user = this.consoleService.getSwitchedUser();
-        if (user == null) {
-            System.out.println("No user selected.");
-            return;
-        }
-
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please enter task name: ");
         String name = scanner.nextLine();
         System.out.println("Please enter task description: ");
         String description = scanner.nextLine();
 
-        user.addTask(name, description);
+        this.service.addTask(name, description);
         System.out.println("Task '" + name + "' added");
     }
 }

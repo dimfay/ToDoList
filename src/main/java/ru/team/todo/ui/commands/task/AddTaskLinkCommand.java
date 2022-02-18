@@ -1,15 +1,16 @@
 package ru.team.todo.ui.commands.task;
 
+import ru.team.todo.services.TaskService;
 import ru.team.todo.ui.ConsoleSession;
 import ru.team.todo.ui.commands.Command;
 
 public class AddTaskLinkCommand extends Command {
 
-    private final ConsoleSession consoleService;
+    private final TaskService service;
 
-    public AddTaskLinkCommand(ConsoleSession consoleService) {
+    public AddTaskLinkCommand(TaskService service) {
         super("task add link", "Add subtasks to the task");
-        this.consoleService = consoleService;
+        this.service = service;
     }
 
     @Override

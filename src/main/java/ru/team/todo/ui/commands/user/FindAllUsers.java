@@ -7,6 +7,8 @@ import ru.team.todo.ui.commands.Command;
 import java.util.Collection;
 
 public class FindAllUsers extends Command {
+
+    //TODO Скорее всего использовать здесь сервис
 	private final UserRepository manager;
 
     public FindAllUsers(UserRepository manager) {

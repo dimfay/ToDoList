@@ -9,6 +9,7 @@ import java.util.Collection;
 
 public class FindTasksCommand extends Command {
 
+    //TODO Скорее всего использовать здесь сервис
     private final ConsoleSession consoleService;
 
     public FindTasksCommand(ConsoleSession consoleService) {

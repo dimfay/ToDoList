@@ -2,19 +2,16 @@ package ru.team.todo.ui.commands.user;
 
 import java.util.Scanner;
 
-import ru.team.todo.repository.UserRepository;
-import ru.team.todo.objects.User;
-import ru.team.todo.ui.ConsoleSession;
+import ru.team.todo.services.UserService;
 import ru.team.todo.ui.commands.Command;
 
 public class SwitchUserCommand extends Command {
-    private final UserRepository repository;
-    private final ConsoleSession consoleService;
 
-    public SwitchUserCommand(UserRepository repository, ConsoleSession consoleService) {
+    private final UserService service;
+
+    public SwitchUserCommand(UserService service) {
         super("user switch", "Change user");
-        this.repository = repository;
-        this.consoleService = consoleService;
+        this.service = service;
     }
 
     @Override
@@ -23,13 +20,7 @@ public class SwitchUserCommand extends Command {
         System.out.println("Please enter username: ");
         String name = scanner.nextLine();
 
-        User user = repository.getUserByName(name);
-        if (user == null) {
-            System.out.println("User '" + name + "' not found!");
-            return;
-        }
-
-        consoleService.setSwitchedUser(user);
+        this.service.switchUser(name);
         System.out.println("You are '" + name + "' now");
     }
 }
