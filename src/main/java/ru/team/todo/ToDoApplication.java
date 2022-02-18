@@ -32,5 +32,6 @@ public class ToDoApplication {
                 .addCommand(new SwitchUserCommand(userService))
                 .addCommand(new DeleteUserCommand(userService))
                 .startUI();
+        //TODO TEST
     }
 }
