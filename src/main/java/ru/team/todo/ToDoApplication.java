@@ -1,5 +1,8 @@
 package ru.team.todo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ru.team.todo.repository.UserRepository;
 import ru.team.todo.repository.UserRepositoryMemory;
 import ru.team.todo.services.TaskService;
@@ -13,15 +16,32 @@ import ru.team.todo.ui.commands.user.AddUserCommand;
 import ru.team.todo.ui.commands.user.DeleteUserCommand;
 import ru.team.todo.ui.commands.user.FindAllUsers;
 import ru.team.todo.ui.commands.user.SwitchUserCommand;
+import ru.team.todo.validation.ValidationService;
+import ru.team.todo.validation.rules.MaxTaskDescriptionLength;
+import ru.team.todo.validation.rules.MaxTaskNameLengthValidationRule;
+import ru.team.todo.validation.rules.MaxUserNameLengthValidationRule;
+import ru.team.todo.validation.rules.MinUserNameLengthValidationRule;
+import ru.team.todo.validation.rules.ValidationRule;
 import ru.team.todo.ui.Menu;
 
 public class ToDoApplication {
 
     public static void main(String[] args) {
-        ConsoleSession consoleService = new ConsoleSession();
-        TaskService taskService = new TaskService(consoleService);
-        UserRepository repository = new UserRepositoryMemory();
-        UserService userService = new UserService(repository, consoleService);
+        var consoleService = new ConsoleSession();
+        
+        List<ValidationRule> validationRules = new ArrayList<ValidationRule>(List.of(
+        		new MaxUserNameLengthValidationRule(),
+        		new MinUserNameLengthValidationRule(),
+        		new MaxTaskDescriptionLength(),
+        		new MaxTaskNameLengthValidationRule()
+        		));
+        		
+        
+        var validationService = new ValidationService(validationRules);	
+        var taskService = new TaskService(consoleService);
+        var repository = new UserRepositoryMemory();
+        var userService = new UserService(repository, consoleService, validationService);
+        
         new Menu()
                 .addCommand(new AddTaskCommand(taskService))
                 .addCommand(new FindTasksCommand(consoleService))
