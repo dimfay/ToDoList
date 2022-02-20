@@ -17,6 +17,8 @@ import ru.team.todo.ui.commands.user.DeleteUserCommand;
 import ru.team.todo.ui.commands.user.FindAllUsers;
 import ru.team.todo.ui.commands.user.SwitchUserCommand;
 import ru.team.todo.validation.ValidationService;
+import ru.team.todo.validation.rules.MaxTaskDescriptionLength;
+import ru.team.todo.validation.rules.MaxTaskNameLengthValidationRule;
 import ru.team.todo.validation.rules.MaxUserNameLengthValidationRule;
 import ru.team.todo.validation.rules.MinUserNameLengthValidationRule;
 import ru.team.todo.validation.rules.ValidationRule;
@@ -29,7 +31,9 @@ public class ToDoApplication {
         
         List<ValidationRule> validationRules = new ArrayList<ValidationRule>(List.of(
         		new MaxUserNameLengthValidationRule(),
-        		new MinUserNameLengthValidationRule()
+        		new MinUserNameLengthValidationRule(),
+        		new MaxTaskDescriptionLength(),
+        		new MaxTaskNameLengthValidationRule()
         		));
         		
         
