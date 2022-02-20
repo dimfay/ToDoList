@@ -1,6 +1,5 @@
 package ru.team.todo.services;
 
-import dto.AddToDoResponse;
 import ru.team.todo.dto.AddUserRequest;
 import ru.team.todo.dto.AddUserResponse;
 import ru.team.todo.objects.User;

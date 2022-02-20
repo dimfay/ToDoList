@@ -1,15 +1,11 @@
 package ru.team.todo.repository;
 
 import ru.team.todo.dto.AddUserRequest;
-import ru.team.todo.dto.AddUserResponse;
 import ru.team.todo.objects.User;
-import ru.team.todo.validation.ValidationService;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
-import dto.AddToDoResponse;
 
 public class UserRepositoryMemory implements UserRepository {
 
