@@ -20,11 +20,11 @@ public class AddUserCommand extends Command {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please enter username: ");
         String name = scanner.nextLine();
-        
+
         var request = new AddUserRequest();
-    	request.setName(name);
-    	var response = service.addUser(request);
-    	System.out.println("Received response: " + response); 	
+        request.setName(name);
+        var response = service.addUser(request);
+        System.out.println("Received response: " + response);
         System.out.println("User with name '" + name + "' added");
     }
 }

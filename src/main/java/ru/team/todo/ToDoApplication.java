@@ -28,20 +28,20 @@ public class ToDoApplication {
 
     public static void main(String[] args) {
         var consoleService = new ConsoleSession();
-        
-        List<ValidationRule> validationRules = new ArrayList<ValidationRule>(List.of(
-        		new MaxUserNameLengthValidationRule(),
-        		new MinUserNameLengthValidationRule(),
-        		new MaxTaskDescriptionLength(),
-        		new MaxTaskNameLengthValidationRule()
-        		));
-        		
-        
-        var validationService = new ValidationService(validationRules);	
+
+        List<ValidationRule> validationRules = new ArrayList<>(List.of(
+                new MaxUserNameLengthValidationRule(),
+                new MinUserNameLengthValidationRule(),
+                new MaxTaskDescriptionLength(),
+                new MaxTaskNameLengthValidationRule()
+        ));
+
+
+        var validationService = new ValidationService(validationRules);
         var taskService = new TaskService(consoleService);
         var repository = new UserRepositoryMemory();
         var userService = new UserService(repository, consoleService, validationService);
-        
+
         new Menu()
                 .addCommand(new AddTaskCommand(taskService))
                 .addCommand(new FindTasksCommand(consoleService))

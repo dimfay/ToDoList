@@ -10,16 +10,16 @@ import java.util.Map;
 public class UserRepositoryMemory implements UserRepository {
 
     private final Map<String, User> users = new HashMap<>();
-     
+
 
     @Override
     public User addUser(User user) {
         users.put(user.getName(), user);
         return user;
     }
-    
+
     private User convertUser(AddUserRequest addUserRequest) {
-    	return new User(addUserRequest.getName());
+        return new User(addUserRequest.getName());
     }
 
     @Override
@@ -31,7 +31,7 @@ public class UserRepositoryMemory implements UserRepository {
     public User getUserByName(String name) {
         return this.users.get(name);
     }
-    
+
 
     @Override
     public Collection<User> getAllUsers() {
