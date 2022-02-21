@@ -10,7 +10,7 @@ public class LinkTaskCommand extends Command {
     private final TaskService service;
 
     public LinkTaskCommand(TaskService service) {
-        super("task add link", "Add subtasks to the task");
+        super("task link", "Add subtasks to the task");
         this.service = service;
     }
 
