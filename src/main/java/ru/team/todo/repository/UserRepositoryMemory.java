@@ -11,6 +11,10 @@ public class UserRepositoryMemory implements UserRepository {
 
     private final Map<String, User> users = new HashMap<>();
 
+    public UserRepositoryMemory() {
+        //По умолчанию имеем пользователя admin
+        addUser(new User("admin"));
+    }
 
     @Override
     public User addUser(User user) {
@@ -31,7 +35,6 @@ public class UserRepositoryMemory implements UserRepository {
     public User getUserByName(String name) {
         return this.users.get(name);
     }
-
 
     @Override
     public Collection<User> getAllUsers() {
