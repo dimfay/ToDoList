@@ -49,6 +49,14 @@ public class User {
         this.tasksName.remove(name);
     }
 
+    public Task getTaskByName(String name) {
+        return this.tasksName.get(name);
+    }
+
+    public Task getTaskById(int id) {
+        return this.tasksId.get(id);
+    }
+
     public Collection<Task> getAllTasks() {
         return this.tasksId.values();
     }

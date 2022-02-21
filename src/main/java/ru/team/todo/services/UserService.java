@@ -7,6 +7,8 @@ import ru.team.todo.repository.UserRepository;
 import ru.team.todo.ui.ConsoleSession;
 import ru.team.todo.validation.ValidationService;
 
+import java.util.Collection;
+
 public class UserService {
 
     private final UserRepository repository;
@@ -60,6 +62,10 @@ public class UserService {
             return;
         }
         this.consoleSession.setSwitchedUser(user);
+    }
+
+    public Collection<User> getAllUsers() {
+        return this.repository.getAllUsers();
     }
 
 }

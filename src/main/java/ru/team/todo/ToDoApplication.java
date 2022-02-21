@@ -44,11 +44,11 @@ public class ToDoApplication {
 
         new Menu()
                 .addCommand(new AddTaskCommand(taskService))
-                .addCommand(new FindTasksCommand(consoleService))
+                .addCommand(new FindTasksCommand(taskService))
                 .addCommand(new DeleteTaskByIdCommand(taskService))
                 .addCommand(new DeleteTaskByNameCommand(taskService))
                 .addCommand(new AddUserCommand(userService))
-                .addCommand(new FindAllUsers(repository))
+                .addCommand(new FindAllUsers(userService))
                 .addCommand(new SwitchUserCommand(userService))
                 .addCommand(new DeleteUserCommand(userService))
                 .startUI();
