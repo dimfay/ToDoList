@@ -12,6 +12,7 @@ import ru.team.todo.ui.commands.task.AddTaskCommand;
 import ru.team.todo.ui.commands.task.DeleteTaskByIdCommand;
 import ru.team.todo.ui.commands.task.DeleteTaskByNameCommand;
 import ru.team.todo.ui.commands.task.FindTasksCommand;
+import ru.team.todo.ui.commands.task.LinkTaskCommand;
 import ru.team.todo.ui.commands.user.AddUserCommand;
 import ru.team.todo.ui.commands.user.DeleteUserCommand;
 import ru.team.todo.ui.commands.user.FindAllUsers;
@@ -47,6 +48,7 @@ public class ToDoApplication {
                 .addCommand(new FindTasksCommand(taskService))
                 .addCommand(new DeleteTaskByIdCommand(taskService))
                 .addCommand(new DeleteTaskByNameCommand(taskService))
+                .addCommand(new LinkTaskCommand(taskService))
                 .addCommand(new AddUserCommand(userService))
                 .addCommand(new FindAllUsers(userService))
                 .addCommand(new SwitchUserCommand(userService))
