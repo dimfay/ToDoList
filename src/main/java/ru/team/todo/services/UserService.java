@@ -7,6 +7,8 @@ import ru.team.todo.repository.UserRepository;
 import ru.team.todo.ui.ConsoleSession;
 import ru.team.todo.validation.ValidationService;
 
+import java.util.Collection;
+
 public class UserService {
 
     private final UserRepository repository;
@@ -21,7 +23,7 @@ public class UserService {
 
     //TODO Добавить request and response
     public AddUserResponse addUser(AddUserRequest request) {
-    	var user = convert(request);
+        var user = convert(request);
         var validationResult = validationService.validate(user);
         if (!validationResult.isEmpty()) {
             System.out.println("Validation failed, errors: " + validationResult);
@@ -32,20 +34,20 @@ public class UserService {
 
         var createdUser = repository.addUser(user);
         System.out.println("Successfully saved: " + createdUser);
-        
+
         //TODO implement proper response
         var response = new AddUserResponse();
-		/*
-		 * 
-		 * response.setCreatedToDoId(createdEntity.getId());
-		 * System.out.println("Sending response: " + response);
-		 */
+        /*
+         *
+         * response.setCreatedToDoId(createdEntity.getId());
+         * System.out.println("Sending response: " + response);
+         */
         return response;
-    
+
     }
-    
+
     private User convert(AddUserRequest addUserRequest) {
-    	return new User(addUserRequest.name);
+        return new User(addUserRequest.name);
     }
 
     //TODO Добавить валидацию и response
@@ -60,6 +62,10 @@ public class UserService {
             return;
         }
         this.consoleSession.setSwitchedUser(user);
+    }
+
+    public Collection<User> getAllUsers() {
+        return this.repository.getAllUsers();
     }
 
 }

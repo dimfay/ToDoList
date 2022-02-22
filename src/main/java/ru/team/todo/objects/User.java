@@ -15,7 +15,6 @@ public class User {
         this.name = name;
     }
 
-    
     public String getName() {
         return name;
     }
@@ -48,6 +47,14 @@ public class User {
     private void deleteTask(int id, String name) {
         this.tasksId.remove(id);
         this.tasksName.remove(name);
+    }
+
+    public Task getTaskByName(String name) {
+        return this.tasksName.get(name);
+    }
+
+    public Task getTaskById(int id) {
+        return this.tasksId.get(id);
     }
 
     public Collection<Task> getAllTasks() {

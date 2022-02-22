@@ -12,6 +12,7 @@ import ru.team.todo.ui.commands.task.AddTaskCommand;
 import ru.team.todo.ui.commands.task.DeleteTaskByIdCommand;
 import ru.team.todo.ui.commands.task.DeleteTaskByNameCommand;
 import ru.team.todo.ui.commands.task.FindTasksCommand;
+import ru.team.todo.ui.commands.task.LinkTaskCommand;
 import ru.team.todo.ui.commands.user.AddUserCommand;
 import ru.team.todo.ui.commands.user.DeleteUserCommand;
 import ru.team.todo.ui.commands.user.FindAllUsers;
@@ -28,27 +29,28 @@ public class ToDoApplication {
 
     public static void main(String[] args) {
         var consoleService = new ConsoleSession();
-        
-        List<ValidationRule> validationRules = new ArrayList<ValidationRule>(List.of(
-        		new MaxUserNameLengthValidationRule(),
-        		new MinUserNameLengthValidationRule(),
-        		new MaxTaskDescriptionLength(),
-        		new MaxTaskNameLengthValidationRule()
-        		));
-        		
-        
-        var validationService = new ValidationService(validationRules);	
+
+        List<ValidationRule> validationRules = new ArrayList<>(List.of(
+                new MaxUserNameLengthValidationRule(),
+                new MinUserNameLengthValidationRule(),
+                new MaxTaskDescriptionLength(),
+                new MaxTaskNameLengthValidationRule()
+        ));
+
+
+        var validationService = new ValidationService(validationRules);
         var taskService = new TaskService(consoleService);
         var repository = new UserRepositoryMemory();
         var userService = new UserService(repository, consoleService, validationService);
-        
+
         new Menu()
                 .addCommand(new AddTaskCommand(taskService))
-                .addCommand(new FindTasksCommand(consoleService))
+                .addCommand(new FindTasksCommand(taskService))
                 .addCommand(new DeleteTaskByIdCommand(taskService))
                 .addCommand(new DeleteTaskByNameCommand(taskService))
+                .addCommand(new LinkTaskCommand(taskService))
                 .addCommand(new AddUserCommand(userService))
-                .addCommand(new FindAllUsers(repository))
+                .addCommand(new FindAllUsers(userService))
                 .addCommand(new SwitchUserCommand(userService))
                 .addCommand(new DeleteUserCommand(userService))
                 .startUI();
