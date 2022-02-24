@@ -1,11 +1,16 @@
 package ru.team.todo.services;
 
+import ru.team.todo.dto.AddUserResponse;
 import ru.team.todo.objects.Task;
 import ru.team.todo.objects.User;
 import ru.team.todo.ui.ConsoleSession;
+import ru.team.todo.validation.CoreError;
+import ru.team.todo.validation.ValidationException;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 public class TaskService {
 
@@ -16,13 +21,56 @@ public class TaskService {
     }
 
     //TODO Добавить валидацию и response
-    public void addTask(String name, String description) {
+    public AddTaskResponse addTask(AddTaskRequest request) {
+        List<CoreError> errors = new ArrayList<>();
         User user = this.consoleSession.getSwitchedUser();
         if (user == null) {
-            return;
+            errors.add(new CoreError("Пользователь не был выбран!"));
+            return new AddTaskResponse(errors);
         }
 
-        user.addTask(name, description);
+
+        try {
+            user.addTask(request.getTaskName(), request.getTaskDescription());
+        }
+        catch (ValidationException e) {
+            errors.add(new CoreError(e.getMessage()));
+        }
+
+        return new AddTaskResponse(errors);
+    }
+
+    //Допустим сделаем просто статический класс здесь для теста
+    public static class AddTaskRequest {
+        private final String taskName;
+        private final String taskDescription;
+
+        public AddTaskRequest(String taskName, String taskDescription) {
+            this.taskName = taskName;
+            this.taskDescription = taskDescription;
+        }
+
+        public String getTaskName() {
+            return taskName;
+        }
+
+        public String getTaskDescription() {
+            return taskDescription;
+        }
+    }
+
+    //Здесь допустим класс респонса
+    public static class AddTaskResponse {
+        private final List<CoreError> errors;
+
+        public AddTaskResponse(List<CoreError> errors) {
+            this.errors = errors;
+        }
+
+        public List<CoreError> getErrors() {
+            return errors;
+        }
+
     }
 
     //TODO Добавить валидацию и response

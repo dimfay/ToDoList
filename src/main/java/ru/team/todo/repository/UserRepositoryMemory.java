@@ -13,11 +13,11 @@ public class UserRepositoryMemory implements UserRepository {
 
     public UserRepositoryMemory() {
         //По умолчанию имеем пользователя admin
-        addUser(new User("admin"));
+        addData(new User("admin"));
     }
 
     @Override
-    public User addUser(User user) {
+    public User addData(User user) {
         users.put(user.getName(), user);
         return user;
     }
@@ -27,12 +27,12 @@ public class UserRepositoryMemory implements UserRepository {
     }
 
     @Override
-    public void removeUser(String name) {
+    public void removeData(String name) {
         this.users.remove(name);
     }
 
     @Override
-    public User getUserByName(String name) {
+    public User getDataByName(String name) {
         return this.users.get(name);
     }
 

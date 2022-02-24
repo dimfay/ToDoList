@@ -1,5 +1,7 @@
 package ru.team.todo.objects;
 
+import ru.team.todo.validation.ValidationException;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,10 +28,11 @@ public class User {
         this.nextTaskId++;
     }
 
-    public void deleteTaskById(int id) {
+    //TODO
+    public void deleteTaskById(int id) throws ValidationException {
         Task tmp = this.tasksId.get(id);
         if (tmp == null) {
-            return;
+            throw new ValidationException("Задача " + id + " не найдена");
         }
 
         deleteTask(id, tmp.getName());

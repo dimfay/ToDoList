@@ -32,7 +32,7 @@ public class UserService {
             return response;
         }
 
-        var createdUser = repository.addUser(user);
+        var createdUser = repository.addData(user);
         System.out.println("Successfully saved: " + createdUser);
 
         //TODO implement proper response
@@ -52,12 +52,12 @@ public class UserService {
 
     //TODO Добавить валидацию и response
     public void removeUser(String name) {
-        this.repository.removeUser(name);
+        this.repository.removeData(name);
     }
 
     //TODO Добавить валидацию и response
     public void switchUser(String name) {
-        User user = this.repository.getUserByName(name);
+        User user = this.repository.getDataByName(name);
         if (user == null) {
             return;
         }
@@ -65,7 +65,7 @@ public class UserService {
     }
 
     public Collection<User> getAllUsers() {
-        return this.repository.getAllUsers();
+        return this.repository.getAllData();
     }
 
 }

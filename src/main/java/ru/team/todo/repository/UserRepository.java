@@ -2,15 +2,7 @@ package ru.team.todo.repository;
 
 import ru.team.todo.objects.User;
 
-import java.util.Collection;
+public interface UserRepository extends Repository<User> {
 
-public interface UserRepository {
-
-    User addUser(User user);
-
-    void removeUser(String name);
-
-    User getUserByName(String name);
-
-    Collection<User> getAllUsers();
+    //Так можно еще сделать куча репозиториев, но я хз, вроде нам пока одного хватает
 }
