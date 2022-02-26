@@ -46,13 +46,13 @@ public class UserService {
             return new AddUserResponse(validationResult);
         }
 
-        var user = convertUserRequest(request);
-
         //TODO Не понятно, это нормально что проверяется наличие пользователя здесь а не в репозитории?
-        User tmpUser = this.repository.getUserByName(user.getName());
+        User tmpUser = this.repository.getUserByName(request.getName());
         if (tmpUser != null) {
-            return new AddUserResponse(List.of(new CoreError("User '" + user.getName() + "' already exists!")));
+            return new AddUserResponse(List.of(new CoreError("User '" + request.getName() + "' already exists!")));
         }
+
+        var user = convertUserRequest(request);
 
         this.repository.addUser(user);
         return new AddUserResponse(List.of());

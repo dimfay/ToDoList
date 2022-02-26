@@ -3,6 +3,7 @@ package ru.team.todo.dto.users;
 import ru.team.todo.validation.CoreError;
 
 import java.util.List;
+import java.util.Objects;
 
 public class RemoveUserResponse {
 
@@ -14,6 +15,19 @@ public class RemoveUserResponse {
 
     public List<CoreError> getErrors() {
         return errors;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RemoveUserResponse response = (RemoveUserResponse) o;
+        return Objects.equals(errors, response.errors);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(errors);
     }
 
     @Override
