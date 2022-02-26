@@ -1,6 +1,6 @@
 package ru.team.todo.ui.commands.task;
 
-import ru.team.todo.objects.Task;
+import ru.team.todo.domain.Task;
 import ru.team.todo.services.TaskService;
 import ru.team.todo.ui.commands.Command;
 

@@ -1,7 +1,6 @@
 package ru.team.todo.repository;
 
-import ru.team.todo.dto.AddUserRequest;
-import ru.team.todo.objects.User;
+import ru.team.todo.domain.User;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -20,10 +19,6 @@ public class UserRepositoryMemory implements UserRepository {
     public User addUser(User user) {
         users.put(user.getName(), user);
         return user;
-    }
-
-    private User convertUser(AddUserRequest addUserRequest) {
-        return new User(addUserRequest.getName());
     }
 
     @Override

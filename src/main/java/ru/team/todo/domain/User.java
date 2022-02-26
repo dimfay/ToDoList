@@ -1,4 +1,4 @@
-package ru.team.todo.objects;
+package ru.team.todo.domain;
 
 import java.util.Collection;
 import java.util.HashMap;
