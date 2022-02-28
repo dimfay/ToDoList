@@ -5,34 +5,32 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import ru.team.todo.objects.User;
 import ru.team.todo.validation.rules.ValidationRule;
 
-public class ValidationService {
+public class ValidationService<T> {
 
-    private final List<ValidationRule> validationRules;
+    private final List<ValidationRule<T>> validationRules;
 
-    public ValidationService(List<ValidationRule> validationRules) {
+    public ValidationService(List<ValidationRule<T>> validationRules) {
         this.validationRules = validationRules;
     }
 
-    public List<CoreError> validate(User user) {
+    public List<CoreError> validate(T data) {
         List<CoreError> errors = new ArrayList<>();
-        if (user == null) {
-            errors.add(new CoreError("User should not be null"));
+        if (data == null) {
+            errors.add(new CoreError("Data should not be null"));
             return errors;
         }
 
         return validationRules.stream()
-                .map(rule -> mapError(rule, user))
+                .map(rule -> mapError(rule, data))
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
-
     }
 
-    private CoreError mapError(ValidationRule rule, User user) {
+    private CoreError mapError(ValidationRule<T> rule, T data) {
         try {
-            rule.validate(user);
+            rule.validate(data);
         }
         catch (ValidationException e) {
             return new CoreError(e.getMessage());

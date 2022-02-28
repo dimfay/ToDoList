@@ -1,71 +1,123 @@
 package ru.team.todo.services;
 
-import ru.team.todo.dto.AddUserRequest;
-import ru.team.todo.dto.AddUserResponse;
-import ru.team.todo.objects.User;
+import ru.team.todo.dto.users.AddUserRequest;
+import ru.team.todo.dto.users.AddUserResponse;
+import ru.team.todo.dto.users.FindUserRequest;
+import ru.team.todo.dto.users.FindUserResponse;
+import ru.team.todo.dto.users.RemoveUserRequest;
+import ru.team.todo.dto.users.RemoveUserResponse;
+import ru.team.todo.dto.users.SwitchUserRequest;
+import ru.team.todo.dto.users.SwitchUserResponse;
+import ru.team.todo.domain.User;
 import ru.team.todo.repository.UserRepository;
 import ru.team.todo.ui.ConsoleSession;
+import ru.team.todo.validation.CoreError;
 import ru.team.todo.validation.ValidationService;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserService {
 
     private final UserRepository repository;
     private final ConsoleSession consoleSession;
-    private final ValidationService validationService;
+    private final ValidationService<AddUserRequest> addUserValidationService;
+    private final ValidationService<RemoveUserRequest> removeUserValidationService;
+    private final ValidationService<SwitchUserRequest> switchUserValidationService;
+    private final ValidationService<FindUserRequest> findUserValidationService;
 
-    public UserService(UserRepository repository, ConsoleSession consoleSession, ValidationService validationService) {
+    public UserService(UserRepository repository, ConsoleSession consoleSession,
+                       ValidationService<AddUserRequest> addUserValidationService,
+                       ValidationService<RemoveUserRequest> removeUserValidationService,
+                       ValidationService<SwitchUserRequest> switchUserValidationService,
+                       ValidationService<FindUserRequest> findUserValidationService) {
+
         this.repository = repository;
         this.consoleSession = consoleSession;
-        this.validationService = validationService;
+        this.addUserValidationService = addUserValidationService;
+        this.removeUserValidationService = removeUserValidationService;
+        this.switchUserValidationService = switchUserValidationService;
+        this.findUserValidationService = findUserValidationService;
     }
 
-    //TODO Добавить request and response
     public AddUserResponse addUser(AddUserRequest request) {
-        var user = convert(request);
-        var validationResult = validationService.validate(user);
+        var validationResult = this.addUserValidationService.validate(request);
         if (!validationResult.isEmpty()) {
-            System.out.println("Validation failed, errors: " + validationResult);
-            var response = new AddUserResponse();
-            response.setErrors(validationResult);
-            return response;
+            return new AddUserResponse(validationResult);
         }
 
-        var createdUser = repository.addUser(user);
-        System.out.println("Successfully saved: " + createdUser);
+        //TODO Не понятно, это нормально что проверяется наличие пользователя здесь а не в репозитории?
+        User tmpUser = this.repository.getUserByName(request.getName());
+        if (tmpUser != null) {
+            return new AddUserResponse(List.of(new CoreError("User '" + request.getName() + "' already exists!")));
+        }
 
-        //TODO implement proper response
-        var response = new AddUserResponse();
-        /*
-         *
-         * response.setCreatedToDoId(createdEntity.getId());
-         * System.out.println("Sending response: " + response);
-         */
-        return response;
+        var user = convertUserRequest(request);
 
+        this.repository.addUser(user);
+        return new AddUserResponse(List.of());
     }
 
-    private User convert(AddUserRequest addUserRequest) {
-        return new User(addUserRequest.name);
+    public RemoveUserResponse removeUser(RemoveUserRequest request) {
+        var validationResult = this.removeUserValidationService.validate(request);
+        if (!validationResult.isEmpty()) {
+            return new RemoveUserResponse(validationResult);
+        }
+
+        //TODO Не понятно, это нормально что проверяется наличие пользователя здесь а не в репозитории?
+        User tmpUser = this.repository.getUserByName(request.getName());
+        if (tmpUser == null) {
+            return new RemoveUserResponse(List.of(new CoreError("User '" + request.getName() + "' not found!")));
+        }
+
+        this.repository.removeUser(request.getName());
+        return new RemoveUserResponse(List.of());
     }
 
-    //TODO Добавить валидацию и response
-    public void removeUser(String name) {
-        this.repository.removeUser(name);
-    }
+    public SwitchUserResponse switchUser(SwitchUserRequest request) {
+        var validationResult = this.switchUserValidationService.validate(request);
+        if (!validationResult.isEmpty()) {
+            return new SwitchUserResponse(validationResult);
+        }
 
-    //TODO Добавить валидацию и response
-    public void switchUser(String name) {
-        User user = this.repository.getUserByName(name);
+        User user = this.repository.getUserByName(request.getName());
         if (user == null) {
-            return;
+            return new SwitchUserResponse(List.of(new CoreError("User not selected.")));
         }
+
         this.consoleSession.setSwitchedUser(user);
+        return new SwitchUserResponse(List.of());
     }
 
-    public Collection<User> getAllUsers() {
-        return this.repository.getAllUsers();
+    public FindUserResponse findUsers(FindUserRequest request) {
+        var validationResult = this.findUserValidationService.validate(request);
+        if (!validationResult.isEmpty()) {
+            return new FindUserResponse(validationResult, List.of());
+        }
+
+        //Если запрос пустой, возвращаем всех пользователей
+        if (request.getUsers().isEmpty()) {
+            return new FindUserResponse(List.of(), new ArrayList<>(this.repository.getAllUsers()));
+        }
+
+        //Извлекаем каждого пользователя из репозитория по запросу
+        List<CoreError> findError = new ArrayList<>();
+        List<User> findUsers = new ArrayList<>();
+        for (String requestedUser : request.getUsers()) {
+            User user = this.repository.getUserByName(requestedUser);
+            if (user == null) {
+                findError.add(new CoreError("User '" + requestedUser + "' not found!"));
+                continue;
+            }
+
+            findUsers.add(user);
+        }
+
+        return new FindUserResponse(findError, findUsers);
+    }
+
+    private static User convertUserRequest(AddUserRequest addUserRequest) {
+        return new User(addUserRequest.getName());
     }
 
 }

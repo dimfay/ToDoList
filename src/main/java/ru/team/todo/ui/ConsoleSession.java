@@ -1,6 +1,6 @@
 package ru.team.todo.ui;
 
-import ru.team.todo.objects.User;
+import ru.team.todo.domain.User;
 
 public class ConsoleSession {
 

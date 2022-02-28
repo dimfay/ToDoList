@@ -1,6 +1,6 @@
 package ru.team.todo.repository;
 
-import ru.team.todo.objects.User;
+import ru.team.todo.domain.User;
 
 import java.util.Collection;
 

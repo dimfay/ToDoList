@@ -1,9 +1,10 @@
 package ru.team.todo;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import ru.team.todo.repository.UserRepository;
+import ru.team.todo.dto.users.AddUserRequest;
+import ru.team.todo.dto.users.RemoveUserRequest;
+import ru.team.todo.dto.users.SwitchUserRequest;
 import ru.team.todo.repository.UserRepositoryMemory;
 import ru.team.todo.services.TaskService;
 import ru.team.todo.services.UserService;
@@ -18,30 +19,31 @@ import ru.team.todo.ui.commands.user.DeleteUserCommand;
 import ru.team.todo.ui.commands.user.FindAllUsers;
 import ru.team.todo.ui.commands.user.SwitchUserCommand;
 import ru.team.todo.validation.ValidationService;
-import ru.team.todo.validation.rules.MaxTaskDescriptionLength;
-import ru.team.todo.validation.rules.MaxTaskNameLengthValidationRule;
-import ru.team.todo.validation.rules.MaxUserNameLengthValidationRule;
-import ru.team.todo.validation.rules.MinUserNameLengthValidationRule;
-import ru.team.todo.validation.rules.ValidationRule;
 import ru.team.todo.ui.Menu;
+import ru.team.todo.validation.rules.users.FindUserNameLengthRule;
+import ru.team.todo.validation.rules.users.UserNameLengthRule;
 
 public class ToDoApplication {
 
     public static void main(String[] args) {
         var consoleService = new ConsoleSession();
 
-        List<ValidationRule> validationRules = new ArrayList<>(List.of(
-                new MaxUserNameLengthValidationRule(),
-                new MinUserNameLengthValidationRule(),
-                new MaxTaskDescriptionLength(),
-                new MaxTaskNameLengthValidationRule()
+        var addUserValidationService = new ValidationService<AddUserRequest>(List.of(
+                new UserNameLengthRule<>()
+        ));
+        var removeUserValidationService = new ValidationService<RemoveUserRequest>(List.of(
+                new UserNameLengthRule<>()
+        ));
+        var switchUserValidationService = new ValidationService<SwitchUserRequest>(List.of(
+                new UserNameLengthRule<>()
+        ));
+        var findUserValidationService = new ValidationService<>(List.of(
+                new FindUserNameLengthRule()
         ));
 
-
-        var validationService = new ValidationService(validationRules);
         var taskService = new TaskService(consoleService);
         var repository = new UserRepositoryMemory();
-        var userService = new UserService(repository, consoleService, validationService);
+        var userService = new UserService(repository, consoleService, addUserValidationService, removeUserValidationService, switchUserValidationService, findUserValidationService);
 
         new Menu()
                 .addCommand(new AddTaskCommand(taskService))
