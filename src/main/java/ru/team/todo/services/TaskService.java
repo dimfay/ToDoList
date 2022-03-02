@@ -2,96 +2,126 @@ package ru.team.todo.services;
 
 import ru.team.todo.domain.Task;
 import ru.team.todo.domain.User;
+import ru.team.todo.dto.tasks.*;
 import ru.team.todo.ui.ConsoleSession;
+import ru.team.todo.validation.CoreError;
+import ru.team.todo.validation.ValidationService;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 public class TaskService {
 
     private final ConsoleSession consoleSession;
+    private final ValidationService<AddTaskRequest> addTaskValidationService;
+    private final ValidationService<DeleteTaskByIdRequest> deleteTaskByIdValidationService;
+    private final ValidationService<DeleteTaskByNameRequest> deleteTaskByNameValidationService;
 
-    public TaskService(ConsoleSession consoleSession) {
+    public TaskService(ConsoleSession consoleSession,
+                       ValidationService<AddTaskRequest> addTaskValidationService,
+                       ValidationService<DeleteTaskByIdRequest> deleteTaskByIdValidationService,
+                       ValidationService<DeleteTaskByNameRequest> deleteTaskByNameValidationService) {
         this.consoleSession = consoleSession;
+        this.addTaskValidationService = addTaskValidationService;
+        this.deleteTaskByIdValidationService = deleteTaskByIdValidationService;
+        this.deleteTaskByNameValidationService = deleteTaskByNameValidationService;
     }
 
-    //TODO Добавить валидацию и response
-    public void addTask(String name, String description) {
+    public AddTaskResponse addTask(AddTaskRequest request) {
+        var validationResult = addTaskValidationService.validate(request);
+        if (!validationResult.isEmpty()){
+            return new AddTaskResponse(validationResult);
+        }
         User user = this.consoleSession.getSwitchedUser();
         if (user == null) {
-            return;
+            return new AddTaskResponse(List.of(new CoreError("The user is not switched")));
         }
 
-        user.addTask(name, description);
+        user.addTask(request.getName(), request.getDescription());
+        return new AddTaskResponse(List.of());
     }
 
-    //TODO Добавить валидацию и response
-    public void removeTaskByName(String name) {
+    public DeleteTaskByNameResponse deleteTaskByName(DeleteTaskByNameRequest request) {
+        var validationResult = deleteTaskByNameValidationService.validate(request);
+        if (!validationResult.isEmpty()){
+            return new DeleteTaskByNameResponse(validationResult);
+        }
         User user = this.consoleSession.getSwitchedUser();
         if (user == null) {
-            return;
+            return new DeleteTaskByNameResponse(List.of(new CoreError("The user is not switched")));
         }
+        user.deleteTaskByName(request.getName());
+        return new DeleteTaskByNameResponse(List.of());
 
-        user.deleteTaskByName(name);
     }
 
-    //TODO Добавить валидацию и response
-    public void removeTaskById(int id) {
+    public DeleteTaskByIdResponse deleteTaskById(DeleteTaskByIdRequest request) {
+        var validationResult = deleteTaskByIdValidationService.validate(request);
+        if (!validationResult.isEmpty()){
+            return new DeleteTaskByIdResponse(validationResult);
+        }
         User user = this.consoleSession.getSwitchedUser();
         if (user == null) {
-            return;
+            return new DeleteTaskByIdResponse(List.of(new CoreError("The user is not switched")));
         }
 
-        user.deleteTaskById(id);
+        user.deleteTaskById(request.getId());
+        return new DeleteTaskByIdResponse(List.of());
     }
 
-    //TODO Добавить валидацию и response
-    public Collection<Task> getAllTasks() {
+       public FindTasksResponse findAllTasks(FindTasksRequest request) {
         User user = this.consoleSession.getSwitchedUser();
         if (user == null) {
-            return Collections.emptyList();
+            return new FindTasksResponse(List.of(new CoreError("The user is not switched")), List.of());
         }
 
-        return user.getAllTasks();
+        if (request.getTasks().isEmpty()) {
+            return new FindTasksResponse(List.of(), new ArrayList<>(user.getAllTasks()));
+        }
+
+        return new FindTasksResponse(List.of(new CoreError("Something went wrong")), List.of());
     }
 
-    //TODO Добавить валидацию и response
-    public void linkTask(String firstTaskName, String secondTaskName) {
+    public LinkTaskResponse linkTask(LinkTaskRequest request) {
         User user = this.consoleSession.getSwitchedUser();
         if (user == null) {
-            return;
+            return new LinkTaskResponse(List.of(new CoreError("User is not switched")));
         }
 
-        Task firstTask = user.getTaskByName(firstTaskName);
+        Task firstTask = user.getTaskByName(request.getFirstTask());
         if (firstTask == null) {
-            return;
+            return new LinkTaskResponse(List.of(new CoreError("User does not have the first task")));
         }
 
-        Task secondTask = user.getTaskByName(secondTaskName);
+        Task secondTask = user.getTaskByName(request.getSecondTask());
         if (secondTask == null) {
-            return;
+            return new LinkTaskResponse(List.of(new CoreError("User does not have the second task")));
         }
 
         firstTask.linkTask(secondTask);
+        return new LinkTaskResponse(List.of());
     }
 
-    //TODO Добавить валидацию и response
-    public void unlinkTask(String firstTaskName, String secondTaskName) {
+
+    public UnlinkTaskResponse unlinkTask(UnlinkTaskRequest request) {
         User user = this.consoleSession.getSwitchedUser();
         if (user == null) {
-            return;
+            return new UnlinkTaskResponse(List.of(new CoreError("User is not switched")));
         }
 
-        Task firstTask = user.getTaskByName(firstTaskName);
+        Task firstTask = user.getTaskByName(request.getFirstName());
         if (firstTask == null) {
-            return;
+            return new UnlinkTaskResponse(List.of(new CoreError("User does not have the first task")));
         }
 
-        Task secondTask = user.getTaskByName(secondTaskName);
+        Task secondTask = user.getTaskByName(request.getSecondName());
         if (secondTask == null) {
-            return;
+            return new UnlinkTaskResponse(List.of(new CoreError("User does not have the second task")));
         }
 
         firstTask.unlinkTask(secondTask);
+        return new UnlinkTaskResponse(List.of());
     }
 }

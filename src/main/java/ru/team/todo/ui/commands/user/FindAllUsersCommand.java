@@ -8,11 +8,11 @@ import ru.team.todo.ui.commands.Command;
 
 import java.util.List;
 
-public class FindAllUsers extends Command {
+public class FindAllUsersCommand extends Command {
 
     private final UserService service;
 
-    public FindAllUsers(UserService service) {
+    public FindAllUsersCommand(UserService service) {
         super("user find", "Find all available users");
         this.service = service;
     }
