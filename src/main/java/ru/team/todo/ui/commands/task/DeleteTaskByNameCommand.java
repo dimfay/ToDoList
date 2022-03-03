@@ -1,5 +1,6 @@
 package ru.team.todo.ui.commands.task;
 
+import ru.team.todo.dto.tasks.DeleteTaskByNameRequest;
 import ru.team.todo.services.TaskService;
 import ru.team.todo.ui.commands.Command;
 
@@ -19,8 +20,12 @@ public class DeleteTaskByNameCommand extends Command {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please enter task name: ");
         String name = scanner.nextLine();
-
-        this.service.removeTaskByName(name);
+        var request = new DeleteTaskByNameRequest(name);
+        var response = service.deleteTaskByName(request);
+        System.out.println("Received response: " + response);
+        if (!response.getErrors().isEmpty()){
+            return;
+        }
         System.out.println("Task with name '" + name + "' deleted");
     }
 }

@@ -1,5 +1,7 @@
 package ru.team.todo.ui.commands.task;
 
+import ru.team.todo.dto.tasks.AddTaskRequest;
+import ru.team.todo.dto.users.AddUserRequest;
 import ru.team.todo.services.TaskService;
 import ru.team.todo.ui.commands.Command;
 
@@ -22,7 +24,13 @@ public class AddTaskCommand extends Command {
         System.out.println("Please enter task description: ");
         String description = scanner.nextLine();
 
-        this.service.addTask(name, description);
+        var request = new AddTaskRequest(name, description);
+        var response = service.addTask(request);
+        System.out.println("Received response: " + response );
+
+        if (!response.getErrors().isEmpty()) {
+            return;
+        }
         System.out.println("Task '" + name + "' added");
     }
 }
