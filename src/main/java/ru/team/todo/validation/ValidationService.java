@@ -7,13 +7,7 @@ import java.util.stream.Collectors;
 
 import ru.team.todo.validation.rules.ValidationRule;
 
-public class ValidationService<T> {
-
-    private final List<ValidationRule<T>> validationRules;
-
-    public ValidationService(List<ValidationRule<T>> validationRules) {
-        this.validationRules = validationRules;
-    }
+public abstract class ValidationService<T> {
 
     public List<CoreError> validate(T data) {
         List<CoreError> errors = new ArrayList<>();
@@ -22,7 +16,7 @@ public class ValidationService<T> {
             return errors;
         }
 
-        return validationRules.stream()
+        return getValidationRules().stream()
                 .map(rule -> mapError(rule, data))
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
@@ -38,4 +32,5 @@ public class ValidationService<T> {
         return null;
     }
 
+    protected abstract List<ValidationRule<T>> getValidationRules();
 }

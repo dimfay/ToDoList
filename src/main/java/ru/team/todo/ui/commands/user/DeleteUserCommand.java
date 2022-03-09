@@ -4,16 +4,19 @@ import java.util.Scanner;
 
 import ru.team.todo.dto.users.RemoveUserRequest;
 import ru.team.todo.dto.users.RemoveUserResponse;
+import ru.team.todo.injections.DIComponent;
+import ru.team.todo.injections.DIDependency;
 import ru.team.todo.services.UserService;
 import ru.team.todo.ui.commands.Command;
 
+@DIComponent
 public class DeleteUserCommand extends Command {
 
-    private final UserService service;
+    @DIDependency
+    private UserService service;
 
-    public DeleteUserCommand(UserService service) {
+    public DeleteUserCommand() {
         super("user delete", "Delete the user");
-        this.service = service;
     }
 
     @Override

@@ -1,11 +1,13 @@
 package ru.team.todo.repository;
 
 import ru.team.todo.domain.User;
+import ru.team.todo.injections.DIComponent;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+@DIComponent
 public class UserRepositoryMemory implements UserRepository {
 
     private final Map<String, User> users = new HashMap<>();

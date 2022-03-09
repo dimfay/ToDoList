@@ -1,18 +1,21 @@
 package ru.team.todo.ui.commands.task;
 
 import ru.team.todo.dto.tasks.DeleteTaskByNameRequest;
+import ru.team.todo.injections.DIComponent;
+import ru.team.todo.injections.DIDependency;
 import ru.team.todo.services.TaskService;
 import ru.team.todo.ui.commands.Command;
 
 import java.util.Scanner;
 
+@DIComponent
 public class DeleteTaskByNameCommand extends Command {
 
-    private final TaskService service;
+    @DIDependency
+    private TaskService service;
 
-    public DeleteTaskByNameCommand(TaskService service) {
+    public DeleteTaskByNameCommand() {
         super("task delete name", "Delete task by name");
-        this.service = service;
     }
 
     @Override

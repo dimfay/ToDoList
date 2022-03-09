@@ -9,36 +9,34 @@ import ru.team.todo.dto.users.RemoveUserResponse;
 import ru.team.todo.dto.users.SwitchUserRequest;
 import ru.team.todo.dto.users.SwitchUserResponse;
 import ru.team.todo.domain.User;
+import ru.team.todo.injections.DIComponent;
+import ru.team.todo.injections.DIDependency;
 import ru.team.todo.repository.UserRepository;
 import ru.team.todo.ui.ConsoleSession;
 import ru.team.todo.validation.CoreError;
-import ru.team.todo.validation.ValidationService;
+import ru.team.todo.validation.requests.user.AddUserRequestValidation;
+import ru.team.todo.validation.requests.user.FindUserRequestValidation;
+import ru.team.todo.validation.requests.user.RemoveUserRequestValidation;
+import ru.team.todo.validation.requests.user.SwitchUserRequestValidation;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@DIComponent
 public class UserService {
 
-    private final UserRepository repository;
-    private final ConsoleSession consoleSession;
-    private final ValidationService<AddUserRequest> addUserValidationService;
-    private final ValidationService<RemoveUserRequest> removeUserValidationService;
-    private final ValidationService<SwitchUserRequest> switchUserValidationService;
-    private final ValidationService<FindUserRequest> findUserValidationService;
-
-    public UserService(UserRepository repository, ConsoleSession consoleSession,
-                       ValidationService<AddUserRequest> addUserValidationService,
-                       ValidationService<RemoveUserRequest> removeUserValidationService,
-                       ValidationService<SwitchUserRequest> switchUserValidationService,
-                       ValidationService<FindUserRequest> findUserValidationService) {
-
-        this.repository = repository;
-        this.consoleSession = consoleSession;
-        this.addUserValidationService = addUserValidationService;
-        this.removeUserValidationService = removeUserValidationService;
-        this.switchUserValidationService = switchUserValidationService;
-        this.findUserValidationService = findUserValidationService;
-    }
+    @DIDependency
+    private UserRepository repository;
+    @DIDependency
+    private ConsoleSession consoleSession;
+    @DIDependency
+    private AddUserRequestValidation addUserValidationService;
+    @DIDependency
+    private RemoveUserRequestValidation removeUserValidationService;
+    @DIDependency
+    private SwitchUserRequestValidation switchUserValidationService;
+    @DIDependency
+    private FindUserRequestValidation findUserValidationService;
 
     public AddUserResponse addUser(AddUserRequest request) {
         var validationResult = this.addUserValidationService.validate(request);

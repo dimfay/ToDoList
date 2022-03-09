@@ -1,18 +1,21 @@
 package ru.team.todo.ui.commands.task;
 
 import ru.team.todo.dto.tasks.LinkTaskRequest;
+import ru.team.todo.injections.DIComponent;
+import ru.team.todo.injections.DIDependency;
 import ru.team.todo.services.TaskService;
 import ru.team.todo.ui.commands.Command;
 
 import java.util.Scanner;
 
+@DIComponent
 public class LinkTaskCommand extends Command {
 
-    private final TaskService service;
+    @DIDependency
+    private TaskService service;
 
-    public LinkTaskCommand(TaskService service) {
+    public LinkTaskCommand() {
         super("task link", "Add subtasks to the task");
-        this.service = service;
     }
 
     @Override
