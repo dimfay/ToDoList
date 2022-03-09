@@ -7,9 +7,6 @@ public class ApplicationContext {
 
     private final Map<Class<?>, Object> beans = new HashMap<>();
 
-    public ApplicationContext() {
-    }
-
     public void addBean(Class<?> beanClass, Object beanInstance) {
         this.beans.put(beanClass, beanInstance);
         Class<?>[] instanceInterfaces = beanClass.getInterfaces();
@@ -21,8 +18,13 @@ public class ApplicationContext {
         }
     }
 
-    public <T> T getBean(Class<T> c) {
-        return (T) beans.get(c);
+    /**
+     * Получить экземпляр класса со всеми внедренными зависимостями внутри.
+     * @param clazz Класс который нужно получить в виде экземпляра с зависимостями
+     * @return Экземпляр класса с внедренными зависимостями
+     */
+    public <T> T getBean(Class<T> clazz) {
+        return (T) beans.get(clazz);
     }
 
 }

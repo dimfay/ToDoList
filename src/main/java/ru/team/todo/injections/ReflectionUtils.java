@@ -2,17 +2,18 @@ package ru.team.todo.injections;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class ClassFinder {
+public class ReflectionUtils {
 
-    public List<Class<?>> findClassesInsidePackage(String packageName)
+    public static List<Class<?>> findClassesInsidePackage(String packageName)
             throws ClassNotFoundException, IOException {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        assert classLoader != null;
         String path = packageName.replace('.', '/');
         Enumeration<?> resources = classLoader.getResources(path);
         List<File> dirs = new ArrayList<>();
@@ -27,7 +28,7 @@ public class ClassFinder {
         return classes;
     }
 
-    private static List<Class<?>> findClasses(File directory, String packageName) throws ClassNotFoundException {
+    public static List<Class<?>> findClasses(File directory, String packageName) throws ClassNotFoundException {
         List<Class<?>> classes = new ArrayList<>();
         if (!directory.exists()) {
             return classes;
@@ -38,7 +39,6 @@ public class ClassFinder {
         }
         for (File file : files) {
             if (file.isDirectory()) {
-                assert !file.getName().contains(".");
                 classes.addAll(findClasses(file, packageName + "." + file.getName()));
             }
             else if (file.getName().endsWith(".class")) {
@@ -48,4 +48,9 @@ public class ClassFinder {
         return classes;
     }
 
+    public static List<Class<?>> filterAnnotation(List<Class<?>> classes, Class<? extends Annotation> annotation) {
+        return classes.stream()
+                .filter(cl -> cl.isAnnotationPresent(annotation))
+                .collect(Collectors.toList());
+    }
 }

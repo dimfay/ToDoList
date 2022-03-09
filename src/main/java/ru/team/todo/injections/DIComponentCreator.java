@@ -8,9 +8,11 @@ import java.util.Optional;
 
 public class DIComponentCreator {
 
-    public void create(ApplicationContext applicationContext,
-                       List<Class<?>> diComponents) {
-        diComponents.forEach(diComponent -> {
+    /**
+     * Создает экземпляры класса у каждого найденного класса
+     */
+    public void create(ApplicationContext applicationContext, List<Class<?>> diComponents) {
+        for (Class<?> diComponent : diComponents) {
             Optional<Constructor<?>> defaultConstructorOpt = getDefaultConstructor(diComponent);
             if (defaultConstructorOpt.isPresent()) {
                 Object diComponentInstance = createInstanceUsingDefaultConstructor(defaultConstructorOpt.get());
@@ -19,7 +21,7 @@ public class DIComponentCreator {
             else {
                 throw new RuntimeException("Class do not have default constructor!");
             }
-        });
+        }
     }
 
     private Optional<Constructor<?>> getDefaultConstructor(Class<?> diComponent) {

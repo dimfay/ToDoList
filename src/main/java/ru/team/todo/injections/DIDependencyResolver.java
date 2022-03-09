@@ -7,28 +7,24 @@ import java.util.stream.Collectors;
 
 class DIDependencyResolver {
 
-    public void resolve(ApplicationContext applicationContext,
-                        List<Class<?>> diComponents) {
-        diComponents.forEach(diComponent -> {
+    public void resolve(ApplicationContext applicationContext, List<Class<?>> diComponents) {
+        for (Class<?> diComponent : diComponents) {
             Object diInstance = applicationContext.getBean(diComponent);
             List<Field> diFields = findFieldsWithDIDependencyAnnotation(diComponent);
-            diFields.forEach(field -> {
+            for (Field field : diFields) {
                 tryToSetDependency(applicationContext, diInstance, field);
-            });
-        });
+            }
+        }
     }
 
     private void tryToSetDependency(ApplicationContext applicationContext, Object diInstance, Field field) {
         Class<?> fieldType = field.getType();
         Object fieldInstance = applicationContext.getBean(fieldType);
-        //TODO test
-        System.out.println("TEST " + fieldType.toString());
         if (fieldInstance == null) {
             throw new RuntimeException("No dependency found!");
         }
-        else {
-            setValueToPrivateField(diInstance, field, fieldInstance);
-        }
+
+        setValueToPrivateField(diInstance, field, fieldInstance);
     }
 
     private void setValueToPrivateField(Object diInstance, Field field, Object fieldInstance) {
