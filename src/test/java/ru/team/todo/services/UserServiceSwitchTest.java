@@ -6,13 +6,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.team.todo.domain.User;
-import ru.team.todo.dto.users.RemoveUserRequest;
-import ru.team.todo.dto.users.RemoveUserResponse;
 import ru.team.todo.dto.users.SwitchUserRequest;
 import ru.team.todo.dto.users.SwitchUserResponse;
 import ru.team.todo.repository.UserRepository;
 import ru.team.todo.ui.ConsoleSession;
 import ru.team.todo.validation.ValidationService;
+import ru.team.todo.validation.requests.user.SwitchUserRequestValidation;
 
 import java.util.List;
 
@@ -28,7 +27,7 @@ public class UserServiceSwitchTest {
     private UserRepository repository;
 
     @Mock
-    private ValidationService<SwitchUserRequest> switchUserValidationService;
+    private SwitchUserRequestValidation switchUserValidationService;
 
     @Mock
     private ConsoleSession consoleSession;

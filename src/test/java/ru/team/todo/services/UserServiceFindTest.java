@@ -8,10 +8,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ru.team.todo.domain.User;
 import ru.team.todo.dto.users.FindUserRequest;
 import ru.team.todo.dto.users.FindUserResponse;
-import ru.team.todo.dto.users.RemoveUserRequest;
-import ru.team.todo.dto.users.RemoveUserResponse;
 import ru.team.todo.repository.UserRepository;
-import ru.team.todo.validation.ValidationService;
+import ru.team.todo.validation.requests.user.FindUserRequestValidation;
 
 import java.util.List;
 
@@ -27,7 +25,7 @@ public class UserServiceFindTest {
     private UserRepository repository;
 
     @Mock
-    private ValidationService<FindUserRequest> findUserValidationService;
+    private FindUserRequestValidation findUserValidationService;
 
     @InjectMocks
     private UserService service;
