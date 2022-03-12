@@ -1,7 +1,9 @@
 package ru.team.todo.ui;
 
 import ru.team.todo.domain.User;
+import ru.team.todo.injections.DIComponent;
 
+@DIComponent
 public class ConsoleSession {
 
     private User switchedUser = null;
@@ -13,6 +15,5 @@ public class ConsoleSession {
     public void setSwitchedUser(User switchedUser) {
         this.switchedUser = switchedUser;
     }
-
 
 }

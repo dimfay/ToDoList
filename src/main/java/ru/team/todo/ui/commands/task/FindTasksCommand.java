@@ -2,19 +2,21 @@ package ru.team.todo.ui.commands.task;
 
 import ru.team.todo.domain.Task;
 import ru.team.todo.dto.tasks.FindTasksRequest;
+import ru.team.todo.injections.DIComponent;
+import ru.team.todo.injections.DIDependency;
 import ru.team.todo.services.TaskService;
 import ru.team.todo.ui.commands.Command;
 
-import java.util.Collection;
 import java.util.List;
 
+@DIComponent
 public class FindTasksCommand extends Command {
 
-    private final TaskService service;
+    @DIDependency
+    private TaskService service;
 
-    public FindTasksCommand(TaskService service) {
+    public FindTasksCommand() {
         super("task find", "Display all tasks");
-        this.service = service;
     }
 
     @Override

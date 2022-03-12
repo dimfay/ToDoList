@@ -1,20 +1,22 @@
 package ru.team.todo.ui.commands.user;
 
-import ru.team.todo.domain.User;
 import ru.team.todo.dto.users.FindUserRequest;
 import ru.team.todo.dto.users.FindUserResponse;
+import ru.team.todo.injections.DIComponent;
+import ru.team.todo.injections.DIDependency;
 import ru.team.todo.services.UserService;
 import ru.team.todo.ui.commands.Command;
 
 import java.util.List;
 
+@DIComponent
 public class FindAllUsersCommand extends Command {
 
-    private final UserService service;
+    @DIDependency
+    private UserService service;
 
-    public FindAllUsersCommand(UserService service) {
+    public FindAllUsersCommand() {
         super("user find", "Find all available users");
-        this.service = service;
     }
 
     @Override

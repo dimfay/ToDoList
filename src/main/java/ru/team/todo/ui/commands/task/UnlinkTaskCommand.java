@@ -1,17 +1,21 @@
 package ru.team.todo.ui.commands.task;
 
 import ru.team.todo.dto.tasks.UnlinkTaskRequest;
+import ru.team.todo.injections.DIComponent;
+import ru.team.todo.injections.DIDependency;
 import ru.team.todo.services.TaskService;
 import ru.team.todo.ui.commands.Command;
 
 import java.util.Scanner;
 
+@DIComponent
 public class UnlinkTaskCommand extends Command {
-    private final TaskService service;
 
-    public UnlinkTaskCommand(TaskService service){
+    @DIDependency
+    private TaskService service;
+
+    public UnlinkTaskCommand() {
         super("task unlink", "Delete subtasks from the task");
-        this.service = service;
     }
 
     @Override

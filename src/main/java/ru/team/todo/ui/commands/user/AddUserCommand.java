@@ -3,16 +3,19 @@ package ru.team.todo.ui.commands.user;
 import java.util.Scanner;
 
 import ru.team.todo.dto.users.AddUserRequest;
+import ru.team.todo.injections.DIComponent;
+import ru.team.todo.injections.DIDependency;
 import ru.team.todo.services.UserService;
 import ru.team.todo.ui.commands.Command;
 
+@DIComponent
 public class AddUserCommand extends Command {
 
-    private final UserService service;
+    @DIDependency
+    private UserService service;
 
-    public AddUserCommand(UserService service) {
+    public AddUserCommand() {
         super("user add", "Add new user");
-        this.service = service;
     }
 
     @Override

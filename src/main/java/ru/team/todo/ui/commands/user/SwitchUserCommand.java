@@ -4,16 +4,19 @@ import java.util.Scanner;
 
 import ru.team.todo.dto.users.SwitchUserRequest;
 import ru.team.todo.dto.users.SwitchUserResponse;
+import ru.team.todo.injections.DIComponent;
+import ru.team.todo.injections.DIDependency;
 import ru.team.todo.services.UserService;
 import ru.team.todo.ui.commands.Command;
 
+@DIComponent
 public class SwitchUserCommand extends Command {
 
-    private final UserService service;
+    @DIDependency
+    private UserService service;
 
-    public SwitchUserCommand(UserService service) {
+    public SwitchUserCommand() {
         super("user switch", "Change user");
-        this.service = service;
     }
 
     @Override

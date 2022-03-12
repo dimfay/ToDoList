@@ -1,19 +1,21 @@
 package ru.team.todo.ui.commands.task;
 
 import ru.team.todo.dto.tasks.AddTaskRequest;
-import ru.team.todo.dto.users.AddUserRequest;
+import ru.team.todo.injections.DIComponent;
+import ru.team.todo.injections.DIDependency;
 import ru.team.todo.services.TaskService;
 import ru.team.todo.ui.commands.Command;
 
 import java.util.Scanner;
 
+@DIComponent
 public class AddTaskCommand extends Command {
 
-    private final TaskService service;
+    @DIDependency
+    private TaskService service;
 
-    public AddTaskCommand(TaskService service) {
+    public AddTaskCommand() {
         super("task add", "Add new task");
-        this.service = service;
     }
 
     @Override

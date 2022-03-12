@@ -2,32 +2,40 @@ package ru.team.todo.services;
 
 import ru.team.todo.domain.Task;
 import ru.team.todo.domain.User;
-import ru.team.todo.dto.tasks.*;
+import ru.team.todo.dto.tasks.AddTaskRequest;
+import ru.team.todo.dto.tasks.AddTaskResponse;
+import ru.team.todo.dto.tasks.DeleteTaskByIdRequest;
+import ru.team.todo.dto.tasks.DeleteTaskByIdResponse;
+import ru.team.todo.dto.tasks.DeleteTaskByNameRequest;
+import ru.team.todo.dto.tasks.DeleteTaskByNameResponse;
+import ru.team.todo.dto.tasks.FindTasksRequest;
+import ru.team.todo.dto.tasks.FindTasksResponse;
+import ru.team.todo.dto.tasks.LinkTaskRequest;
+import ru.team.todo.dto.tasks.LinkTaskResponse;
+import ru.team.todo.dto.tasks.UnlinkTaskRequest;
+import ru.team.todo.dto.tasks.UnlinkTaskResponse;
+import ru.team.todo.injections.DIComponent;
+import ru.team.todo.injections.DIDependency;
 import ru.team.todo.ui.ConsoleSession;
 import ru.team.todo.validation.CoreError;
-import ru.team.todo.validation.ValidationService;
+import ru.team.todo.validation.requests.task.AddTaskRequestValidation;
+import ru.team.todo.validation.requests.task.DeleteTaskByIdRequestValidation;
+import ru.team.todo.validation.requests.task.DeleteTaskByNameRequestValidation;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
+@DIComponent
 public class TaskService {
 
-    private final ConsoleSession consoleSession;
-    private final ValidationService<AddTaskRequest> addTaskValidationService;
-    private final ValidationService<DeleteTaskByIdRequest> deleteTaskByIdValidationService;
-    private final ValidationService<DeleteTaskByNameRequest> deleteTaskByNameValidationService;
-
-    public TaskService(ConsoleSession consoleSession,
-                       ValidationService<AddTaskRequest> addTaskValidationService,
-                       ValidationService<DeleteTaskByIdRequest> deleteTaskByIdValidationService,
-                       ValidationService<DeleteTaskByNameRequest> deleteTaskByNameValidationService) {
-        this.consoleSession = consoleSession;
-        this.addTaskValidationService = addTaskValidationService;
-        this.deleteTaskByIdValidationService = deleteTaskByIdValidationService;
-        this.deleteTaskByNameValidationService = deleteTaskByNameValidationService;
-    }
+    @DIDependency
+    private ConsoleSession consoleSession;
+    @DIDependency
+    private AddTaskRequestValidation addTaskValidationService;
+    @DIDependency
+    private DeleteTaskByIdRequestValidation deleteTaskByIdValidationService;
+    @DIDependency
+    private DeleteTaskByNameRequestValidation deleteTaskByNameValidationService;
 
     public AddTaskResponse addTask(AddTaskRequest request) {
         var validationResult = addTaskValidationService.validate(request);
