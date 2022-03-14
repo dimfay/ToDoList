@@ -2,17 +2,17 @@ package ru.team.todo.ui.commands.user;
 
 import java.util.Scanner;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.team.todo.dto.users.RemoveUserRequest;
 import ru.team.todo.dto.users.RemoveUserResponse;
-import ru.team.todo.injections.DIComponent;
-import ru.team.todo.injections.DIDependency;
 import ru.team.todo.services.UserService;
 import ru.team.todo.ui.commands.Command;
 
-@DIComponent
+@Component
 public class DeleteUserCommand extends Command {
 
-    @DIDependency
+    @Autowired
     private UserService service;
 
     public DeleteUserCommand() {

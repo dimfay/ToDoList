@@ -1,7 +1,8 @@
 package ru.team.todo;
 
-import ru.team.todo.injections.ApplicationContext;
-import ru.team.todo.injections.DIApplicationContextBuilder;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
 import ru.team.todo.ui.commands.task.AddTaskCommand;
 import ru.team.todo.ui.commands.task.DeleteTaskByIdCommand;
 import ru.team.todo.ui.commands.task.DeleteTaskByNameCommand;
@@ -17,7 +18,8 @@ import ru.team.todo.ui.Menu;
 public class ToDoApplication {
 
     public static void main(String[] args) {
-        ApplicationContext context = new DIApplicationContextBuilder().build("ru.team.todo");
+        ApplicationContext context =
+                new AnnotationConfigApplicationContext(ToDoConfiguration.class);
 
         new Menu()
                 .addCommand(context.getBean(AddTaskCommand.class))

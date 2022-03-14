@@ -1,17 +1,17 @@
 package ru.team.todo.ui.commands.task;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.team.todo.dto.tasks.DeleteTaskByNameRequest;
-import ru.team.todo.injections.DIComponent;
-import ru.team.todo.injections.DIDependency;
 import ru.team.todo.services.TaskService;
 import ru.team.todo.ui.commands.Command;
 
 import java.util.Scanner;
 
-@DIComponent
+@Component
 public class DeleteTaskByNameCommand extends Command {
 
-    @DIDependency
+    @Autowired
     private TaskService service;
 
     public DeleteTaskByNameCommand() {

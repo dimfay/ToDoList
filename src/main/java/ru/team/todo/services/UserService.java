@@ -1,5 +1,7 @@
 package ru.team.todo.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.team.todo.dto.users.AddUserRequest;
 import ru.team.todo.dto.users.AddUserResponse;
 import ru.team.todo.dto.users.FindUserRequest;
@@ -9,8 +11,6 @@ import ru.team.todo.dto.users.RemoveUserResponse;
 import ru.team.todo.dto.users.SwitchUserRequest;
 import ru.team.todo.dto.users.SwitchUserResponse;
 import ru.team.todo.domain.User;
-import ru.team.todo.injections.DIComponent;
-import ru.team.todo.injections.DIDependency;
 import ru.team.todo.repository.UserRepository;
 import ru.team.todo.ui.ConsoleSession;
 import ru.team.todo.validation.CoreError;
@@ -22,20 +22,20 @@ import ru.team.todo.validation.requests.user.SwitchUserRequestValidation;
 import java.util.ArrayList;
 import java.util.List;
 
-@DIComponent
+@Component
 public class UserService {
 
-    @DIDependency
+    @Autowired
     private UserRepository repository;
-    @DIDependency
+    @Autowired
     private ConsoleSession consoleSession;
-    @DIDependency
+    @Autowired
     private AddUserRequestValidation addUserValidationService;
-    @DIDependency
+    @Autowired
     private RemoveUserRequestValidation removeUserValidationService;
-    @DIDependency
+    @Autowired
     private SwitchUserRequestValidation switchUserValidationService;
-    @DIDependency
+    @Autowired
     private FindUserRequestValidation findUserValidationService;
 
     public AddUserResponse addUser(AddUserRequest request) {

@@ -1,5 +1,7 @@
 package ru.team.todo.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.team.todo.domain.Task;
 import ru.team.todo.domain.User;
 import ru.team.todo.dto.tasks.AddTaskRequest;
@@ -14,8 +16,6 @@ import ru.team.todo.dto.tasks.LinkTaskRequest;
 import ru.team.todo.dto.tasks.LinkTaskResponse;
 import ru.team.todo.dto.tasks.UnlinkTaskRequest;
 import ru.team.todo.dto.tasks.UnlinkTaskResponse;
-import ru.team.todo.injections.DIComponent;
-import ru.team.todo.injections.DIDependency;
 import ru.team.todo.ui.ConsoleSession;
 import ru.team.todo.validation.CoreError;
 import ru.team.todo.validation.requests.task.AddTaskRequestValidation;
@@ -25,16 +25,16 @@ import ru.team.todo.validation.requests.task.DeleteTaskByNameRequestValidation;
 import java.util.ArrayList;
 import java.util.List;
 
-@DIComponent
+@Component
 public class TaskService {
 
-    @DIDependency
+    @Autowired
     private ConsoleSession consoleSession;
-    @DIDependency
+    @Autowired
     private AddTaskRequestValidation addTaskValidationService;
-    @DIDependency
+    @Autowired
     private DeleteTaskByIdRequestValidation deleteTaskByIdValidationService;
-    @DIDependency
+    @Autowired
     private DeleteTaskByNameRequestValidation deleteTaskByNameValidationService;
 
     public AddTaskResponse addTask(AddTaskRequest request) {

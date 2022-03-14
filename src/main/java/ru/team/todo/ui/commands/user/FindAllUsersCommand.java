@@ -1,18 +1,18 @@
 package ru.team.todo.ui.commands.user;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.team.todo.dto.users.FindUserRequest;
 import ru.team.todo.dto.users.FindUserResponse;
-import ru.team.todo.injections.DIComponent;
-import ru.team.todo.injections.DIDependency;
 import ru.team.todo.services.UserService;
 import ru.team.todo.ui.commands.Command;
 
 import java.util.List;
 
-@DIComponent
+@Component
 public class FindAllUsersCommand extends Command {
 
-    @DIDependency
+    @Autowired
     private UserService service;
 
     public FindAllUsersCommand() {

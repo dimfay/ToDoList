@@ -1,9 +1,9 @@
 package ru.team.todo.ui;
 
+import org.springframework.stereotype.Component;
 import ru.team.todo.domain.User;
-import ru.team.todo.injections.DIComponent;
 
-@DIComponent
+@Component
 public class ConsoleSession {
 
     private User switchedUser = null;
