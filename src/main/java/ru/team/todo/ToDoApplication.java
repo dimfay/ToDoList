@@ -3,6 +3,7 @@ package ru.team.todo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import ru.team.todo.config.ToDoConfiguration;
 import ru.team.todo.ui.Menu;
 
 public class ToDoApplication {
