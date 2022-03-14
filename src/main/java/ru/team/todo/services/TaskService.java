@@ -1,7 +1,7 @@
 package ru.team.todo.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import ru.team.todo.domain.Task;
 import ru.team.todo.domain.User;
 import ru.team.todo.dto.tasks.AddTaskRequest;
@@ -25,7 +25,7 @@ import ru.team.todo.validation.requests.task.DeleteTaskByNameRequestValidation;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Service
 public class TaskService {
 
     @Autowired

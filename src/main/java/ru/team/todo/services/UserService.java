@@ -1,7 +1,7 @@
 package ru.team.todo.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import ru.team.todo.dto.users.AddUserRequest;
 import ru.team.todo.dto.users.AddUserResponse;
 import ru.team.todo.dto.users.FindUserRequest;
@@ -22,7 +22,7 @@ import ru.team.todo.validation.requests.user.SwitchUserRequestValidation;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Service
 public class UserService {
 
     @Autowired
