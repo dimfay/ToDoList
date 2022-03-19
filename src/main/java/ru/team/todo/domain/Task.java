@@ -1,36 +1,24 @@
 package ru.team.todo.domain;
 
+import lombok.Data;
+import lombok.NonNull;
+
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+@Data
 public class Task {
 
     private final int id;
+    @NonNull
     private final String name;
+    @NonNull
     private final String description;
     private final Set<Task> linkedTasks = new HashSet<>();
 
-    public Task(int id, String name, String desc) {
-        this.id = id;
-        this.name = name;
-        this.description = desc;
-    }
-
-    public int getId() {
-        return id;
-    }
-
     public String getDisplayInfo() {
         return "[ID: " + this.id + ". Name: " + this.name + ". Description: '" + this.description + "']";
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public String getDescription() {
-        return this.description;
     }
 
     public void linkTask(Task task) {
@@ -43,27 +31,5 @@ public class Task {
 
     public Set<Task> getAllLinkedTasks() {
         return this.linkedTasks;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Task task = (Task) o;
-        return id == task.id && Objects.equals(name, task.name) && Objects.equals(description, task.description);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, description);
-    }
-
-    @Override
-    public String toString() {
-        return "Task{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", desc='" + description + '\'' +
-                '}';
     }
 }
