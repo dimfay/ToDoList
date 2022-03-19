@@ -1,5 +1,8 @@
 package ru.team.todo.ui;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import ru.team.todo.ui.commands.Command;
 
 import java.util.ArrayList;
@@ -9,13 +12,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+@Component
 public class Menu {
 
-    private final Map<String, Command> commands = new HashMap<>();
+    private final Map<String, Command> commands;
 
-    public Menu addCommand(Command command) {
-        commands.put(command.getName(), command);
-        return this;
+    @Autowired
+    public Menu(List<Command> commands) {
+        Map<String, Command> tmp = new HashMap<>();
+        for (Command cmd : commands) {
+            tmp.put(cmd.getName(), cmd);
+        }
+        this.commands = tmp;
     }
 
     public void startUI() {

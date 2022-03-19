@@ -1,13 +1,13 @@
 package ru.team.todo.repository;
 
+import org.springframework.stereotype.Repository;
 import ru.team.todo.domain.User;
-import ru.team.todo.injections.DIComponent;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-@DIComponent
+@Repository
 public class UserRepositoryMemory implements UserRepository {
 
     private final Map<String, User> users = new HashMap<>();

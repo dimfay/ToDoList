@@ -6,6 +6,7 @@ import ru.team.todo.validation.rules.ValidationRule;
 
 public class MaxTaskDescriptionLengthRule<T extends NameableTaskRequest> implements ValidationRule<T> {
 
+    @Override
     public void onValidate(T task) {
         if (task.getName().length() > 1000) {
             throw new ValidationException("Task description should be less than 1000 characters.");
