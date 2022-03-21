@@ -44,7 +44,7 @@ public class UserServiceAddTest {
 
         AddUserResponse excepted = new AddUserResponse(List.of());
 
-        assertEquals(result, excepted);
+        assertEquals(excepted, result);
     }
 
 }

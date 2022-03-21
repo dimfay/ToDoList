@@ -44,7 +44,7 @@ public class UserServiceFindTest {
 
         FindUserResponse excepted = new FindUserResponse(List.of(), List.of(new User("user_1"), new User("user_2")));
 
-        assertEquals(result, excepted);
+        assertEquals(excepted, result);
     }
 
 }
