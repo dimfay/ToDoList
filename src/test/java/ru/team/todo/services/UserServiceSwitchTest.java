@@ -48,7 +48,7 @@ public class UserServiceSwitchTest {
 
         SwitchUserResponse excepted = new SwitchUserResponse(List.of());
 
-        assertEquals(result, excepted);
+        assertEquals(excepted, result);
     }
 
 }

@@ -44,7 +44,7 @@ public class UserServiceRemoveTest {
 
         RemoveUserResponse excepted = new RemoveUserResponse(List.of());
 
-        assertEquals(result, excepted);
+        assertEquals(excepted, result);
     }
 
 }
