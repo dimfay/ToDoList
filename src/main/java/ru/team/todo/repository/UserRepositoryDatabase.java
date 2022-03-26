@@ -6,9 +6,7 @@ import ru.team.todo.domain.User;
 
 import java.util.Collection;
 
-//TODO Реализовать SQL запросы и доступ к бд здесь.
-//TODO Теперь встал вопрос насчет тудушки самого пользователя, похоже для него так же придется делать репозиторий.
-
+@Repository
 public class UserRepositoryDatabase implements UserRepository {
 
     private final JdbcTemplate jdbcTemplate;
