@@ -13,13 +13,12 @@ public class UserRepositoryMemory implements UserRepository {
 
     public UserRepositoryMemory() {
         //По умолчанию имеем пользователя admin
-        addUser(new User("admin"));
+        addUser("admin");
     }
 
     @Override
-    public User addUser(User user) {
-        users.put(user.getName(), user);
-        return user;
+    public void addUser(String name) {
+        this.users.put(name, new User(name));
     }
 
     @Override

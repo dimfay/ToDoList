@@ -6,7 +6,7 @@ import java.util.Collection;
 
 public interface UserRepository {
 
-    User addUser(User user);
+    void addUser(String name);
 
     void removeUser(String name);
 

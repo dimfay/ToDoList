@@ -44,15 +44,12 @@ public class UserService {
             return new AddUserResponse(validationResult);
         }
 
-        //TODO Не понятно, это нормально что проверяется наличие пользователя здесь а не в репозитории?
         User tmpUser = this.repository.getUserByName(request.getName());
         if (tmpUser != null) {
             return new AddUserResponse(List.of(new CoreError("User '" + request.getName() + "' already exists!")));
         }
 
-        var user = convertUserRequest(request);
-
-        this.repository.addUser(user);
+        this.repository.addUser(request.getName());
         return new AddUserResponse(List.of());
     }
 
@@ -62,7 +59,6 @@ public class UserService {
             return new RemoveUserResponse(validationResult);
         }
 
-        //TODO Не понятно, это нормально что проверяется наличие пользователя здесь а не в репозитории?
         User tmpUser = this.repository.getUserByName(request.getName());
         if (tmpUser == null) {
             return new RemoveUserResponse(List.of(new CoreError("User '" + request.getName() + "' not found!")));
@@ -112,10 +108,6 @@ public class UserService {
         }
 
         return new FindUserResponse(findError, findUsers);
-    }
-
-    private static User convertUserRequest(AddUserRequest addUserRequest) {
-        return new User(addUserRequest.getName());
     }
 
 }

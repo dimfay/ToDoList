@@ -6,10 +6,14 @@ import java.util.Set;
 
 public class Task {
 
-    private final int id;
-    private final String name;
-    private final String description;
+    private int id;
+    private String name;
+    private String description;
     private final Set<Task> linkedTasks = new HashSet<>();
+
+    public Task () {
+
+    }
 
     public Task(int id, String name, String desc) {
         this.id = id;
@@ -21,16 +25,28 @@ public class Task {
         return id;
     }
 
-    public String getDisplayInfo() {
-        return "[ID: " + this.id + ". Name: " + this.name + ". Description: '" + this.description + "']";
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
         return this.name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDisplayInfo() {
+        return "[ID: " + this.id + ". Name: " + this.name + ". Description: '" + this.description + "']";
+    }
+
     public String getDescription() {
         return this.description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void linkTask(Task task) {

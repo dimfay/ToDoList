@@ -7,10 +7,14 @@ import java.util.Objects;
 
 public class User {
 
-    private final String name;
+    private String name;
     private final Map<Integer, Task> tasksId = new HashMap<>();
     private final Map<String, Task> tasksName = new HashMap<>();
     private int nextTaskId = 1;
+
+    public User() {
+
+    }
 
     public User(String name) {
         this.name = name;
@@ -18,6 +22,10 @@ public class User {
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void addTask(String name, String desc) {
