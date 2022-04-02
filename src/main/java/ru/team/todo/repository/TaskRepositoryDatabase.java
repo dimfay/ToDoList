@@ -1,55 +1,51 @@
 package ru.team.todo.repository;
 
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import ru.team.todo.domain.Task;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
 import java.util.List;
 
-//TODO Будем переделывать
 @Repository
+@Transactional
 public class TaskRepositoryDatabase implements TaskRepository {
-    private final JdbcTemplate jdbcTemplate;
+    private final SessionFactory sessionFactory;
 
-    public TaskRepositoryDatabase(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    TaskRepositoryDatabase(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     @Override
     public void addTask(Task task) {
-        String query = "INSERT INTO tasks (userId, name, description, linkedTaskId)";
-        //TODO Придумать способ передавать сюда ид юзера и привязанную задачу. Похоже придется переписать класс Task и User.
-        this.jdbcTemplate.update(query, 1, task.getName(), task.getDescription(), 1);
+        this.sessionFactory.getCurrentSession().saveOrUpdate(task);
     }
 
     @Override
-    public void removeTask(int id) {
-        String query = "DELETE FROM tasks WHERE id = ?";
-        this.jdbcTemplate.update(query, id);
+    public void removeTask(Task task) {
+        this.sessionFactory.getCurrentSession().remove(task);
     }
 
     @Override
     public Task getTaskById(int id) {
-        String query = "SELECT id, userId, name, description, linkedTaskId FROM tasks WHERE id = ?";
-        List<Task> tmp = this.jdbcTemplate.query(query, new Object[]{id}, new BeanPropertyRowMapper<>(Task.class));
-        if (tmp.isEmpty()) {
-            return null;
-        }
-
-        return tmp.get(0);
+        return this.sessionFactory.getCurrentSession().get(Task.class, id);
     }
 
     @Override
-    public List<Task> getAllTasksByUserId(int id) {
-        String query = "SELECT id, userId, name, description, linkedTaskId FROM tasks WHERE userId = ?";
-        return this.jdbcTemplate.query(query, new Object[]{id}, new BeanPropertyRowMapper<>(Task.class));
+    public Task getTaskByName(String name) {
+        return this.sessionFactory.getCurrentSession().byNaturalId(Task.class).using("name", name).load();
     }
 
     @Override
     public List<Task> getAllTasks() {
-        String query = "SELECT id, userId, name, description, linkedTaskId FROM tasks";
-        return this.jdbcTemplate.query(query, new BeanPropertyRowMapper<>(Task.class));
+        CriteriaBuilder cb = this.sessionFactory.getCriteriaBuilder();
+        CriteriaQuery<Task> criteria = cb.createQuery(Task.class);
+        Root<Task> userRoot = criteria.from(Task.class);
+        criteria.select(userRoot);
+        return this.sessionFactory.getCurrentSession().createQuery(criteria).getResultList();
     }
 
 }

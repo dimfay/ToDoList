@@ -7,11 +7,11 @@ import java.util.List;
 public interface TaskRepository {
     void addTask(Task task);
 
-    void removeTask(int id);
+    void removeTask(Task task);
 
     Task getTaskById(int id);
 
-    List<Task> getAllTasksByUserId(int id);
+    Task getTaskByName(String name);
 
     List<Task> getAllTasks();
 }

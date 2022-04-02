@@ -4,6 +4,9 @@ import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import ru.team.todo.domain.User;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -34,6 +37,11 @@ public class UserRepositoryDatabase implements UserRepository {
 
     @Override
     public List<User> getAllUsers() {
-        return sessionFactory.getCurrentSession().createCriteria(User.class).list();
+        CriteriaBuilder cb = this.sessionFactory.getCriteriaBuilder();
+        CriteriaQuery<User> criteria = cb.createQuery(User.class);
+        Root<User> userRoot = criteria.from(User.class);
+        criteria.select(userRoot);
+        return this.sessionFactory.getCurrentSession().createQuery(criteria).getResultList();
+
     }
 }

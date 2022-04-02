@@ -79,7 +79,7 @@ public class UserService {
             return new SwitchUserResponse(List.of(new CoreError("User not selected.")));
         }
 
-        this.consoleSession.setSwitchedUser(user);
+        this.consoleSession.setSwitchedUser(request.getName());
         return new SwitchUserResponse(List.of());
     }
 

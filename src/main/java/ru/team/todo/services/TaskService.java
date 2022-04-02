@@ -2,6 +2,7 @@ package ru.team.todo.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.team.todo.domain.Task;
 import ru.team.todo.domain.User;
 import ru.team.todo.dto.tasks.AddTaskRequest;
 import ru.team.todo.dto.tasks.AddTaskResponse;
@@ -15,18 +16,20 @@ import ru.team.todo.dto.tasks.LinkTaskRequest;
 import ru.team.todo.dto.tasks.LinkTaskResponse;
 import ru.team.todo.dto.tasks.UnlinkTaskRequest;
 import ru.team.todo.dto.tasks.UnlinkTaskResponse;
+import ru.team.todo.repository.TaskRepository;
 import ru.team.todo.ui.ConsoleSession;
 import ru.team.todo.validation.CoreError;
 import ru.team.todo.validation.requests.task.AddTaskRequestValidation;
 import ru.team.todo.validation.requests.task.DeleteTaskByIdRequestValidation;
 import ru.team.todo.validation.requests.task.DeleteTaskByNameRequestValidation;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class TaskService {
 
+    @Autowired
+    private TaskRepository repository;
     @Autowired
     private ConsoleSession consoleSession;
     @Autowired
@@ -38,7 +41,7 @@ public class TaskService {
 
     public AddTaskResponse addTask(AddTaskRequest request) {
         var validationResult = addTaskValidationService.validate(request);
-        if (!validationResult.isEmpty()){
+        if (!validationResult.isEmpty()) {
             return new AddTaskResponse(validationResult);
         }
         User user = this.consoleSession.getSwitchedUser();
@@ -46,27 +49,33 @@ public class TaskService {
             return new AddTaskResponse(List.of(new CoreError("The user is not switched")));
         }
 
-        //user.addTask(request.getName(), request.getDescription());
+        this.repository.addTask(new Task(user.getId(), request.getName(), request.getDescription()));
         return new AddTaskResponse(List.of());
     }
 
     public DeleteTaskByNameResponse deleteTaskByName(DeleteTaskByNameRequest request) {
         var validationResult = deleteTaskByNameValidationService.validate(request);
-        if (!validationResult.isEmpty()){
+        if (!validationResult.isEmpty()) {
             return new DeleteTaskByNameResponse(validationResult);
         }
         User user = this.consoleSession.getSwitchedUser();
         if (user == null) {
             return new DeleteTaskByNameResponse(List.of(new CoreError("The user is not switched")));
         }
-        //user.deleteTaskByName(request.getName());
+
+        Task task = this.repository.getTaskByName(request.getName());
+        if (task == null) {
+            return new DeleteTaskByNameResponse(List.of(new CoreError("Task with name '" + request.getName() + "' not found!")));
+        }
+
+        this.repository.removeTask(task);
         return new DeleteTaskByNameResponse(List.of());
 
     }
 
     public DeleteTaskByIdResponse deleteTaskById(DeleteTaskByIdRequest request) {
         var validationResult = deleteTaskByIdValidationService.validate(request);
-        if (!validationResult.isEmpty()){
+        if (!validationResult.isEmpty()) {
             return new DeleteTaskByIdResponse(validationResult);
         }
         User user = this.consoleSession.getSwitchedUser();
@@ -74,21 +83,23 @@ public class TaskService {
             return new DeleteTaskByIdResponse(List.of(new CoreError("The user is not switched")));
         }
 
-        //user.deleteTaskById(request.getId());
+        Task task = this.repository.getTaskById(request.getId());
+        if (task == null) {
+            return new DeleteTaskByIdResponse(List.of(new CoreError("Task with id '" + request.getId() + "' not found!")));
+        }
+
+        this.repository.removeTask(task);
         return new DeleteTaskByIdResponse(List.of());
     }
 
-       public FindTasksResponse findAllTasks(FindTasksRequest request) {
+    //Реквесты пока что нигде не используются
+    public FindTasksResponse findAllTasks(FindTasksRequest request) {
         User user = this.consoleSession.getSwitchedUser();
         if (user == null) {
             return new FindTasksResponse(List.of(new CoreError("The user is not switched")), List.of());
         }
 
-        if (request.getTasks().isEmpty()) {
-            return new FindTasksResponse(List.of(), new ArrayList<>());
-        }
-
-        return new FindTasksResponse(List.of(new CoreError("Something went wrong")), List.of());
+        return new FindTasksResponse(List.of(), user.getTasks());
     }
 
     public LinkTaskResponse linkTask(LinkTaskRequest request) {
