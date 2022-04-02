@@ -14,7 +14,8 @@ CREATE TABLE IF NOT EXISTS tasks (
   name VARCHAR(255) NOT NULL,
   description TEXT,
   linkedTaskId BIGINT,
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  FOREIGN KEY (userId) REFERENCES users(id)
 )
 
 ENGINE = InnoDB;
