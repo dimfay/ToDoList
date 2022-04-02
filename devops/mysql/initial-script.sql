@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS users (
   name VARCHAR(255) UNIQUE NOT NULL,
   PRIMARY KEY (id)
 )
+ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS tasks (
   id BIGINT NOT NULL AUTO_INCREMENT,
@@ -16,4 +17,6 @@ CREATE TABLE IF NOT EXISTS tasks (
   PRIMARY KEY (id)
 )
 
-INSERT INTO users (name) VALUES ("admin")
+ENGINE = InnoDB;
+
+INSERT INTO users (name) VALUES ("admin");
