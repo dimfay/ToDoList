@@ -49,7 +49,7 @@ public class UserService {
             return new AddUserResponse(List.of(new CoreError("User '" + request.getName() + "' already exists!")));
         }
 
-        this.repository.addUser(request.getName());
+        this.repository.addUser(convertRequestToUserEntity(request.getName()));
         return new AddUserResponse(List.of());
     }
 
@@ -64,7 +64,7 @@ public class UserService {
             return new RemoveUserResponse(List.of(new CoreError("User '" + request.getName() + "' not found!")));
         }
 
-        this.repository.removeUser(request.getName());
+        this.repository.removeUser(convertRequestToUserEntity(request.getName()));
         return new RemoveUserResponse(List.of());
     }
 
@@ -108,6 +108,10 @@ public class UserService {
         }
 
         return new FindUserResponse(findError, findUsers);
+    }
+
+    private static User convertRequestToUserEntity(String name) {
+        return new User(name);
     }
 
 }

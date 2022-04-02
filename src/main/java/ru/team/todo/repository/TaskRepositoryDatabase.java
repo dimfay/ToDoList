@@ -7,6 +7,7 @@ import ru.team.todo.domain.Task;
 
 import java.util.List;
 
+//TODO Будем переделывать
 @Repository
 public class TaskRepositoryDatabase implements TaskRepository {
     private final JdbcTemplate jdbcTemplate;

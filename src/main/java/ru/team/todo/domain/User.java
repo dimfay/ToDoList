@@ -1,13 +1,28 @@
 package ru.team.todo.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+@Entity(name = "user")
+@Table(name = "todolist")
 public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
+    @Column(name = "name", unique = true, nullable = false, length = 255)
     private String name;
+
+
     private final Map<Integer, Task> tasksId = new HashMap<>();
     private final Map<String, Task> tasksName = new HashMap<>();
     private int nextTaskId = 1;

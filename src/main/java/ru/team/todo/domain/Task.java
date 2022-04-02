@@ -1,14 +1,28 @@
 package ru.team.todo.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+@Entity(name = "task")
+@Table(name = "todolist")
 public class Task {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
+    @Column(name = "name", nullable = false, length = 255)
     private String name;
+    @Column(name = "description")
     private String description;
+
     private final Set<Task> linkedTasks = new HashSet<>();
 
     public Task () {
