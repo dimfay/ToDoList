@@ -29,7 +29,7 @@ public class UserRepositoryDatabase implements UserRepository {
 
     @Override
     public User getUserByName(String name) {
-        return this.sessionFactory.getCurrentSession().get(User.class, name);
+        return this.sessionFactory.getCurrentSession().byNaturalId(User.class).using("name", name).load();
     }
 
     @Override

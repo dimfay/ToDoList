@@ -6,12 +6,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
-@Entity(name = "task")
-@Table(name = "todolist")
+@Entity
+@Table(name = "tasks")
 public class Task {
 
     @Id
@@ -22,8 +20,6 @@ public class Task {
     private String name;
     @Column(name = "description")
     private String description;
-
-    private final Set<Task> linkedTasks = new HashSet<>();
 
     public Task () {
 
@@ -63,17 +59,6 @@ public class Task {
         this.description = description;
     }
 
-    public void linkTask(Task task) {
-        this.linkedTasks.add(task);
-    }
-
-    public void unlinkTask(Task task) {
-        this.linkedTasks.remove(task);
-    }
-
-    public Set<Task> getAllLinkedTasks() {
-        return this.linkedTasks;
-    }
 
     @Override
     public boolean equals(Object o) {

@@ -2,7 +2,6 @@ package ru.team.todo.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.team.todo.domain.Task;
 import ru.team.todo.domain.User;
 import ru.team.todo.dto.tasks.AddTaskRequest;
 import ru.team.todo.dto.tasks.AddTaskResponse;
@@ -47,7 +46,7 @@ public class TaskService {
             return new AddTaskResponse(List.of(new CoreError("The user is not switched")));
         }
 
-        user.addTask(request.getName(), request.getDescription());
+        //user.addTask(request.getName(), request.getDescription());
         return new AddTaskResponse(List.of());
     }
 
@@ -60,7 +59,7 @@ public class TaskService {
         if (user == null) {
             return new DeleteTaskByNameResponse(List.of(new CoreError("The user is not switched")));
         }
-        user.deleteTaskByName(request.getName());
+        //user.deleteTaskByName(request.getName());
         return new DeleteTaskByNameResponse(List.of());
 
     }
@@ -75,7 +74,7 @@ public class TaskService {
             return new DeleteTaskByIdResponse(List.of(new CoreError("The user is not switched")));
         }
 
-        user.deleteTaskById(request.getId());
+        //user.deleteTaskById(request.getId());
         return new DeleteTaskByIdResponse(List.of());
     }
 
@@ -86,7 +85,7 @@ public class TaskService {
         }
 
         if (request.getTasks().isEmpty()) {
-            return new FindTasksResponse(List.of(), new ArrayList<>(user.getAllTasks()));
+            return new FindTasksResponse(List.of(), new ArrayList<>());
         }
 
         return new FindTasksResponse(List.of(new CoreError("Something went wrong")), List.of());
@@ -98,7 +97,7 @@ public class TaskService {
             return new LinkTaskResponse(List.of(new CoreError("User is not switched")));
         }
 
-        Task firstTask = user.getTaskByName(request.getFirstTask());
+        /*Task firstTask = user.getTaskByName(request.getFirstTask());
         if (firstTask == null) {
             return new LinkTaskResponse(List.of(new CoreError("User does not have the first task")));
         }
@@ -108,7 +107,7 @@ public class TaskService {
             return new LinkTaskResponse(List.of(new CoreError("User does not have the second task")));
         }
 
-        firstTask.linkTask(secondTask);
+        firstTask.linkTask(secondTask);*/
         return new LinkTaskResponse(List.of());
     }
 
@@ -119,7 +118,7 @@ public class TaskService {
             return new UnlinkTaskResponse(List.of(new CoreError("User is not switched")));
         }
 
-        Task firstTask = user.getTaskByName(request.getFirstName());
+        /*Task firstTask = user.getTaskByName(request.getFirstName());
         if (firstTask == null) {
             return new UnlinkTaskResponse(List.of(new CoreError("User does not have the first task")));
         }
@@ -129,7 +128,7 @@ public class TaskService {
             return new UnlinkTaskResponse(List.of(new CoreError("User does not have the second task")));
         }
 
-        firstTask.unlinkTask(secondTask);
+        firstTask.unlinkTask(secondTask);*/
         return new UnlinkTaskResponse(List.of());
     }
 }

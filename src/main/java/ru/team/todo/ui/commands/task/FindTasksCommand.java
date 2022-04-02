@@ -37,9 +37,10 @@ public class FindTasksCommand extends Command {
 
         for (Task task : tasks) {
             System.out.println(task.getDisplayInfo());
+            /*
             for (Task linked : task.getAllLinkedTasks()) {
                 System.out.println(" - " + linked.getDisplayInfo());
-            }
+            }*/
         }
     }
 }
