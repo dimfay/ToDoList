@@ -23,7 +23,7 @@ public class DatabaseConfig {
     private String databaseDriver;
 
     @Bean
-    public DataSource dataSource(){
+    public DataSource dataSource() {
         var datasource = new BasicDataSource();
         datasource.setUrl(databaseUrl);
         datasource.setUsername(databaseUser);
@@ -33,7 +33,7 @@ public class DatabaseConfig {
     }
 
     @Bean
-    public JdbcTemplate jdbcTemplate(DataSource dataSource){
+    public JdbcTemplate jdbcTemplate(DataSource dataSource) {
         return new JdbcTemplate(dataSource);
     }
 }
