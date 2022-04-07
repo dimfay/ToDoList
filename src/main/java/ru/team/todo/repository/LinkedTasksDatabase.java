@@ -9,6 +9,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.util.Collection;
+import java.util.List;
 
 @Repository
 @Transactional
@@ -18,7 +19,6 @@ public class LinkedTasksDatabase implements LinkedTasksRepository {
     LinkedTasksDatabase(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
-
 
     @Override
     public void add(LinkedTask linkedTask) {
@@ -36,6 +36,23 @@ public class LinkedTasksDatabase implements LinkedTasksRepository {
     }
 
     @Override
+    public LinkedTask findLinkedTaskByTasksId(int firstTask, int secondTask) {
+        List<LinkedTask> linkedTasks = this.sessionFactory.getCurrentSession()
+                .createQuery("FROM LinkedTask WHERE taskId = :taskId AND linkedTaskId = :linkedTaskId", LinkedTask.class)
+                .setParameter("taskId", firstTask)
+                .setParameter("linkedTaskId", secondTask)
+                .getResultList();
+        if (linkedTasks == null) {
+            return null;
+        }
+        if (linkedTasks.isEmpty()) {
+            return null;
+        }
+
+        return linkedTasks.get(0);
+    }
+
+    @Override
     public Collection<? extends LinkedTask> findAll() {
         CriteriaBuilder cb = this.sessionFactory.getCriteriaBuilder();
         CriteriaQuery<LinkedTask> criteria = cb.createQuery(LinkedTask.class);
@@ -43,4 +60,5 @@ public class LinkedTasksDatabase implements LinkedTasksRepository {
         criteria.select(userRoot);
         return this.sessionFactory.getCurrentSession().createQuery(criteria).getResultList();
     }
+
 }
