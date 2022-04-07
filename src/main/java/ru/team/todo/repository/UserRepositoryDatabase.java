@@ -1,39 +1,47 @@
 package ru.team.todo.repository;
 
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import ru.team.todo.domain.User;
 
-import java.util.Collection;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
+import java.util.List;
 
-//TODO Реализовать SQL запросы и доступ к бд здесь.
-//TODO Теперь встал вопрос насчет тудушки самого пользователя, похоже для него так же придется делать репозиторий.
-
+@Repository
+@Transactional
 public class UserRepositoryDatabase implements UserRepository {
 
-    private final JdbcTemplate jdbcTemplate;
+    private final SessionFactory sessionFactory;
 
-    public UserRepositoryDatabase(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    UserRepositoryDatabase(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     @Override
-    public User addUser(User user) {
-        throw new UnsupportedOperationException();
+    public void addUser(User user) {
+        this.sessionFactory.getCurrentSession().saveOrUpdate(user);
     }
 
     @Override
-    public void removeUser(String name) {
-        throw new UnsupportedOperationException();
+    public void removeUser(User user) {
+        this.sessionFactory.getCurrentSession().remove(user);
     }
 
     @Override
     public User getUserByName(String name) {
-        throw new UnsupportedOperationException();
+        return this.sessionFactory.getCurrentSession().byNaturalId(User.class).using("name", name).load();
     }
 
     @Override
-    public Collection<User> getAllUsers() {
-        throw new UnsupportedOperationException();
+    public List<User> getAllUsers() {
+        CriteriaBuilder cb = this.sessionFactory.getCriteriaBuilder();
+        CriteriaQuery<User> criteria = cb.createQuery(User.class);
+        Root<User> userRoot = criteria.from(User.class);
+        criteria.select(userRoot);
+        return this.sessionFactory.getCurrentSession().createQuery(criteria).getResultList();
+
     }
 }

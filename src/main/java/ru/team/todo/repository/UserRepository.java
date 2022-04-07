@@ -2,15 +2,15 @@ package ru.team.todo.repository;
 
 import ru.team.todo.domain.User;
 
-import java.util.Collection;
+import java.util.List;
 
 public interface UserRepository {
 
-    User addUser(User user);
+    void addUser(User user);
 
-    void removeUser(String name);
+    void removeUser(User user);
 
     User getUserByName(String name);
 
-    Collection<User> getAllUsers();
+    List<User> getAllUsers();
 }

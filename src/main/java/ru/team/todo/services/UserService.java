@@ -44,15 +44,12 @@ public class UserService {
             return new AddUserResponse(validationResult);
         }
 
-        //TODO Не понятно, это нормально что проверяется наличие пользователя здесь а не в репозитории?
         User tmpUser = this.repository.getUserByName(request.getName());
         if (tmpUser != null) {
             return new AddUserResponse(List.of(new CoreError("User '" + request.getName() + "' already exists!")));
         }
 
-        var user = convertUserRequest(request);
-
-        this.repository.addUser(user);
+        this.repository.addUser(new User(request.getName()));
         return new AddUserResponse(List.of());
     }
 
@@ -62,13 +59,12 @@ public class UserService {
             return new RemoveUserResponse(validationResult);
         }
 
-        //TODO Не понятно, это нормально что проверяется наличие пользователя здесь а не в репозитории?
         User tmpUser = this.repository.getUserByName(request.getName());
         if (tmpUser == null) {
             return new RemoveUserResponse(List.of(new CoreError("User '" + request.getName() + "' not found!")));
         }
 
-        this.repository.removeUser(request.getName());
+        this.repository.removeUser(tmpUser);
         return new RemoveUserResponse(List.of());
     }
 
@@ -83,7 +79,7 @@ public class UserService {
             return new SwitchUserResponse(List.of(new CoreError("User not selected.")));
         }
 
-        this.consoleSession.setSwitchedUser(user);
+        this.consoleSession.setSwitchedUser(request.getName());
         return new SwitchUserResponse(List.of());
     }
 
@@ -112,10 +108,6 @@ public class UserService {
         }
 
         return new FindUserResponse(findError, findUsers);
-    }
-
-    private static User convertUserRequest(AddUserRequest addUserRequest) {
-        return new User(addUserRequest.getName());
     }
 
 }
