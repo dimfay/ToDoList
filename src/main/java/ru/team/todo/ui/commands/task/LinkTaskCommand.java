@@ -2,8 +2,8 @@ package ru.team.todo.ui.commands.task;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ru.team.todo.dto.tasks.LinkTaskRequest;
-import ru.team.todo.services.TaskService;
+import ru.team.todo.dto.linkedtasks.LinkTaskRequest;
+import ru.team.todo.services.LinkedTaskService;
 import ru.team.todo.ui.commands.Command;
 
 import java.util.Scanner;
@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class LinkTaskCommand extends Command {
 
     @Autowired
-    private TaskService service;
+    private LinkedTaskService service;
 
     public LinkTaskCommand() {
         super("task link", "Add subtasks to the task");

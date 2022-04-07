@@ -30,6 +30,21 @@ public class LinkedTask {
     @JoinColumn(name = "linkedTaskId", insertable = false, updatable = false, nullable = false)
     private Task linkedTask;
 
+    public LinkedTask() {
+
+    }
+
+    public LinkedTask(Integer id, int taskId, int linkedTaskId) {
+        this.id = id;
+        this.taskId = taskId;
+        this.linkedTaskId = linkedTaskId;
+    }
+
+    public LinkedTask(int taskId, int linkedTaskId) {
+        this.taskId = taskId;
+        this.linkedTaskId = linkedTaskId;
+    }
+
     public Integer getId() {
         return this.id;
     }

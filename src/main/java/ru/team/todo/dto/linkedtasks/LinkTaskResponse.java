@@ -1,14 +1,14 @@
-package ru.team.todo.dto.tasks;
+package ru.team.todo.dto.linkedtasks;
 
 import ru.team.todo.validation.CoreError;
 
 import java.util.List;
 import java.util.Objects;
 
-public class UnlinkTaskResponse {
+public class LinkTaskResponse {
     private final List<CoreError> errors;
 
-    public UnlinkTaskResponse(List<CoreError> errors){
+    public LinkTaskResponse(List<CoreError> errors){
         this.errors = errors;
     }
 
@@ -20,7 +20,7 @@ public class UnlinkTaskResponse {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UnlinkTaskResponse that = (UnlinkTaskResponse) o;
+        LinkTaskResponse that = (LinkTaskResponse) o;
         return Objects.equals(errors, that.errors);
     }
 
@@ -31,9 +31,8 @@ public class UnlinkTaskResponse {
 
     @Override
     public String toString() {
-        return "UnlinkTaskResponse{" +
+        return "LinkTaskResponse{" +
                 "errors=" + errors +
                 '}';
     }
 }
-
