@@ -5,21 +5,30 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import java.util.Objects;
 
 @Entity
 @Table(name = "linkedTasks")
-public class LinkedTasks {
+public class LinkedTask {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
+
     @Column(name = "taskId", nullable = false)
     private int taskId;
-    @Column(name = "linkedTaskId")
+    @Column(name = "linkedTaskId", nullable = false)
     private int linkedTaskId;
+
+    @ManyToOne
+    @JoinColumn(name = "taskId", insertable = false, updatable = false, nullable = false)
+    private Task task;
+    @ManyToOne
+    @JoinColumn(name = "linkedTaskId", insertable = false, updatable = false, nullable = false)
+    private Task linkedTask;
 
     public Integer getId() {
         return this.id;
@@ -45,25 +54,24 @@ public class LinkedTasks {
         this.linkedTaskId = linkedTaskId;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        LinkedTasks that = (LinkedTasks) o;
-        return taskId == that.taskId && linkedTaskId == that.linkedTaskId && Objects.equals(id, that.id);
+    public Task getTask() {
+        return this.task;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, taskId, linkedTaskId);
+    public void setTask(Task task) {
+        this.task = task;
+    }
+
+    public Task getLinkedTask() {
+        return this.linkedTask;
+    }
+
+    public void setLinkedTask(Task linkedTask) {
+        this.linkedTask = linkedTask;
     }
 
     @Override
     public String toString() {
-        return "LinkedTasks{" +
-                "id=" + id +
-                ", taskId=" + taskId +
-                ", linkedTaskId=" + linkedTaskId +
-                '}';
+        return "LinkedTasks {" + this.task.getName() + " | " + this.linkedTask.getName() + "}";
     }
 }

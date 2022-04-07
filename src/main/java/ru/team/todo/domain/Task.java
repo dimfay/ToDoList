@@ -4,13 +4,16 @@ import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "tasks")
@@ -23,7 +26,7 @@ public class Task {
     @Column(name = "userId", nullable = false)
     private int userId;
     @NaturalId
-    @Column(name = "name", nullable = false, length = 255)
+    @Column(name = "name", nullable = false)
     private String name;
     @Column(name = "description")
     private String description;
@@ -31,6 +34,8 @@ public class Task {
     @ManyToOne
     @JoinColumn(name = "userId", insertable = false, updatable = false, nullable = false)
     private User user;
+    @OneToMany(mappedBy = "taskId", fetch = FetchType.EAGER)
+    private Set<LinkedTask> linkedTasks;
 
     public User getUser() {
         return this.user;
@@ -93,6 +98,14 @@ public class Task {
         this.description = description;
     }
 
+    public Set<LinkedTask> getLinkedTasks() {
+        return linkedTasks;
+    }
+
+    public void setLinkedTasks(Set<LinkedTask> linkedTasks) {
+        this.linkedTasks = linkedTasks;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -110,8 +123,11 @@ public class Task {
     public String toString() {
         return "Task{" +
                 "id=" + id +
+                ", userId=" + userId +
                 ", name='" + name + '\'' +
-                ", desc='" + description + '\'' +
+                ", description='" + description + '\'' +
+                ", user=" + user +
+                ", linkedTasks=" + linkedTasks +
                 '}';
     }
 }
