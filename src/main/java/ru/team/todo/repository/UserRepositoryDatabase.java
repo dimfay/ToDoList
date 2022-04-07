@@ -8,7 +8,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
-import java.util.List;
+import java.util.Collection;
 
 @Repository
 @Transactional
@@ -21,27 +21,31 @@ public class UserRepositoryDatabase implements UserRepository {
     }
 
     @Override
-    public void addUser(User user) {
+    public void add(User user) {
         this.sessionFactory.getCurrentSession().saveOrUpdate(user);
     }
 
     @Override
-    public void removeUser(User user) {
+    public void remove(User user) {
         this.sessionFactory.getCurrentSession().remove(user);
     }
 
     @Override
-    public User getUserByName(String name) {
+    public User findById(Integer id) {
+        return this.sessionFactory.getCurrentSession().get(User.class, id);
+    }
+
+    @Override
+    public User findByName(String name) {
         return this.sessionFactory.getCurrentSession().byNaturalId(User.class).using("name", name).load();
     }
 
     @Override
-    public List<User> getAllUsers() {
+    public Collection<? extends User> findAll() {
         CriteriaBuilder cb = this.sessionFactory.getCriteriaBuilder();
         CriteriaQuery<User> criteria = cb.createQuery(User.class);
         Root<User> userRoot = criteria.from(User.class);
         criteria.select(userRoot);
         return this.sessionFactory.getCurrentSession().createQuery(criteria).getResultList();
-
     }
 }

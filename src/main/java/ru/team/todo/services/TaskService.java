@@ -49,7 +49,7 @@ public class TaskService {
             return new AddTaskResponse(List.of(new CoreError("The user is not switched")));
         }
 
-        this.repository.addTask(new Task(user.getId(), request.getName(), request.getDescription()));
+        this.repository.add(new Task(user.getId(), request.getName(), request.getDescription()));
         return new AddTaskResponse(List.of());
     }
 
@@ -63,12 +63,12 @@ public class TaskService {
             return new DeleteTaskByNameResponse(List.of(new CoreError("The user is not switched")));
         }
 
-        Task task = this.repository.getTaskByName(request.getName());
+        Task task = this.repository.findByName(request.getName());
         if (task == null) {
             return new DeleteTaskByNameResponse(List.of(new CoreError("Task with name '" + request.getName() + "' not found!")));
         }
 
-        this.repository.removeTask(task);
+        this.repository.remove(task);
         return new DeleteTaskByNameResponse(List.of());
 
     }
@@ -83,12 +83,12 @@ public class TaskService {
             return new DeleteTaskByIdResponse(List.of(new CoreError("The user is not switched")));
         }
 
-        Task task = this.repository.getTaskById(request.getId());
+        Task task = this.repository.findById(request.getId());
         if (task == null) {
             return new DeleteTaskByIdResponse(List.of(new CoreError("Task with id '" + request.getId() + "' not found!")));
         }
 
-        this.repository.removeTask(task);
+        this.repository.remove(task);
         return new DeleteTaskByIdResponse(List.of());
     }
 

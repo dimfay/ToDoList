@@ -8,7 +8,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
-import java.util.List;
+import java.util.Collection;
 
 @Repository
 @Transactional
@@ -19,23 +19,24 @@ public class LinkedTasksDatabase implements LinkedTasksRepository {
         this.sessionFactory = sessionFactory;
     }
 
+
     @Override
-    public void addLinkedTasks(LinkedTask linkedTasks) {
-        this.sessionFactory.getCurrentSession().saveOrUpdate(linkedTasks);
+    public void add(LinkedTask linkedTask) {
+        this.sessionFactory.getCurrentSession().saveOrUpdate(linkedTask);
     }
 
     @Override
-    public void removeLinkedTasks(LinkedTask linkedTasks) {
-        this.sessionFactory.getCurrentSession().remove(linkedTasks);
+    public void remove(LinkedTask linkedTask) {
+        this.sessionFactory.getCurrentSession().remove(linkedTask);
     }
 
     @Override
-    public LinkedTask getLinkedTasksByTaskId(int id) {
-        return null;
+    public LinkedTask findById(Integer id) {
+        return this.sessionFactory.getCurrentSession().get(LinkedTask.class, id);
     }
 
     @Override
-    public List<LinkedTask> getAllLinkedTasks() {
+    public Collection<? extends LinkedTask> findAll() {
         CriteriaBuilder cb = this.sessionFactory.getCriteriaBuilder();
         CriteriaQuery<LinkedTask> criteria = cb.createQuery(LinkedTask.class);
         Root<LinkedTask> userRoot = criteria.from(LinkedTask.class);
