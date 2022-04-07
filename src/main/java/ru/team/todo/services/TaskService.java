@@ -45,7 +45,7 @@ public class TaskService {
             return new AddTaskResponse(List.of(new CoreError("The user is not switched")));
         }
 
-        this.repository.add(new Task(user.getId(), request.getName(), request.getDescription()));
+        this.repository.add(new Task(user, request.getName(), request.getDescription()));
         return new AddTaskResponse(List.of());
     }
 

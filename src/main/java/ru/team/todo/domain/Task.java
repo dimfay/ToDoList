@@ -23,18 +23,16 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "userId", nullable = false)
-    private int userId;
+    @ManyToOne
+    @JoinColumn(name = "userId", referencedColumnName = "id", nullable = false)
+    private User user;
     @NaturalId
     @Column(name = "name", nullable = false)
     private String name;
     @Column(name = "description")
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "userId", insertable = false, updatable = false, nullable = false)
-    private User user;
-    @OneToMany(mappedBy = "taskId", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "task", fetch = FetchType.EAGER)
     private Set<LinkedTask> linkedTasks;
 
     public User getUser() {
@@ -49,15 +47,15 @@ public class Task {
 
     }
 
-    public Task(Integer id, int userId, String name, String desc) {
+    public Task(Integer id, User user, String name, String desc) {
         this.id = id;
-        this.userId = userId;
+        this.user = user;
         this.name = name;
         this.description = desc;
     }
 
-    public Task(int userId, String name, String desc) {
-        this.userId = userId;
+    public Task(User user, String name, String desc) {
+        this.user = user;
         this.name = name;
         this.description = desc;
     }
@@ -68,14 +66,6 @@ public class Task {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public int getUserId() {
-        return this.userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 
     public String getName() {
@@ -111,22 +101,21 @@ public class Task {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return userId == task.userId && Objects.equals(id, task.id) && Objects.equals(name, task.name) && Objects.equals(description, task.description);
+        return Objects.equals(id, task.id) && Objects.equals(name, task.name) && Objects.equals(description, task.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userId, name, description);
+        return Objects.hash(id, name, description);
     }
+
 
     @Override
     public String toString() {
         return "Task{" +
                 "id=" + id +
-                ", userId=" + userId +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", user=" + user +
                 ", linkedTasks=" + linkedTasks +
                 '}';
     }

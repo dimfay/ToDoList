@@ -42,7 +42,7 @@ public class LinkedTaskService {
             return new LinkTaskResponse(List.of(new CoreError("Second Task with name '" + request.getFirstTask() + "' not found!")));
         }
 
-        this.linkedTaskRepository.add(new LinkedTask(firstTask.getId(), secondTask.getId()));
+        this.linkedTaskRepository.add(new LinkedTask(firstTask, secondTask));
 
         return new LinkTaskResponse(List.of());
     }
