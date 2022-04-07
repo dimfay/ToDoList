@@ -7,6 +7,6 @@ public interface Repository<DATA, ID> {
     void add(DATA data);
     void remove(DATA data);
     DATA findById(ID id);
-    Collection<? extends DATA> findAll();
+    Collection<DATA> findAll();
 
 }

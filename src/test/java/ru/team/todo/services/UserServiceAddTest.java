@@ -35,12 +35,12 @@ public class UserServiceAddTest {
         String userName = "user";
         AddUserRequest request = new AddUserRequest(userName);
         when(addUserValidationService.validate(request)).thenReturn(List.of());
-        when(repository.getUserByName(userName)).thenReturn(null);
+        when(repository.findByName(userName)).thenReturn(null);
 
         AddUserResponse result = service.addUser(request);
 
         verify(addUserValidationService).validate(any());
-        verify(repository).getUserByName(any());
+        verify(repository).findByName(any());
 
         AddUserResponse excepted = new AddUserResponse(List.of());
 

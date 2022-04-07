@@ -35,12 +35,12 @@ public class UserServiceRemoveTest {
         String userName = "user";
         RemoveUserRequest request = new RemoveUserRequest(userName);
         when(removeUserValidationService.validate(request)).thenReturn(List.of());
-        when(repository.getUserByName(userName)).thenReturn(new User(userName));
+        when(repository.findByName(userName)).thenReturn(new User(userName));
 
         RemoveUserResponse result = service.removeUser(request);
 
         verify(removeUserValidationService).validate(any());
-        verify(repository).getUserByName(any());
+        verify(repository).findByName(any());
 
         RemoveUserResponse excepted = new RemoveUserResponse(List.of());
 

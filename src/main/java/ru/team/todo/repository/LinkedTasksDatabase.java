@@ -53,7 +53,7 @@ public class LinkedTasksDatabase implements LinkedTasksRepository {
     }
 
     @Override
-    public Collection<? extends LinkedTask> findAll() {
+    public Collection<LinkedTask> findAll() {
         CriteriaBuilder cb = this.sessionFactory.getCriteriaBuilder();
         CriteriaQuery<LinkedTask> criteria = cb.createQuery(LinkedTask.class);
         Root<LinkedTask> userRoot = criteria.from(LinkedTask.class);

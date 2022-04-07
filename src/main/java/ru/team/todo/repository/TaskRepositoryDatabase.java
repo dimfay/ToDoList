@@ -40,7 +40,7 @@ public class TaskRepositoryDatabase implements TaskRepository {
     }
 
     @Override
-    public Collection<? extends Task> findAll() {
+    public Collection<Task> findAll() {
         CriteriaBuilder cb = this.sessionFactory.getCriteriaBuilder();
         CriteriaQuery<Task> criteria = cb.createQuery(Task.class);
         Root<Task> userRoot = criteria.from(Task.class);

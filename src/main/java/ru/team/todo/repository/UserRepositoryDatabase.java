@@ -41,7 +41,7 @@ public class UserRepositoryDatabase implements UserRepository {
     }
 
     @Override
-    public Collection<? extends User> findAll() {
+    public Collection<User> findAll() {
         CriteriaBuilder cb = this.sessionFactory.getCriteriaBuilder();
         CriteriaQuery<User> criteria = cb.createQuery(User.class);
         Root<User> userRoot = criteria.from(User.class);
