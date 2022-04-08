@@ -18,7 +18,7 @@ public class ConsoleSession {
      * он извлекает еще и все таски этого пользователя, магическим образом через Hibernate.
      */
     public User getSwitchedUser() {
-        return this.repository.getUserByName(this.switchedUser);
+        return this.repository.findByName(this.switchedUser);
     }
 
     public void setSwitchedUser(String switchedUser) {

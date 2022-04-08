@@ -1,4 +1,4 @@
-package ru.team.todo.dto.tasks;
+package ru.team.todo.dto.linkedtasks;
 
 import java.util.Objects;
 

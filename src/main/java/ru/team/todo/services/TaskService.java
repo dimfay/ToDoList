@@ -12,10 +12,6 @@ import ru.team.todo.dto.tasks.DeleteTaskByNameRequest;
 import ru.team.todo.dto.tasks.DeleteTaskByNameResponse;
 import ru.team.todo.dto.tasks.FindTasksRequest;
 import ru.team.todo.dto.tasks.FindTasksResponse;
-import ru.team.todo.dto.tasks.LinkTaskRequest;
-import ru.team.todo.dto.tasks.LinkTaskResponse;
-import ru.team.todo.dto.tasks.UnlinkTaskRequest;
-import ru.team.todo.dto.tasks.UnlinkTaskResponse;
 import ru.team.todo.repository.TaskRepository;
 import ru.team.todo.ui.ConsoleSession;
 import ru.team.todo.validation.CoreError;
@@ -49,7 +45,7 @@ public class TaskService {
             return new AddTaskResponse(List.of(new CoreError("The user is not switched")));
         }
 
-        this.repository.addTask(new Task(user.getId(), request.getName(), request.getDescription()));
+        this.repository.add(new Task(user, request.getName(), request.getDescription()));
         return new AddTaskResponse(List.of());
     }
 
@@ -63,12 +59,12 @@ public class TaskService {
             return new DeleteTaskByNameResponse(List.of(new CoreError("The user is not switched")));
         }
 
-        Task task = this.repository.getTaskByName(request.getName());
+        Task task = this.repository.findByName(request.getName());
         if (task == null) {
             return new DeleteTaskByNameResponse(List.of(new CoreError("Task with name '" + request.getName() + "' not found!")));
         }
 
-        this.repository.removeTask(task);
+        this.repository.remove(task);
         return new DeleteTaskByNameResponse(List.of());
 
     }
@@ -83,16 +79,16 @@ public class TaskService {
             return new DeleteTaskByIdResponse(List.of(new CoreError("The user is not switched")));
         }
 
-        Task task = this.repository.getTaskById(request.getId());
+        Task task = this.repository.findById(request.getId());
         if (task == null) {
             return new DeleteTaskByIdResponse(List.of(new CoreError("Task with id '" + request.getId() + "' not found!")));
         }
 
-        this.repository.removeTask(task);
+        this.repository.remove(task);
         return new DeleteTaskByIdResponse(List.of());
     }
 
-    //Реквесты пока что нигде не используются
+    //TODO Реквесты пока что нигде не используются
     public FindTasksResponse findAllTasks(FindTasksRequest request) {
         User user = this.consoleSession.getSwitchedUser();
         if (user == null) {
@@ -100,46 +96,5 @@ public class TaskService {
         }
 
         return new FindTasksResponse(List.of(), user.getTasks());
-    }
-
-    public LinkTaskResponse linkTask(LinkTaskRequest request) {
-        User user = this.consoleSession.getSwitchedUser();
-        if (user == null) {
-            return new LinkTaskResponse(List.of(new CoreError("User is not switched")));
-        }
-
-        /*Task firstTask = user.getTaskByName(request.getFirstTask());
-        if (firstTask == null) {
-            return new LinkTaskResponse(List.of(new CoreError("User does not have the first task")));
-        }
-
-        Task secondTask = user.getTaskByName(request.getSecondTask());
-        if (secondTask == null) {
-            return new LinkTaskResponse(List.of(new CoreError("User does not have the second task")));
-        }
-
-        firstTask.linkTask(secondTask);*/
-        return new LinkTaskResponse(List.of());
-    }
-
-
-    public UnlinkTaskResponse unlinkTask(UnlinkTaskRequest request) {
-        User user = this.consoleSession.getSwitchedUser();
-        if (user == null) {
-            return new UnlinkTaskResponse(List.of(new CoreError("User is not switched")));
-        }
-
-        /*Task firstTask = user.getTaskByName(request.getFirstName());
-        if (firstTask == null) {
-            return new UnlinkTaskResponse(List.of(new CoreError("User does not have the first task")));
-        }
-
-        Task secondTask = user.getTaskByName(request.getSecondName());
-        if (secondTask == null) {
-            return new UnlinkTaskResponse(List.of(new CoreError("User does not have the second task")));
-        }
-
-        firstTask.unlinkTask(secondTask);*/
-        return new UnlinkTaskResponse(List.of());
     }
 }

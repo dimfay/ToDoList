@@ -44,12 +44,12 @@ public class UserService {
             return new AddUserResponse(validationResult);
         }
 
-        User tmpUser = this.repository.getUserByName(request.getName());
+        User tmpUser = this.repository.findByName(request.getName());
         if (tmpUser != null) {
             return new AddUserResponse(List.of(new CoreError("User '" + request.getName() + "' already exists!")));
         }
 
-        this.repository.addUser(new User(request.getName()));
+        this.repository.add(new User(request.getName()));
         return new AddUserResponse(List.of());
     }
 
@@ -59,12 +59,12 @@ public class UserService {
             return new RemoveUserResponse(validationResult);
         }
 
-        User tmpUser = this.repository.getUserByName(request.getName());
+        User tmpUser = this.repository.findByName(request.getName());
         if (tmpUser == null) {
             return new RemoveUserResponse(List.of(new CoreError("User '" + request.getName() + "' not found!")));
         }
 
-        this.repository.removeUser(tmpUser);
+        this.repository.remove(tmpUser);
         return new RemoveUserResponse(List.of());
     }
 
@@ -74,7 +74,7 @@ public class UserService {
             return new SwitchUserResponse(validationResult);
         }
 
-        User user = this.repository.getUserByName(request.getName());
+        User user = this.repository.findByName(request.getName());
         if (user == null) {
             return new SwitchUserResponse(List.of(new CoreError("User not selected.")));
         }
@@ -91,14 +91,14 @@ public class UserService {
 
         //Если запрос пустой, возвращаем всех пользователей
         if (request.getUsers().isEmpty()) {
-            return new FindUserResponse(List.of(), new ArrayList<>(this.repository.getAllUsers()));
+            return new FindUserResponse(List.of(), new ArrayList<>(this.repository.findAll()));
         }
 
         //Извлекаем каждого пользователя из репозитория по запросу
         List<CoreError> findError = new ArrayList<>();
         List<User> findUsers = new ArrayList<>();
         for (String requestedUser : request.getUsers()) {
-            User user = this.repository.getUserByName(requestedUser);
+            User user = this.repository.findByName(requestedUser);
             if (user == null) {
                 findError.add(new CoreError("User '" + requestedUser + "' not found!"));
                 continue;

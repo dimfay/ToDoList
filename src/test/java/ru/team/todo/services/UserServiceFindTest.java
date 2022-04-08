@@ -35,12 +35,12 @@ public class UserServiceFindTest {
         //Запрос без конкретных пользователей должен вернуть полный список всех пользователей
         FindUserRequest request = new FindUserRequest(List.of());
         when(findUserValidationService.validate(request)).thenReturn(List.of());
-        when(repository.getAllUsers()).thenReturn(List.of(new User("user_1"), new User("user_2")));
+        when(repository.findAll()).thenReturn(List.of(new User("user_1"), new User("user_2")));
 
         FindUserResponse result = service.findUsers(request);
 
         verify(findUserValidationService).validate(any());
-        verify(repository).getAllUsers();
+        verify(repository).findAll();
 
         FindUserResponse excepted = new FindUserResponse(List.of(), List.of(new User("user_1"), new User("user_2")));
 

@@ -2,8 +2,8 @@ package ru.team.todo.ui.commands.task;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ru.team.todo.dto.tasks.UnlinkTaskRequest;
-import ru.team.todo.services.TaskService;
+import ru.team.todo.dto.linkedtasks.UnlinkTaskRequest;
+import ru.team.todo.services.LinkedTaskService;
 import ru.team.todo.ui.commands.Command;
 
 import java.util.Scanner;
@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class UnlinkTaskCommand extends Command {
 
     @Autowired
-    private TaskService service;
+    private LinkedTaskService service;
 
     public UnlinkTaskCommand() {
         super("task unlink", "Delete subtasks from the task");

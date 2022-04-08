@@ -39,12 +39,12 @@ public class UserServiceSwitchTest {
         String userName = "user";
         SwitchUserRequest request = new SwitchUserRequest(userName);
         when(switchUserValidationService.validate(request)).thenReturn(List.of());
-        when(repository.getUserByName(userName)).thenReturn(new User(userName));
+        when(repository.findByName(userName)).thenReturn(new User(userName));
 
         SwitchUserResponse result = service.switchUser(request);
 
         verify(switchUserValidationService).validate(any());
-        verify(repository).getUserByName(any());
+        verify(repository).findByName(any());
 
         SwitchUserResponse excepted = new SwitchUserResponse(List.of());
 

@@ -4,13 +4,16 @@ import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "tasks")
@@ -20,17 +23,17 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "userId", nullable = false)
-    private int userId;
+    @ManyToOne
+    @JoinColumn(name = "userId", referencedColumnName = "id", nullable = false)
+    private User user;
     @NaturalId
-    @Column(name = "name", nullable = false, length = 255)
+    @Column(name = "name", nullable = false)
     private String name;
     @Column(name = "description")
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "userId", insertable = false, updatable = false, nullable = false)
-    private User user;
+    @OneToMany(mappedBy = "task", fetch = FetchType.EAGER)
+    private Set<LinkedTask> linkedTasks;
 
     public User getUser() {
         return this.user;
@@ -44,15 +47,15 @@ public class Task {
 
     }
 
-    public Task(Integer id, int userId, String name, String desc) {
+    public Task(Integer id, User user, String name, String desc) {
         this.id = id;
-        this.userId = userId;
+        this.user = user;
         this.name = name;
         this.description = desc;
     }
 
-    public Task(int userId, String name, String desc) {
-        this.userId = userId;
+    public Task(User user, String name, String desc) {
+        this.user = user;
         this.name = name;
         this.description = desc;
     }
@@ -63,14 +66,6 @@ public class Task {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public int getUserId() {
-        return this.userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 
     public String getName() {
@@ -93,12 +88,20 @@ public class Task {
         this.description = description;
     }
 
+    public Set<LinkedTask> getLinkedTasks() {
+        return linkedTasks;
+    }
+
+    public void setLinkedTasks(Set<LinkedTask> linkedTasks) {
+        this.linkedTasks = linkedTasks;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return id == task.id && Objects.equals(name, task.name) && Objects.equals(description, task.description);
+        return Objects.equals(id, task.id) && Objects.equals(name, task.name) && Objects.equals(description, task.description);
     }
 
     @Override
@@ -106,12 +109,14 @@ public class Task {
         return Objects.hash(id, name, description);
     }
 
+
     @Override
     public String toString() {
         return "Task{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", desc='" + description + '\'' +
+                ", description='" + description + '\'' +
+                ", linkedTasks=" + linkedTasks +
                 '}';
     }
 }

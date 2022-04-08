@@ -2,6 +2,7 @@ package ru.team.todo.ui.commands.task;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ru.team.todo.domain.LinkedTask;
 import ru.team.todo.domain.Task;
 import ru.team.todo.dto.tasks.FindTasksRequest;
 import ru.team.todo.services.TaskService;
@@ -37,10 +38,10 @@ public class FindTasksCommand extends Command {
 
         for (Task task : tasks) {
             System.out.println(task.getDisplayInfo());
-            /*
-            for (Task linked : task.getAllLinkedTasks()) {
-                System.out.println(" - " + linked.getDisplayInfo());
-            }*/
+
+            for (LinkedTask linkedTask : task.getLinkedTasks()) {
+                System.out.println(" - " + linkedTask.getLinkedTask().getDisplayInfo());
+            }
         }
     }
 }
