@@ -29,18 +29,19 @@ public class FindTasksResponse {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FindTasksResponse that = (FindTasksResponse) o;
-        return Objects.equals(errors, that.errors);
+        return Objects.equals(errors, that.errors) && Objects.equals(tasks, that.tasks);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(errors);
+        return Objects.hash(errors, tasks);
     }
 
     @Override
     public String toString() {
         return "FindTasksResponse{" +
                 "errors=" + errors +
+                ", tasks=" + tasks +
                 '}';
     }
 }

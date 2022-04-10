@@ -4,35 +4,50 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.team.todo.domain.User;
 import ru.team.todo.dto.tasks.AddTaskRequest;
+import ru.team.todo.dto.tasks.AddTaskResponse;
+import ru.team.todo.repository.TaskRepository;
 import ru.team.todo.ui.ConsoleSession;
 import ru.team.todo.validation.requests.task.AddTaskRequestValidation;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 class TaskServiceAddTest {
+
     @Mock
-    AddTaskRequestValidation validationService;
+    private TaskRepository repository;
+
     @Mock
-    ConsoleSession consoleSession;
+    private AddTaskRequestValidation addUserValidationService;
+
     @Mock
-    User user;
+    private ConsoleSession consoleSession;
+
     @InjectMocks
-    TaskService taskService;
+    private TaskService service;
 
     @Test
-    public void shouldSaveTask(){
-        var request = new AddTaskRequest("task1", "desc");
-        Mockito.when(validationService.validate(request)).thenReturn(List.of());
-        Mockito.when(consoleSession.getSwitchedUser()).thenReturn(user);
+    public void shouldSaveTask() {
+        var request = new AddTaskRequest("testTask", "desc");
+        when(addUserValidationService.validate(request)).thenReturn(List.of());
+        when(consoleSession.getSwitchedUser()).thenReturn(new User("testUser"));
 
-        var result = taskService.addTask(request);
+        AddTaskResponse result = service.addTask(request);
 
-        //Mockito.verify(user).addTask(request.getName(), request.getDescription());
+        verify(addUserValidationService).validate(any());
+        verify(consoleSession).getSwitchedUser();
+
+        AddTaskResponse excepted = new AddTaskResponse(List.of());
+
+        assertEquals(result, excepted);
 
     }
 
