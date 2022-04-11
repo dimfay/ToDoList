@@ -4,37 +4,53 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import ru.team.todo.domain.Task;
 import ru.team.todo.domain.User;
 import ru.team.todo.dto.tasks.DeleteTaskByNameRequest;
 import ru.team.todo.dto.tasks.DeleteTaskByNameResponse;
+import ru.team.todo.repository.TaskRepository;
 import ru.team.todo.ui.ConsoleSession;
 import ru.team.todo.validation.requests.task.DeleteTaskByNameRequestValidation;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class TaskServiceDeleteByNameTest {
+
     @Mock
-    DeleteTaskByNameRequestValidation validationService;
+    private TaskRepository repository;
+
     @Mock
-    ConsoleSession consoleSession;
+    private DeleteTaskByNameRequestValidation validationService;
+
     @Mock
-    User user;
+    private ConsoleSession consoleSession;
+
     @InjectMocks
-    TaskService taskService;
+    private TaskService service;
 
     @Test
-    public void shouldDeleteSuccessfully(){
-        var request = new DeleteTaskByNameRequest("task");
-        Mockito.when(validationService.validate(request)).thenReturn(List.of());
-        Mockito.when(consoleSession.getSwitchedUser()).thenReturn(user);
+    public void shouldDeleteSuccessfully() {
+        String taskMame = "testTask";
+        String taskDescription = "desc";
+        var request = new DeleteTaskByNameRequest("testTask");
+        when(validationService.validate(request)).thenReturn(List.of());
+        User user = new User("testUser");
+        when(consoleSession.getSwitchedUser()).thenReturn(user);
+        when(repository.findByName(taskMame)).thenReturn(new Task(1, user, taskMame, taskDescription));
 
-        var result = taskService.deleteTaskByName(request);
+        var result = service.deleteTaskByName(request);
+
+        verify(validationService).validate(any());
+        verify(consoleSession).getSwitchedUser();
+
         var expected = new DeleteTaskByNameResponse(List.of());
-        //Mockito.verify(user).deleteTaskByName(request.getName());
+
         assertEquals(expected, result);
     }
 
