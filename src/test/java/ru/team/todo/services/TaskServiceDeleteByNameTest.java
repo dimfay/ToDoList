@@ -48,6 +48,7 @@ class TaskServiceDeleteByNameTest {
 
         verify(validationService).validate(any());
         verify(consoleSession).getSwitchedUser();
+        verify(repository).remove(any());
 
         var expected = new DeleteTaskByNameResponse(List.of());
 

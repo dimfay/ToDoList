@@ -44,6 +44,7 @@ class TaskServiceAddTest {
 
         verify(addUserValidationService).validate(any());
         verify(consoleSession).getSwitchedUser();
+        verify(repository).add(any());
 
         AddTaskResponse excepted = new AddTaskResponse(List.of());
 
