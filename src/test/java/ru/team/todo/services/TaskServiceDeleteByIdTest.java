@@ -47,6 +47,7 @@ class TaskServiceDeleteByIdTest {
 
         verify(validationService).validate(any());
         verify(consoleSession).getSwitchedUser();
+        verify(repository).remove(any());
 
         var expected = new DeleteTaskByIdResponse(List.of());
 
