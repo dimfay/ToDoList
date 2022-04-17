@@ -15,6 +15,7 @@ public class User {
     private final String name;
     private final Map<Integer, Task> tasksId = new HashMap<>();
     private final Map<String, Task> tasksName = new HashMap<>();
+    @NonNull
     private int nextTaskId = 1;
 
 
