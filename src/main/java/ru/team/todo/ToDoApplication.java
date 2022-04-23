@@ -1,18 +1,12 @@
 package ru.team.todo;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import ru.team.todo.config.ToDoConfiguration;
-import ru.team.todo.ui.Menu;
-
+@SpringBootApplication
 public class ToDoApplication {
 
     public static void main(String[] args) {
-        ApplicationContext context =
-                new AnnotationConfigApplicationContext(ToDoConfiguration.class);
-
-        var menu = context.getBean(Menu.class);
-        menu.startUI();
+        SpringApplication.run(ToDoApplication.class);
     }
 }

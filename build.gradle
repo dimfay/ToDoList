@@ -4,11 +4,19 @@
  * This is a general purpose Gradle build.
  * Learn more about Gradle by exploring our samples at https://docs.gradle.org/7.4/samples
  */
-apply plugin: "idea"
-apply plugin: "eclipse"
-apply plugin: "java"
 
-compileJava { options.encoding = "UTF-8" }
+plugins {
+    id 'org.springframework.boot' version '2.6.6'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id "idea"
+    id "eclipse"
+    id 'java'
+    id 'war'
+}
+
+compileJava {
+    options.encoding = "UTF-8"
+}
 
 idea {
     module {
@@ -27,7 +35,9 @@ repositories {
 }
 
 dependencies {
-    implementation group: 'org.springframework', name: 'spring-context', version: '5.3.16'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     implementation group: 'org.springframework', name: 'spring-jdbc', version: '5.3.16'
     implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.28'
     implementation group: 'org.apache.commons', name: 'commons-dbcp2', version: '2.9.0'
@@ -35,11 +45,6 @@ dependencies {
     implementation group: 'org.hibernate', name: 'hibernate-entitymanager', version: '5.6.7.Final'
     implementation group: 'org.springframework', name: 'spring-tx', version: '5.3.17'
     implementation group: 'org.springframework', name: 'spring-orm', version: '5.3.17'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
-    testImplementation 'org.mockito:mockito-core:4.3.1'
-    testImplementation 'org.mockito:mockito-junit-jupiter:4.3.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
-    testRuntimeOnly group: 'org.springframework', name: 'spring-test', version: '5.3.16'
     implementation group: 'org.liquibase', name: 'liquibase-core', version: '4.9.1'
 }
 
