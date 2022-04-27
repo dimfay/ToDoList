@@ -1,5 +1,6 @@
 package ru.team.todo.repository;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import ru.team.todo.domain.Task;
@@ -21,31 +22,41 @@ public class TaskRepositoryDatabase implements TaskRepository {
 
     @Override
     public void add(Task task) {
-        this.sessionFactory.openSession().saveOrUpdate(task);
+        try (Session session = this.sessionFactory.openSession()) {
+            session.saveOrUpdate(task);
+        }
     }
 
     @Override
     public void remove(Task task) {
-        this.sessionFactory.openSession().remove(task);
+        try (Session session = this.sessionFactory.openSession()) {
+            session.remove(task);
+        }
     }
 
     @Override
     public Task findById(Integer id) {
-        return this.sessionFactory.openSession().get(Task.class, id);
+        try (Session session = this.sessionFactory.openSession()) {
+            return session.get(Task.class, id);
+        }
     }
 
     @Override
     public Task findByName(String name) {
-        return this.sessionFactory.openSession().byNaturalId(Task.class).using("name", name).load();
+        try (Session session = this.sessionFactory.openSession()) {
+            return session.byNaturalId(Task.class).using("name", name).load();
+        }
     }
 
     @Override
     public Collection<Task> findAll() {
-        CriteriaBuilder cb = this.sessionFactory.getCriteriaBuilder();
-        CriteriaQuery<Task> criteria = cb.createQuery(Task.class);
-        Root<Task> userRoot = criteria.from(Task.class);
-        criteria.select(userRoot);
-        return this.sessionFactory.openSession().createQuery(criteria).getResultList();
+        try (Session session = this.sessionFactory.openSession()) {
+            CriteriaBuilder cb = this.sessionFactory.getCriteriaBuilder();
+            CriteriaQuery<Task> criteria = cb.createQuery(Task.class);
+            Root<Task> userRoot = criteria.from(Task.class);
+            criteria.select(userRoot);
+            return session.createQuery(criteria).getResultList();
+        }
     }
 
 }
