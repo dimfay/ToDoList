@@ -21,22 +21,22 @@ public class TaskRepositoryDatabase implements TaskRepository {
 
     @Override
     public void add(Task task) {
-        this.sessionFactory.getCurrentSession().saveOrUpdate(task);
+        this.sessionFactory.openSession().saveOrUpdate(task);
     }
 
     @Override
     public void remove(Task task) {
-        this.sessionFactory.getCurrentSession().remove(task);
+        this.sessionFactory.openSession().remove(task);
     }
 
     @Override
     public Task findById(Integer id) {
-        return this.sessionFactory.getCurrentSession().get(Task.class, id);
+        return this.sessionFactory.openSession().get(Task.class, id);
     }
 
     @Override
     public Task findByName(String name) {
-        return this.sessionFactory.getCurrentSession().byNaturalId(Task.class).using("name", name).load();
+        return this.sessionFactory.openSession().byNaturalId(Task.class).using("name", name).load();
     }
 
     @Override
@@ -45,7 +45,7 @@ public class TaskRepositoryDatabase implements TaskRepository {
         CriteriaQuery<Task> criteria = cb.createQuery(Task.class);
         Root<Task> userRoot = criteria.from(Task.class);
         criteria.select(userRoot);
-        return this.sessionFactory.getCurrentSession().createQuery(criteria).getResultList();
+        return this.sessionFactory.openSession().createQuery(criteria).getResultList();
     }
 
 }

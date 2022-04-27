@@ -22,22 +22,22 @@ public class UserRepositoryDatabase implements UserRepository {
 
     @Override
     public void add(User user) {
-        this.sessionFactory.getCurrentSession().saveOrUpdate(user);
+        this.sessionFactory.openSession().saveOrUpdate(user);
     }
 
     @Override
     public void remove(User user) {
-        this.sessionFactory.getCurrentSession().remove(user);
+        this.sessionFactory.openSession().remove(user);
     }
 
     @Override
     public User findById(Integer id) {
-        return this.sessionFactory.getCurrentSession().get(User.class, id);
+        return this.sessionFactory.openSession().get(User.class, id);
     }
 
     @Override
     public User findByName(String name) {
-        return this.sessionFactory.getCurrentSession().byNaturalId(User.class).using("name", name).load();
+        return this.sessionFactory.openSession().byNaturalId(User.class).using("name", name).load();
     }
 
     @Override
@@ -46,6 +46,6 @@ public class UserRepositoryDatabase implements UserRepository {
         CriteriaQuery<User> criteria = cb.createQuery(User.class);
         Root<User> userRoot = criteria.from(User.class);
         criteria.select(userRoot);
-        return this.sessionFactory.getCurrentSession().createQuery(criteria).getResultList();
+        return this.sessionFactory.openSession().createQuery(criteria).getResultList();
     }
 }

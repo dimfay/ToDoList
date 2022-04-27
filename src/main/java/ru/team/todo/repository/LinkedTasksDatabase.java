@@ -22,22 +22,22 @@ public class LinkedTasksDatabase implements LinkedTasksRepository {
 
     @Override
     public void add(LinkedTask linkedTask) {
-        this.sessionFactory.getCurrentSession().saveOrUpdate(linkedTask);
+        this.sessionFactory.openSession().saveOrUpdate(linkedTask);
     }
 
     @Override
     public void remove(LinkedTask linkedTask) {
-        this.sessionFactory.getCurrentSession().remove(linkedTask);
+        this.sessionFactory.openSession().remove(linkedTask);
     }
 
     @Override
     public LinkedTask findById(Integer id) {
-        return this.sessionFactory.getCurrentSession().get(LinkedTask.class, id);
+        return this.sessionFactory.openSession().get(LinkedTask.class, id);
     }
 
     @Override
     public LinkedTask findLinkedTaskByTasksId(int firstTask, int secondTask) {
-        List<LinkedTask> linkedTasks = this.sessionFactory.getCurrentSession()
+        List<LinkedTask> linkedTasks = this.sessionFactory.openSession()
                 .createQuery("FROM LinkedTask WHERE taskId = :taskId AND linkedTaskId = :linkedTaskId", LinkedTask.class)
                 .setParameter("taskId", firstTask)
                 .setParameter("linkedTaskId", secondTask)
@@ -58,7 +58,7 @@ public class LinkedTasksDatabase implements LinkedTasksRepository {
         CriteriaQuery<LinkedTask> criteria = cb.createQuery(LinkedTask.class);
         Root<LinkedTask> userRoot = criteria.from(LinkedTask.class);
         criteria.select(userRoot);
-        return this.sessionFactory.getCurrentSession().createQuery(criteria).getResultList();
+        return this.sessionFactory.openSession().createQuery(criteria).getResultList();
     }
 
 }
