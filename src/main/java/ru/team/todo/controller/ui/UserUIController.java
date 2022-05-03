@@ -3,6 +3,8 @@ package ru.team.todo.controller.ui;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.team.todo.dto.users.AddUserRequest;
 import ru.team.todo.dto.users.FindUserRequest;
@@ -27,10 +29,17 @@ public class UserUIController {
         model.addAttribute("users", response.getUsers());
         return "users";
     }
+
     @GetMapping("/adduser")
-    public String addUser(Model model) {
+    public String addUserView(Model model) {
         model.addAttribute("user", new AddUserRequest());
         return "adduser";
+    }
+
+    @PostMapping("/adduser")
+    public String addUser(@ModelAttribute AddUserRequest request) {
+        this.userService.addUser(request);
+        return "redirect:/ui/users";
     }
 
 }
