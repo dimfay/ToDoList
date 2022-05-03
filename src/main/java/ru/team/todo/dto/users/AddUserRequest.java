@@ -4,7 +4,10 @@ import java.util.Objects;
 
 public class AddUserRequest implements NameableUserRequest {
 
-    private final String name;
+    private String name;
+
+    public AddUserRequest() {
+    }
 
     public AddUserRequest(String name) {
         this.name = name;

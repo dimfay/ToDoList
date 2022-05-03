@@ -1,5 +1,6 @@
 package ru.team.todo.repository;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import ru.team.todo.domain.User;
@@ -22,30 +23,40 @@ public class UserRepositoryDatabase implements UserRepository {
 
     @Override
     public void add(User user) {
-        this.sessionFactory.getCurrentSession().saveOrUpdate(user);
+        try (Session session = this.sessionFactory.openSession()) {
+            session.saveOrUpdate(user);
+        }
     }
 
     @Override
     public void remove(User user) {
-        this.sessionFactory.getCurrentSession().remove(user);
+        try (Session session = this.sessionFactory.openSession()) {
+            session.remove(user);
+        }
     }
 
     @Override
     public User findById(Integer id) {
-        return this.sessionFactory.getCurrentSession().get(User.class, id);
+        try (Session session = this.sessionFactory.openSession()) {
+            return session.get(User.class, id);
+        }
     }
 
     @Override
     public User findByName(String name) {
-        return this.sessionFactory.getCurrentSession().byNaturalId(User.class).using("name", name).load();
+        try (Session session = this.sessionFactory.openSession()) {
+            return session.byNaturalId(User.class).using("name", name).load();
+        }
     }
 
     @Override
     public Collection<User> findAll() {
-        CriteriaBuilder cb = this.sessionFactory.getCriteriaBuilder();
-        CriteriaQuery<User> criteria = cb.createQuery(User.class);
-        Root<User> userRoot = criteria.from(User.class);
-        criteria.select(userRoot);
-        return this.sessionFactory.getCurrentSession().createQuery(criteria).getResultList();
+        try (Session session = this.sessionFactory.openSession()) {
+            CriteriaBuilder cb = this.sessionFactory.getCriteriaBuilder();
+            CriteriaQuery<User> criteria = cb.createQuery(User.class);
+            Root<User> userRoot = criteria.from(User.class);
+            criteria.select(userRoot);
+            return session.createQuery(criteria).getResultList();
+        }
     }
 }
