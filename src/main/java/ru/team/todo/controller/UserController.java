@@ -1,4 +1,4 @@
-package ru.team.todo.controller.rest;
+package ru.team.todo.controller;
 
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,11 +15,11 @@ import ru.team.todo.services.UserService;
 import java.util.List;
 
 @RestController
-public class UserRestController {
+public class UserController {
 
     private final UserService userService;
 
-    public UserRestController(UserService userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 

@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class RemoveUserRequest implements NameableUserRequest {
 
-    private String name;
+    private final String name;
 
     public RemoveUserRequest(String name) {
         this.name = name;
@@ -13,11 +13,6 @@ public class RemoveUserRequest implements NameableUserRequest {
     @Override
     public String getName() {
         return this.name;
-    }
-
-    @Override
-    public void setName(String name) {
-        this.name = name;
     }
 
     @Override

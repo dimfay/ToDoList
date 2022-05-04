@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class SwitchUserRequest implements NameableUserRequest {
 
-    private String name;
+    private final String name;
 
     public SwitchUserRequest(String name) {
         this.name = name;
@@ -13,11 +13,6 @@ public class SwitchUserRequest implements NameableUserRequest {
     @Override
     public String getName() {
         return this.name;
-    }
-
-    @Override
-    public void setName(String name) {
-        this.name = name;
     }
 
     @Override
