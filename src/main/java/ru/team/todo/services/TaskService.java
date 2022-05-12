@@ -12,6 +12,7 @@ import ru.team.todo.dto.tasks.DeleteTaskByNameRequest;
 import ru.team.todo.dto.tasks.DeleteTaskByNameResponse;
 import ru.team.todo.dto.tasks.FindTasksRequest;
 import ru.team.todo.dto.tasks.FindTasksResponse;
+import ru.team.todo.dto.users.FindUserResponse;
 import ru.team.todo.repository.TaskRepository;
 import ru.team.todo.ui.ConsoleSession;
 import ru.team.todo.validation.CoreError;
@@ -91,6 +92,14 @@ public class TaskService {
     //TODO Реквесты пока что нигде не используются
     public FindTasksResponse findAllTasks(FindTasksRequest request) {
         User user = this.consoleSession.getSwitchedUser();
+        if (user == null) {
+            return new FindTasksResponse(List.of(new CoreError("The user is not switched")), List.of());
+        }
+
+        return new FindTasksResponse(List.of(), user.getTasks());
+    }
+
+    public FindTasksResponse findUserTasks(FindTasksRequest request, User user){
         if (user == null) {
             return new FindTasksResponse(List.of(new CoreError("The user is not switched")), List.of());
         }
