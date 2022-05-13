@@ -12,6 +12,8 @@ import ru.team.todo.dto.tasks.DeleteTaskByNameRequest;
 import ru.team.todo.dto.tasks.DeleteTaskByNameResponse;
 import ru.team.todo.dto.tasks.FindTasksRequest;
 import ru.team.todo.dto.tasks.FindTasksResponse;
+import ru.team.todo.dto.users.FindUserRequest;
+import ru.team.todo.dto.users.FindUserResponse;
 import ru.team.todo.repository.TaskRepository;
 import ru.team.todo.ui.ConsoleSession;
 import ru.team.todo.validation.CoreError;
@@ -34,6 +36,8 @@ public class TaskService {
     private DeleteTaskByIdRequestValidation deleteTaskByIdValidationService;
     @Autowired
     private DeleteTaskByNameRequestValidation deleteTaskByNameValidationService;
+    @Autowired
+    private UserService userService;
 
     public AddTaskResponse addTask(AddTaskRequest request) {
         var validationResult = addTaskValidationService.validate(request);
@@ -41,6 +45,21 @@ public class TaskService {
             return new AddTaskResponse(validationResult);
         }
         User user = this.consoleSession.getSwitchedUser();
+        if (user == null) {
+            return new AddTaskResponse(List.of(new CoreError("The user is not switched")));
+        }
+
+        this.repository.add(new Task(user, request.getName(), request.getDescription()));
+        return new AddTaskResponse(List.of());
+    }
+
+    public AddTaskResponse addTask(AddTaskRequest request, String username){
+        var validationResult = addTaskValidationService.validate(request);
+        if (!validationResult.isEmpty()) {
+            return new AddTaskResponse(validationResult);
+        }
+        var userResponse = userService.findUsers(new FindUserRequest(List.of(username)));
+        var user = userResponse.getUsers().get(0);
         if (user == null) {
             return new AddTaskResponse(List.of(new CoreError("The user is not switched")));
         }
@@ -91,6 +110,14 @@ public class TaskService {
     //TODO Реквесты пока что нигде не используются
     public FindTasksResponse findAllTasks(FindTasksRequest request) {
         User user = this.consoleSession.getSwitchedUser();
+        if (user == null) {
+            return new FindTasksResponse(List.of(new CoreError("The user is not switched")), List.of());
+        }
+
+        return new FindTasksResponse(List.of(), user.getTasks());
+    }
+
+    public FindTasksResponse findUserTasks(FindTasksRequest request, User user){
         if (user == null) {
             return new FindTasksResponse(List.of(new CoreError("The user is not switched")), List.of());
         }

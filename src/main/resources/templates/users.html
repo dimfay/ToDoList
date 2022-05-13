@@ -13,7 +13,7 @@
     </thead>
     <tbody>
     <tr th:each="user : ${users}">
-        <td><span th:text="${user.name}"> Name </span></td>
+        <td><a th:href="@{/ui/users/{username}/tasks(username=${user.name})}"><span th:text="${user.name}"> Name </span></a></td>
     </tr>
     </tbody>
 </table>

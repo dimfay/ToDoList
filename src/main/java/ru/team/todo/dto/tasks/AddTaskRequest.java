@@ -3,8 +3,12 @@ package ru.team.todo.dto.tasks;
 import java.util.Objects;
 
 public class AddTaskRequest implements NameableTaskRequest {
-    private final String name;
-    private final String description;
+    private String name;
+    private String description;
+
+    public AddTaskRequest(){
+
+    }
 
     public AddTaskRequest(String name, String description){
         this.name = name;
@@ -13,6 +17,14 @@ public class AddTaskRequest implements NameableTaskRequest {
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getDescription() {
