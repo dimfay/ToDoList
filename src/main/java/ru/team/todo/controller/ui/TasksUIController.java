@@ -44,8 +44,8 @@ public class TasksUIController {
     }
 
     @PostMapping("/users/{username}/addtask")
-    public String addTask(@ModelAttribute AddTaskRequest request){
-        taskService.addTask(request);
+    public String addTask(@PathVariable("username") String username, @ModelAttribute AddTaskRequest request){
+        taskService.addTask(request, username);
         return "redirect:/ui/users/{username}/tasks";
     }
 }
