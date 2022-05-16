@@ -5,4 +5,6 @@ import ru.team.todo.domain.LinkedTask;
 
 public interface LinkedTasksRepository extends JpaRepository<LinkedTask, Integer> {
 
+    public LinkedTask findByTaskIdAndLinkedTaskId(int taskId, int linkedTaskId);
+
 }

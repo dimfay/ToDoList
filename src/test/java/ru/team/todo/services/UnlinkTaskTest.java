@@ -45,13 +45,13 @@ class UnlinkTaskTest {
                 .thenReturn(firstTask);
         when(taskRepository.findByName(request.getSecondTask()))
                 .thenReturn(secondTask);
-        //when(linkedTasksRepository.findLinkedTaskByTasksId(1, 2)).thenReturn(new LinkedTask(1, firstTask, secondTask));
+        when(linkedTasksRepository.findByTaskIdAndLinkedTaskId(1, 2)).thenReturn(new LinkedTask(1, firstTask, secondTask));
 
         var result = linkedTaskService.unlinkTask(request);
 
         verify(consoleSession).getSwitchedUser();
         verify(taskRepository, Mockito.times(2)).findByName(Mockito.any());
-        //verify(linkedTasksRepository).findLinkedTaskByTasksId(1, 2);
+        verify(linkedTasksRepository).findByTaskIdAndLinkedTaskId(1, 2);
         verify(linkedTasksRepository).delete(Mockito.any());
 
         var expected = new UnlinkTaskResponse(List.of());
