@@ -14,6 +14,7 @@ import ru.team.todo.ui.ConsoleSession;
 import ru.team.todo.validation.requests.task.DeleteTaskByIdRequestValidation;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -41,13 +42,13 @@ class TaskServiceDeleteByIdTest {
         when(validationService.validate(request)).thenReturn(List.of());
         User user = new User("testUser");
         when(consoleSession.getSwitchedUser()).thenReturn(user);
-        when(repository.findById(1)).thenReturn(new Task(1, user, "testTask", "desc"));
+        when(repository.findById(1)).thenReturn(Optional.of(new Task(1, user, "testTask", "desc")));
 
         var result = service.deleteTaskById(request);
 
         verify(validationService).validate(any());
         verify(consoleSession).getSwitchedUser();
-        verify(repository).remove(any());
+        verify(repository).delete(any());
 
         var expected = new DeleteTaskByIdResponse(List.of());
 

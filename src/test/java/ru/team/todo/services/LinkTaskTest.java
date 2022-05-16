@@ -44,7 +44,7 @@ class LinkTaskTest {
 
         verify(consoleSession).getSwitchedUser();
         verify(taskRepository, Mockito.times(2)).findByName(Mockito.any());
-        verify(linkedTasksRepository).add(Mockito.any());
+        verify(linkedTasksRepository).save(Mockito.any());
 
         var expected = new LinkTaskResponse(List.of());
         assertEquals(expected, result);
