@@ -49,7 +49,7 @@ public class UserService {
             return new AddUserResponse(List.of(new CoreError("User '" + request.getName() + "' already exists!")));
         }
 
-        this.repository.add(new User(request.getName()));
+        this.repository.save(new User(request.getName()));
         return new AddUserResponse(List.of());
     }
 
@@ -64,7 +64,7 @@ public class UserService {
             return new RemoveUserResponse(List.of(new CoreError("User '" + request.getName() + "' not found!")));
         }
 
-        this.repository.remove(tmpUser);
+        this.repository.delete(tmpUser);
         return new RemoveUserResponse(List.of());
     }
 

@@ -22,6 +22,7 @@ import ru.team.todo.validation.requests.task.DeleteTaskByIdRequestValidation;
 import ru.team.todo.validation.requests.task.DeleteTaskByNameRequestValidation;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TaskService {
@@ -49,7 +50,7 @@ public class TaskService {
             return new AddTaskResponse(List.of(new CoreError("The user is not switched")));
         }
 
-        this.repository.add(new Task(user, request.getName(), request.getDescription()));
+        this.repository.save(new Task(user, request.getName(), request.getDescription()));
         return new AddTaskResponse(List.of());
     }
 
@@ -64,7 +65,7 @@ public class TaskService {
             return new AddTaskResponse(List.of(new CoreError("The user is not switched")));
         }
 
-        this.repository.add(new Task(user, request.getName(), request.getDescription()));
+        this.repository.save(new Task(user, request.getName(), request.getDescription()));
         return new AddTaskResponse(List.of());
     }
 
@@ -83,7 +84,7 @@ public class TaskService {
             return new DeleteTaskByNameResponse(List.of(new CoreError("Task with name '" + request.getName() + "' not found!")));
         }
 
-        this.repository.remove(task);
+        this.repository.delete(task);
         return new DeleteTaskByNameResponse(List.of());
 
     }
@@ -98,12 +99,12 @@ public class TaskService {
             return new DeleteTaskByIdResponse(List.of(new CoreError("The user is not switched")));
         }
 
-        Task task = this.repository.findById(request.getId());
-        if (task == null) {
+        Optional<Task> task = this.repository.findById(request.getId());
+        if (task.isEmpty()) {
             return new DeleteTaskByIdResponse(List.of(new CoreError("Task with id '" + request.getId() + "' not found!")));
         }
 
-        this.repository.remove(task);
+        this.repository.delete(task.get());
         return new DeleteTaskByIdResponse(List.of());
     }
 
