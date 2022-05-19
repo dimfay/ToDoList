@@ -42,7 +42,7 @@ public class LinkedTaskService {
             return new LinkTaskResponse(List.of(new CoreError("Second Task with name '" + request.getFirstTask() + "' not found!")));
         }
 
-        this.linkedTaskRepository.add(new LinkedTask(firstTask, secondTask));
+        this.linkedTaskRepository.save(new LinkedTask(firstTask, secondTask));
 
         return new LinkTaskResponse(List.of());
     }
@@ -63,12 +63,12 @@ public class LinkedTaskService {
             return new UnlinkTaskResponse(List.of(new CoreError("Second Task with name '" + request.getFirstTask() + "' not found!")));
         }
 
-        LinkedTask linkedTask = this.linkedTaskRepository.findLinkedTaskByTasksId(firstTask.getId(), secondTask.getId());
+        LinkedTask linkedTask = this.linkedTaskRepository.findByTaskIdAndLinkedTaskId(firstTask.getId(), secondTask.getId());
         if (linkedTask == null) {
             return new UnlinkTaskResponse(List.of(new CoreError("Task '" + request.getFirstTask() + "' and Task '" + request.getSecondTask() + "' is not linked!")));
         }
 
-        this.linkedTaskRepository.remove(linkedTask);
+        this.linkedTaskRepository.delete(linkedTask);
 
         return new UnlinkTaskResponse(List.of());
     }

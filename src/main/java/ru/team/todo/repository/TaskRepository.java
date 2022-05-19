@@ -1,7 +1,10 @@
 package ru.team.todo.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import ru.team.todo.domain.Task;
 
-public interface TaskRepository extends NameableRepository<Task, Integer> {
+public interface TaskRepository extends JpaRepository<Task, Integer> {
+
+    public Task findByName(String name);
 
 }
