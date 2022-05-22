@@ -8,11 +8,8 @@ import ru.team.todo.dto.users.FindUserRequest;
 import ru.team.todo.dto.users.FindUserResponse;
 import ru.team.todo.dto.users.RemoveUserRequest;
 import ru.team.todo.dto.users.RemoveUserResponse;
-import ru.team.todo.dto.users.SwitchUserRequest;
-import ru.team.todo.dto.users.SwitchUserResponse;
 import ru.team.todo.domain.User;
 import ru.team.todo.repository.UserRepository;
-import ru.team.todo.ui.ConsoleSession;
 import ru.team.todo.validation.CoreError;
 import ru.team.todo.validation.requests.user.AddUserRequestValidation;
 import ru.team.todo.validation.requests.user.FindUserRequestValidation;
@@ -27,8 +24,6 @@ public class UserService {
 
     @Autowired
     private UserRepository repository;
-    @Autowired
-    private ConsoleSession consoleSession;
     @Autowired
     private AddUserRequestValidation addUserValidationService;
     @Autowired
@@ -66,21 +61,6 @@ public class UserService {
 
         this.repository.delete(tmpUser);
         return new RemoveUserResponse(List.of());
-    }
-
-    public SwitchUserResponse switchUser(SwitchUserRequest request) {
-        var validationResult = this.switchUserValidationService.validate(request);
-        if (!validationResult.isEmpty()) {
-            return new SwitchUserResponse(validationResult);
-        }
-
-        User user = this.repository.findByName(request.getName());
-        if (user == null) {
-            return new SwitchUserResponse(List.of(new CoreError("User not selected.")));
-        }
-
-        this.consoleSession.setSwitchedUser(request.getName());
-        return new SwitchUserResponse(List.of());
     }
 
     public FindUserResponse findUsers(FindUserRequest request) {

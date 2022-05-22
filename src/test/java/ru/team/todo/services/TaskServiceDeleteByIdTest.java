@@ -7,11 +7,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.team.todo.domain.Task;
 import ru.team.todo.domain.User;
-import ru.team.todo.dto.tasks.DeleteTaskByIdRequest;
-import ru.team.todo.dto.tasks.DeleteTaskByIdResponse;
+import ru.team.todo.dto.tasks.DeleteTaskRequest;
+import ru.team.todo.dto.tasks.DeleteTaskResponse;
 import ru.team.todo.repository.TaskRepository;
-import ru.team.todo.ui.ConsoleSession;
-import ru.team.todo.validation.requests.task.DeleteTaskByIdRequestValidation;
+import ru.team.todo.validation.requests.task.DeleteTaskRequestValidation;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +27,7 @@ class TaskServiceDeleteByIdTest {
     private TaskRepository repository;
 
     @Mock
-    private DeleteTaskByIdRequestValidation  validationService;
+    private DeleteTaskRequestValidation validationService;
 
     @Mock
     private ConsoleSession consoleSession;
@@ -38,7 +37,7 @@ class TaskServiceDeleteByIdTest {
 
     @Test
     public void shouldDeleteSuccessfully(){
-        var request = new DeleteTaskByIdRequest(1);
+        var request = new DeleteTaskRequest(1);
         when(validationService.validate(request)).thenReturn(List.of());
         User user = new User("testUser");
         when(consoleSession.getSwitchedUser()).thenReturn(user);
@@ -50,7 +49,7 @@ class TaskServiceDeleteByIdTest {
         verify(consoleSession).getSwitchedUser();
         verify(repository).delete(any());
 
-        var expected = new DeleteTaskByIdResponse(List.of());
+        var expected = new DeleteTaskResponse(List.of());
 
         assertEquals(expected, result);
     }

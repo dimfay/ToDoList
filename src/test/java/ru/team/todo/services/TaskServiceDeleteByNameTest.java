@@ -7,14 +7,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.team.todo.domain.Task;
 import ru.team.todo.domain.User;
-import ru.team.todo.dto.tasks.DeleteTaskByNameRequest;
-import ru.team.todo.dto.tasks.DeleteTaskByNameResponse;
 import ru.team.todo.repository.TaskRepository;
-import ru.team.todo.ui.ConsoleSession;
-import ru.team.todo.validation.requests.task.DeleteTaskByNameRequestValidation;
+
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;

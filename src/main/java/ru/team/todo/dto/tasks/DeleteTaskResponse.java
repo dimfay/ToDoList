@@ -5,14 +5,14 @@ import ru.team.todo.validation.CoreError;
 import java.util.List;
 import java.util.Objects;
 
-public class DeleteTaskByNameResponse {
+public class DeleteTaskResponse {
     private final List<CoreError> errors;
 
-    public DeleteTaskByNameResponse(List<CoreError> errors){
+    public DeleteTaskResponse(List<CoreError> errors){
         this.errors = errors;
     }
 
-    public List<CoreError> getErrors(){
+    public List<CoreError> getErrors() {
         return errors;
     }
 
@@ -20,7 +20,7 @@ public class DeleteTaskByNameResponse {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        DeleteTaskByNameResponse that = (DeleteTaskByNameResponse) o;
+        DeleteTaskResponse that = (DeleteTaskResponse) o;
         return Objects.equals(errors, that.errors);
     }
 
@@ -31,7 +31,7 @@ public class DeleteTaskByNameResponse {
 
     @Override
     public String toString() {
-        return "DeleteTaskByNameResponse{" +
+        return "DeleteTaksResponseById{" +
                 "errors=" + errors +
                 '}';
     }

@@ -8,7 +8,7 @@ public class MaxTaskNameLengthRule<T extends NameableTaskRequest> implements Val
 
     @Override
     public void onValidate(T task) {
-        if (task.getName().length() > 15) {
+        if (task.getTaskName().length() > 15) {
             throw new ValidationException("Task name should not exceed 15 characters.");
         }
     }

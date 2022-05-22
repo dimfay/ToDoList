@@ -21,13 +21,15 @@ public class UnlinkTaskCommand extends Command {
     @Override
     public void execute(){
         Scanner scanner = new Scanner(System.in);
+        System.out.println("Please enter user name: ");
+        String userName = scanner.nextLine();
         System.out.println("Please enter first task name: ");
         String firstTaskName = scanner.nextLine();
 
         System.out.println("Please enter second task name to link: ");
         String secondTaskName = scanner.nextLine();
 
-       var request = new UnlinkTaskRequest(firstTaskName, secondTaskName);
+       var request = new UnlinkTaskRequest(userName, firstTaskName, secondTaskName);
        var response = service.unlinkTask(request);
 
         System.out.println("Received response: " + response);

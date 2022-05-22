@@ -11,7 +11,7 @@ import ru.team.todo.dto.linkedtasks.UnlinkTaskRequest;
 import ru.team.todo.dto.linkedtasks.UnlinkTaskResponse;
 import ru.team.todo.repository.LinkedTasksRepository;
 import ru.team.todo.repository.TaskRepository;
-import ru.team.todo.ui.ConsoleSession;
+import ru.team.todo.repository.UserRepository;
 import ru.team.todo.validation.CoreError;
 
 import java.util.List;
@@ -24,12 +24,13 @@ public class LinkedTaskService {
     @Autowired
     private TaskRepository taskRepository;
     @Autowired
-    private ConsoleSession consoleSession;
+    private UserRepository userRepository;
 
+    //TODO Добавить сюда валидации
     public LinkTaskResponse linkTask(LinkTaskRequest request) {
-        User user = this.consoleSession.getSwitchedUser();
+        User user = this.userRepository.findByName(request.getUserName());
         if (user == null) {
-            return new LinkTaskResponse(List.of(new CoreError("User is not switched")));
+            return new LinkTaskResponse(List.of(new CoreError("Requested user " + request.getUserName() + " not found!")));
         }
 
         Task firstTask = this.taskRepository.findByName(request.getFirstTask());
@@ -47,10 +48,11 @@ public class LinkedTaskService {
         return new LinkTaskResponse(List.of());
     }
 
+    //TODO Добавить сюда валидации
     public UnlinkTaskResponse unlinkTask(UnlinkTaskRequest request) {
-        User user = this.consoleSession.getSwitchedUser();
+        User user = this.userRepository.findByName(request.getUserName());
         if (user == null) {
-            return new UnlinkTaskResponse(List.of(new CoreError("User is not switched")));
+            return new UnlinkTaskResponse(List.of(new CoreError("Requested user " + request.getUserName() + " not found!")));
         }
 
         Task firstTask = this.taskRepository.findByName(request.getFirstTask());

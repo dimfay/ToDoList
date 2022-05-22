@@ -21,13 +21,15 @@ public class LinkTaskCommand extends Command {
     @Override
     public void execute() {
         Scanner scanner = new Scanner(System.in);
+        System.out.println("Please enter user name: ");
+        String userName = scanner.nextLine();
         System.out.println("Please enter first task name: ");
         String firstTaskName = scanner.nextLine();
 
         System.out.println("Please enter second task name to link: ");
         String secondTaskName = scanner.nextLine();
 
-        var request = new LinkTaskRequest(firstTaskName, secondTaskName);
+        var request = new LinkTaskRequest(userName, firstTaskName, secondTaskName);
         var response = service.linkTask(request);
 
         System.out.println("Received response: " + response);
