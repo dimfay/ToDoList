@@ -30,13 +30,13 @@ public class UserUIController {
         return "users";
     }
 
-    @GetMapping("/adduser")
+    @GetMapping("/users/adduser")
     public String addUserView(Model model) {
         model.addAttribute("user", new AddUserRequest());
         return "adduser";
     }
 
-    @PostMapping("/adduser")
+    @PostMapping("/users/adduser")
     public String addUser(@ModelAttribute AddUserRequest request) {
         this.userService.addUser(request);
         return "redirect:/ui/users";
