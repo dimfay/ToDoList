@@ -36,9 +36,8 @@ public class TasksUIController {
 
     @GetMapping("/users/{username}/addtask")
     public String addTaskView(@PathVariable("username") String username, Model model) {
-        var findUserResponse = userService.findUsers(new FindUserRequest(List.of(username)));
-        model.addAttribute("user", findUserResponse.getUsers().get(0));
-        model.addAttribute("task", new AddTaskRequest());
+        model.addAttribute("user", username);
+        model.addAttribute("request", new AddTaskRequest());
         return "addtask";
     }
 
