@@ -8,7 +8,7 @@ public class MaxTaskDescriptionLengthRule<T extends NameableTaskRequest> impleme
 
     @Override
     public void onValidate(T task) {
-        if (task.getName().length() > 1000) {
+        if (task.getTaskName().length() > 1000) {
             throw new ValidationException("Task description should be less than 1000 characters.");
         }
     }

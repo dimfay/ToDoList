@@ -2,10 +2,10 @@ package ru.team.todo.dto.tasks;
 
 import java.util.Objects;
 
-public class DeleteTaskByIdRequest implements IdTaskRequest {
+public class DeleteTaskRequest implements IdTaskRequest {
     private final int id;
 
-    public DeleteTaskByIdRequest(int id){
+    public DeleteTaskRequest(int id){
         this.id = id;
     }
 
@@ -17,7 +17,7 @@ public class DeleteTaskByIdRequest implements IdTaskRequest {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        DeleteTaskByIdRequest that = (DeleteTaskByIdRequest) o;
+        DeleteTaskRequest that = (DeleteTaskRequest) o;
         return id == that.id;
     }
 

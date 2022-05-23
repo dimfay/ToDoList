@@ -9,7 +9,6 @@ import ru.team.todo.domain.User;
 import ru.team.todo.dto.tasks.AddTaskRequest;
 import ru.team.todo.dto.tasks.AddTaskResponse;
 import ru.team.todo.repository.TaskRepository;
-import ru.team.todo.ui.ConsoleSession;
 import ru.team.todo.validation.requests.task.AddTaskRequestValidation;
 
 import static org.junit.jupiter.api.Assertions.*;

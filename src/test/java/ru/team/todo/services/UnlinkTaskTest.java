@@ -14,7 +14,6 @@ import ru.team.todo.dto.linkedtasks.UnlinkTaskRequest;
 import ru.team.todo.dto.linkedtasks.UnlinkTaskResponse;
 import ru.team.todo.repository.LinkedTasksRepository;
 import ru.team.todo.repository.TaskRepository;
-import ru.team.todo.ui.ConsoleSession;
 
 import java.util.List;
 

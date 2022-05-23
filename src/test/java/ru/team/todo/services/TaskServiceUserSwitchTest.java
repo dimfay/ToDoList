@@ -7,7 +7,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.team.todo.dto.tasks.FindTasksResponse;
 import ru.team.todo.repository.TaskRepository;
-import ru.team.todo.ui.ConsoleSession;
 import ru.team.todo.validation.CoreError;
 
 import java.util.List;

@@ -12,12 +12,13 @@ import java.util.List;
 public class TasksRestController {
     private final TaskService taskService;
 
-    public TasksRestController(TaskService taskService){
+    public TasksRestController(TaskService taskService) {
         this.taskService = taskService;
     }
 
+    //TODO Сделать вывод всех тасков или по другому
     @GetMapping("/tasks")
-    public FindTasksResponse findAllTasks(){
-        return taskService.findAllTasks(new FindTasksRequest(List.of()));
+    public FindTasksResponse findAllTasks() {
+        return taskService.findTasks(new FindTasksRequest("tmp_user", List.of()));
     }
 }

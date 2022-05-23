@@ -8,7 +8,7 @@ import java.util.Objects;
 public class AddTaskResponse {
     private final List<CoreError> errors;
 
-    public AddTaskResponse(List<CoreError> errors){
+    public AddTaskResponse(List<CoreError> errors) {
         this.errors = errors;
     }
 

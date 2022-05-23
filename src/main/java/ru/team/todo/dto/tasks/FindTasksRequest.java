@@ -1,20 +1,36 @@
 package ru.team.todo.dto.tasks;
 
-import ru.team.todo.domain.Task;
-
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
 public class FindTasksRequest {
-    private final Collection<Task> tasks;
+    private String userName;
 
-    public FindTasksRequest(List<Task> tasks){
+    private List<String> tasks;
+
+    public FindTasksRequest() {
+
+    }
+
+    public FindTasksRequest(String userName, List<String> tasks) {
+        this.userName = userName;
         this.tasks = tasks;
     }
 
-    public Collection<Task> getTasks() {
+    public String getUserName() {
+        return this.userName;
+    }
+
+    public void setUserName(String name) {
+        this.userName = userName;
+    }
+
+    public List<String> getTasks() {
         return tasks;
+    }
+
+    public void setTasks(List<String> tasks) {
+        this.tasks = tasks;
     }
 
     @Override
@@ -22,18 +38,19 @@ public class FindTasksRequest {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FindTasksRequest that = (FindTasksRequest) o;
-        return Objects.equals(tasks, that.tasks);
+        return Objects.equals(userName, that.userName) && Objects.equals(tasks, that.tasks);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(tasks);
+        return Objects.hash(userName, tasks);
     }
 
     @Override
     public String toString() {
-        return "FindTasksRequest{" +
-                "tasks=" + tasks +
+        return "FindTasksByNameRequest{" +
+                "userName='" + userName + '\'' +
+                ", tasks=" + tasks +
                 '}';
     }
 }

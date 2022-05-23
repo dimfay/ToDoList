@@ -9,7 +9,6 @@ import ru.team.todo.domain.User;
 import ru.team.todo.dto.users.SwitchUserRequest;
 import ru.team.todo.dto.users.SwitchUserResponse;
 import ru.team.todo.repository.UserRepository;
-import ru.team.todo.ui.ConsoleSession;
 import ru.team.todo.validation.requests.user.SwitchUserRequestValidation;
 
 import java.util.List;

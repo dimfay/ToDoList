@@ -21,18 +21,20 @@ public class AddTaskCommand extends Command {
     @Override
     public void execute() {
         Scanner scanner = new Scanner(System.in);
+        System.out.println("Please enter user name: ");
+        String userName = scanner.nextLine();
         System.out.println("Please enter task name: ");
-        String name = scanner.nextLine();
+        String taskName = scanner.nextLine();
         System.out.println("Please enter task description: ");
-        String description = scanner.nextLine();
+        String descriptionName = scanner.nextLine();
 
-        var request = new AddTaskRequest(name, description);
+        var request = new AddTaskRequest(userName, taskName, descriptionName);
         var response = service.addTask(request);
         System.out.println("Received response: " + response );
 
         if (!response.getErrors().isEmpty()) {
             return;
         }
-        System.out.println("Task '" + name + "' added");
+        System.out.println("Task '" + taskName + "' added");
     }
 }

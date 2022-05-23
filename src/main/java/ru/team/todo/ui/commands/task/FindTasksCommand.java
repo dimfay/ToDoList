@@ -9,6 +9,7 @@ import ru.team.todo.services.TaskService;
 import ru.team.todo.ui.commands.Command;
 
 import java.util.List;
+import java.util.Scanner;
 
 @Component
 public class FindTasksCommand extends Command {
@@ -22,14 +23,17 @@ public class FindTasksCommand extends Command {
 
     @Override
     public void execute() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Please enter user name: ");
+        String userName = scanner.nextLine();
 
-        var request = new FindTasksRequest(List.of());
-        var response = service.findAllTasks(request);
+        var response = service.findTasks(new FindTasksRequest(userName, List.of()));
 
         if (response.getTasks().isEmpty()) {
             System.out.println("Tasks not found!");
             return;
         }
+
         System.out.println("Received response: " + response);
         if (!response.getErrors().isEmpty()){
             return;
