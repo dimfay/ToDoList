@@ -5,11 +5,11 @@ import java.util.Objects;
 public class DeleteTaskRequest implements IdTaskRequest {
     private final int id;
 
-    public DeleteTaskRequest(int id){
+    public DeleteTaskRequest(int id) {
         this.id = id;
     }
 
-    public int getId(){
+    public int getId() {
         return id;
     }
 

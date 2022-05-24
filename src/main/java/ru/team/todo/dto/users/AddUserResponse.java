@@ -6,15 +6,16 @@ import java.util.Objects;
 import ru.team.todo.validation.CoreError;
 
 public class AddUserResponse {
-    private Integer createdUserId;
     private List<CoreError> errors;
+    private UserDTO user;
 
-    public Integer getCreatedUserId() {
-        return createdUserId;
+    public AddUserResponse() {
+
     }
 
-    public void setCreatedUserId(Integer createdUserId) {
-        this.createdUserId = createdUserId;
+    public AddUserResponse(List<CoreError> errors, UserDTO user) {
+        this.errors = errors;
+        this.user = user;
     }
 
     public List<CoreError> getErrors() {
@@ -25,16 +26,32 @@ public class AddUserResponse {
         this.errors = errors;
     }
 
+    public UserDTO getUser() {
+        return this.user;
+    }
+
+    public void setUser(UserDTO user) {
+        this.user = user;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AddUserResponse that = (AddUserResponse) o;
-        return createdUserId.equals(that.createdUserId) && errors.equals(that.errors);
+        AddUserResponse response = (AddUserResponse) o;
+        return Objects.equals(errors, response.errors) && Objects.equals(user, response.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(createdUserId, errors);
+        return Objects.hash(errors, user);
+    }
+
+    @Override
+    public String toString() {
+        return "AddUserResponse{" +
+                "errors=" + errors +
+                ", user=" + user +
+                '}';
     }
 }

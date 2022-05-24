@@ -6,29 +6,21 @@ import org.springframework.web.bind.annotation.*;
 import ru.team.todo.dto.tasks.AddTaskRequest;
 import ru.team.todo.dto.tasks.FindTasksRequest;
 import ru.team.todo.dto.tasks.FindTasksResponse;
-import ru.team.todo.dto.users.FindUserRequest;
 import ru.team.todo.services.TaskService;
-import ru.team.todo.services.UserService;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/ui")
 public class TasksUIController {
     private final TaskService taskService;
-    private final UserService userService;
 
-    public TasksUIController(TaskService taskService, UserService userService) {
+    public TasksUIController(TaskService taskService) {
         this.taskService = taskService;
-        this.userService = userService;
     }
 
     @GetMapping("/users/{username}/tasks")
     public String findAllTasks(@PathVariable("username") String username, Model model) {
-        var findUserResponse = userService.findAllUsersBy(new FindUserRequest(username));
-
         FindTasksResponse response =
-                taskService.findTasks(new FindTasksRequest(username, List.of()));
+                taskService.findTask(new FindTasksRequest(username));
         model.addAttribute("tasks", response.getTasks());
         model.addAttribute("user", username);
         return "tasks";

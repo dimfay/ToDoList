@@ -1,15 +1,14 @@
 package ru.team.todo.dto.users;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-
 public class UserDTO {
     private Integer id;
     private String name;
 
-    public UserDTO(int id, String name){
+    public UserDTO() {
+
+    }
+
+    public UserDTO(int id, String name) {
         this.id = id;
         this.name = name;
     }

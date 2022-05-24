@@ -13,6 +13,8 @@ import ru.team.todo.validation.requests.task.AddTaskRequestValidation;
 import ru.team.todo.validation.requests.task.DeleteTaskRequestValidation;
 import ru.team.todo.validation.requests.task.FindTaskRequestValidation;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,20 +58,28 @@ public class TaskService {
 
     }
 
-    public FindTasksResponse findTasks(FindTasksRequest request) {
-        var tasks = taskRepository.findAllByUserName(request.getUserName());
-        return new FindTasksResponse(List.of(), tasks);
+    public FindTasksResponse findTask(FindTasksRequest request) {
+        String userRequested = request.getUserName();
+        if (userRequested != null) {
+            User user = this.userRepository.findByName(userRequested);
+            if (user == null) {
+                return new FindTasksResponse(List.of(new CoreError("Requested user " + userRequested + " not found!")), List.of());
+            }
+            return new FindTasksResponse(List.of(), convertAllTasks(user.getTasks()));
+        }
+
+        return new FindTasksResponse(List.of(), convertAllTasks(this.taskRepository.findAll()));
     }
 
-    public List<TaskDTO> findAllTasks(){
-        List<Task> tmp = taskRepository.findAll();
-        return tmp.stream()
-                .map(this::convert)
-                .toList();
+    private static List<TaskDTO> convertAllTasks(Collection<Task> tasks) {
+        List<TaskDTO> dto = new ArrayList<>();
+        for (Task task : tasks) {
+            dto.add(convert(task));
+        }
+        return dto;
     }
 
-    private TaskDTO convert(Task task){
-        var userDTO = new UserDTO(task.getUser().getId(), task.getUser().getName());
-        return new TaskDTO(task.getId(), userDTO, task.getName(), task.getDescription());
+    private static TaskDTO convert(Task task) {
+        return new TaskDTO(task.getId(), task.getName(), task.getDescription());
     }
 }

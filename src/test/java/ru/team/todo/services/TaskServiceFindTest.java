@@ -36,7 +36,7 @@ public class TaskServiceFindTest {
     private TaskService service;
 
     @Test
-    public void shouldReturnAllTasksSuccessfully() {
+    public void shouldFindTaskSuccessfully() {
         User user = new User("testUser");
         user.setTasks(Collections.emptySet());
 
