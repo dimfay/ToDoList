@@ -5,12 +5,10 @@ import org.springframework.stereotype.Service;
 import ru.team.todo.domain.Task;
 import ru.team.todo.domain.User;
 import ru.team.todo.dto.tasks.*;
-import ru.team.todo.dto.users.UserDTO;
 import ru.team.todo.repository.TaskRepository;
 import ru.team.todo.repository.UserRepository;
 import ru.team.todo.validation.CoreError;
 import ru.team.todo.validation.requests.task.AddTaskRequestValidation;
-import ru.team.todo.validation.requests.task.DeleteTaskRequestValidation;
 import ru.team.todo.validation.requests.task.FindTaskRequestValidation;
 
 import java.util.ArrayList;
@@ -28,8 +26,6 @@ public class TaskService {
     @Autowired
     private AddTaskRequestValidation addTaskValidationService;
     @Autowired
-    private DeleteTaskRequestValidation deleteTaskRequestValidation;
-    @Autowired
     private FindTaskRequestValidation findTaskByNameRequestValidation;
 
     public AddTaskResponse addTask(AddTaskRequest request) {
@@ -43,11 +39,6 @@ public class TaskService {
     }
 
     public DeleteTaskResponse deleteTask(DeleteTaskRequest request) {
-        var validationResult = deleteTaskRequestValidation.validate(request);
-        if (!validationResult.isEmpty()) {
-            return new DeleteTaskResponse(validationResult);
-        }
-
         Optional<Task> value = this.taskRepository.findById(request.getId());
         if (value.isEmpty()) {
             return new DeleteTaskResponse(List.of(new CoreError("Task with id '" + request.getId() + "' not found!")));
@@ -55,7 +46,6 @@ public class TaskService {
 
         this.taskRepository.delete(value.get());
         return new DeleteTaskResponse(List.of());
-
     }
 
     public FindTasksResponse findTask(FindTasksRequest request) {

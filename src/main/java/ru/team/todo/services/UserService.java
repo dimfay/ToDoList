@@ -6,7 +6,6 @@ import ru.team.todo.dto.users.*;
 import ru.team.todo.domain.User;
 import ru.team.todo.repository.UserRepository;
 import ru.team.todo.validation.CoreError;
-import ru.team.todo.validation.requests.user.RemoveUserRequestValidation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +15,6 @@ public class UserService {
 
     @Autowired
     private UserRepository repository;
-    @Autowired
-    private RemoveUserRequestValidation removeUserValidationService;
 
     public AddUserResponse addUser(AddUserRequest request) {
         User tmpUser = this.repository.findByName(request.getName());
@@ -30,11 +27,6 @@ public class UserService {
     }
 
     public RemoveUserResponse removeUser(RemoveUserRequest request) {
-        var validationResult = this.removeUserValidationService.validate(request);
-        if (!validationResult.isEmpty()) {
-            return new RemoveUserResponse(validationResult);
-        }
-
         User tmpUser = this.repository.findByName(request.getName());
         if (tmpUser == null) {
             return new RemoveUserResponse(List.of(new CoreError("User '" + request.getName() + "' not found!")));

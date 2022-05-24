@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ToDo List</title>
+</head>
+<body>
+
+Name:
+<span th:text="${task.name}"> Name </span>
+Description:
+<span th:text="${task.description}"> Description </span>
+
+<h4>Options</h4>
+<a th:href="@{/ui/users/{username}/{taskid}(username=${user}, taskid=${task.id})}">Delete current task</a>
+</body>
+</html>

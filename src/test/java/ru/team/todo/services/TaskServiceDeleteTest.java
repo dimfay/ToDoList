@@ -10,7 +10,6 @@ import ru.team.todo.domain.User;
 import ru.team.todo.dto.tasks.DeleteTaskRequest;
 import ru.team.todo.dto.tasks.DeleteTaskResponse;
 import ru.team.todo.repository.TaskRepository;
-import ru.team.todo.validation.requests.task.DeleteTaskRequestValidation;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,9 +25,6 @@ public class TaskServiceDeleteTest {
     @Mock
     private TaskRepository taskRepository;
 
-    @Mock
-    private DeleteTaskRequestValidation validationService;
-
     @InjectMocks
     private TaskService service;
 
@@ -36,13 +32,10 @@ public class TaskServiceDeleteTest {
     public void shouldDeleteSuccessfully(){
         DeleteTaskRequest request = new DeleteTaskRequest(1);
 
-        when(validationService.validate(request)).thenReturn(List.of());
-
         when(taskRepository.findById(1)).thenReturn(Optional.of(new Task(1, new User("testUser"), "testTask", "desc")));
 
         DeleteTaskResponse result = service.deleteTask(request);
 
-        verify(validationService).validate(any());
         verify(taskRepository).delete(any());
 
         DeleteTaskResponse expected = new DeleteTaskResponse(List.of());
