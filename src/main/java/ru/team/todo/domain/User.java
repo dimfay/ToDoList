@@ -1,5 +1,7 @@
 package ru.team.todo.domain;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.Column;
@@ -15,6 +17,8 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "users")
+@Setter
+@Getter
 public class User {
 
     @Id
@@ -33,30 +37,6 @@ public class User {
 
     public User(String name) {
         this.name = name;
-    }
-
-    public Integer getId() {
-        return this.id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<Task> getTasks() {
-        return this.tasks;
-    }
-
-    public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
     }
 
     @Override

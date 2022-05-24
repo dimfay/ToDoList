@@ -1,5 +1,6 @@
 package ru.team.todo.controller.ui;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -10,12 +11,9 @@ import ru.team.todo.services.TaskService;
 
 @Controller
 @RequestMapping("/ui")
+@AllArgsConstructor
 public class TasksUIController {
     private final TaskService taskService;
-
-    public TasksUIController(TaskService taskService) {
-        this.taskService = taskService;
-    }
 
     @GetMapping("/users/{username}/tasks")
     public String findAllTasks(@PathVariable("username") String username, Model model) {

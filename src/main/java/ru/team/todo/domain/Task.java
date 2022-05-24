@@ -1,5 +1,9 @@
 package ru.team.todo.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.Column;
@@ -17,6 +21,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "tasks")
+@Getter
+@Setter
 public class Task {
 
     @Id
@@ -35,14 +41,6 @@ public class Task {
     @OneToMany(mappedBy = "task", fetch = FetchType.EAGER)
     private Set<LinkedTask> linkedTasks;
 
-    public User getUser() {
-        return this.user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public Task() {
 
     }
@@ -58,42 +56,6 @@ public class Task {
         this.user = user;
         this.name = name;
         this.description = desc;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDisplayInfo() {
-        return "[ID: " + this.id + ". Name: " + this.name + ". Description: '" + this.description + "']";
-    }
-
-    public String getDescription() {
-        return this.description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Set<LinkedTask> getLinkedTasks() {
-        return linkedTasks;
-    }
-
-    public void setLinkedTasks(Set<LinkedTask> linkedTasks) {
-        this.linkedTasks = linkedTasks;
     }
 
     @Override
