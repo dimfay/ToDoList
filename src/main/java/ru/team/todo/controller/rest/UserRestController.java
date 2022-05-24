@@ -1,18 +1,15 @@
 package ru.team.todo.controller.rest;
 
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.team.todo.dto.users.*;
 import ru.team.todo.services.UserService;
 
 @RequestMapping("/users")
 @RestController()
+@AllArgsConstructor
 public class UserRestController {
-
     private final UserService userService;
-
-    public UserRestController(UserService userService) {
-        this.userService = userService;
-    }
 
     @GetMapping
     public FindUserResponse findAllUsers() {

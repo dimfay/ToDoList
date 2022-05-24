@@ -1,5 +1,6 @@
 package ru.team.todo.controller.ui;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,13 +14,9 @@ import ru.team.todo.services.UserService;
 
 @Controller
 @RequestMapping("/ui")
+@AllArgsConstructor
 public class UserUIController {
-
     private final UserService userService;
-
-    public UserUIController(UserService userService) {
-        this.userService = userService;
-    }
 
     @GetMapping("/users")
     public String findAllUsers(Model model) {

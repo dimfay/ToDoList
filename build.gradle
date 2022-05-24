@@ -36,7 +36,8 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.24'
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     implementation group: 'org.springframework', name: 'spring-jdbc', version: '5.3.16'

@@ -1,16 +1,14 @@
 package ru.team.todo.controller.rest;
 
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.team.todo.dto.tasks.*;
 import ru.team.todo.services.TaskService;
 
 @RestController
+@AllArgsConstructor
 public class TasksRestController {
     private final TaskService taskService;
-
-    public TasksRestController(TaskService taskService) {
-        this.taskService = taskService;
-    }
 
     @GetMapping("/tasks")
     public FindTasksResponse findAllTasks() {

@@ -1,5 +1,10 @@
 package ru.team.todo.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +17,8 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "linkedTasks")
+@Getter
+@Setter
 public class LinkedTask {
 
     @Id
@@ -41,30 +48,6 @@ public class LinkedTask {
         this.linkedTask = linkedTask;
     }
 
-    public Integer getId() {
-        return this.id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Task getTask() {
-        return this.task;
-    }
-
-    public void setTask(Task task) {
-        this.task = task;
-    }
-
-    public Task getLinkedTask() {
-        return this.linkedTask;
-    }
-
-    public void setLinkedTask(Task linkedTask) {
-        this.linkedTask = linkedTask;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -82,8 +65,8 @@ public class LinkedTask {
     public String toString() {
         return "LinkedTask{" +
                 "id=" + id +
-                ", task=" + task.getDisplayInfo() +
-                ", linkedTask=" + linkedTask.getDisplayInfo() +
+                ", task=" + task.getName() +
+                ", linkedTask=" + linkedTask.getName() +
                 '}';
     }
 }
