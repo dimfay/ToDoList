@@ -31,15 +31,16 @@ public class UserServiceAddTest {
 
     @Test
     public void shouldAddUserTest() {
-        String userName = "user";
-        AddUserRequest request = new AddUserRequest(userName);
+        AddUserRequest request = new AddUserRequest("testUser");
+
         when(addUserValidationService.validate(request)).thenReturn(List.of());
-        when(repository.findByName(userName)).thenReturn(null);
+
+        when(repository.findByName("testUser")).thenReturn(null);
 
         AddUserResponse result = service.addUser(request);
 
         verify(addUserValidationService).validate(any());
-        verify(repository).findByName(any());
+        verify(repository).findByName("testUser");
 
         AddUserResponse excepted = new AddUserResponse();
 
