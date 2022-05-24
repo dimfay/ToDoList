@@ -9,6 +9,7 @@ import ru.team.todo.domain.User;
 import ru.team.todo.dto.tasks.AddTaskRequest;
 import ru.team.todo.dto.tasks.AddTaskResponse;
 import ru.team.todo.repository.TaskRepository;
+import ru.team.todo.repository.UserRepository;
 import ru.team.todo.validation.requests.task.AddTaskRequestValidation;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,31 +20,33 @@ import static org.mockito.Mockito.when;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
-class TaskServiceAddTest {
+public class TaskServiceAddTest {
 
     @Mock
-    private TaskRepository repository;
+    private TaskRepository taskRepository;
 
     @Mock
     private AddTaskRequestValidation addUserValidationService;
 
     @Mock
-    private ConsoleSession consoleSession;
+    private UserRepository userRepository;
 
     @InjectMocks
     private TaskService service;
 
     @Test
     public void shouldSaveTask() {
-        var request = new AddTaskRequest("testTask", "desc");
+        when(userRepository.findByName("testUser")).thenReturn(new User("testUser"));
+
+        AddTaskRequest request = new AddTaskRequest("testUser", "task", "desc");
+
         when(addUserValidationService.validate(request)).thenReturn(List.of());
-        when(consoleSession.getSwitchedUser()).thenReturn(new User("testUser"));
 
         AddTaskResponse result = service.addTask(request);
 
-        verify(addUserValidationService).validate(any());
-        verify(consoleSession).getSwitchedUser();
-        verify(repository).save(any());
+        verify(addUserValidationService).validate(request);
+        verify(userRepository).findByName("testUser");
+        verify(taskRepository).save(any());
 
         AddTaskResponse excepted = new AddTaskResponse(List.of());
 

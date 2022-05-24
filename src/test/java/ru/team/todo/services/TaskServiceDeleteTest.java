@@ -15,41 +15,37 @@ import ru.team.todo.validation.requests.task.DeleteTaskRequestValidation;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class TaskServiceDeleteByIdTest {
+public class TaskServiceDeleteTest {
 
     @Mock
-    private TaskRepository repository;
+    private TaskRepository taskRepository;
 
     @Mock
     private DeleteTaskRequestValidation validationService;
-
-    @Mock
-    private ConsoleSession consoleSession;
 
     @InjectMocks
     private TaskService service;
 
     @Test
     public void shouldDeleteSuccessfully(){
-        var request = new DeleteTaskRequest(1);
-        when(validationService.validate(request)).thenReturn(List.of());
-        User user = new User("testUser");
-        when(consoleSession.getSwitchedUser()).thenReturn(user);
-        when(repository.findById(1)).thenReturn(Optional.of(new Task(1, user, "testTask", "desc")));
+        DeleteTaskRequest request = new DeleteTaskRequest(1);
 
-        var result = service.deleteTaskById(request);
+        when(validationService.validate(request)).thenReturn(List.of());
+
+        when(taskRepository.findById(1)).thenReturn(Optional.of(new Task(1, new User("testUser"), "testTask", "desc")));
+
+        DeleteTaskResponse result = service.deleteTask(request);
 
         verify(validationService).validate(any());
-        verify(consoleSession).getSwitchedUser();
-        verify(repository).delete(any());
+        verify(taskRepository).delete(any());
 
-        var expected = new DeleteTaskResponse(List.of());
+        DeleteTaskResponse expected = new DeleteTaskResponse(List.of());
 
         assertEquals(expected, result);
     }
