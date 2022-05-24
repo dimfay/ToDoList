@@ -1,6 +1,5 @@
 package ru.team.todo.dto.users;
 
-import ru.team.todo.domain.User;
 import ru.team.todo.validation.CoreError;
 
 import java.util.List;
@@ -9,9 +8,9 @@ import java.util.Objects;
 public class FindUserResponse {
 
     private final List<CoreError> errors;
-    private final List<User> users;
+    private final List<UserDTO> users;
 
-    public FindUserResponse(List<CoreError> errors, List<User> users) {
+    public FindUserResponse(List<CoreError> errors, List<UserDTO> users) {
         this.errors = errors;
         this.users = users;
     }
@@ -20,7 +19,7 @@ public class FindUserResponse {
         return this.errors;
     }
 
-    public List<User> getUsers() {
+    public List<UserDTO> getUsers() {
         return this.users;
     }
 

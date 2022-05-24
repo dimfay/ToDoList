@@ -8,7 +8,7 @@ import java.util.Objects;
 public class DeleteTaskResponse {
     private final List<CoreError> errors;
 
-    public DeleteTaskResponse(List<CoreError> errors){
+    public DeleteTaskResponse(List<CoreError> errors) {
         this.errors = errors;
     }
 

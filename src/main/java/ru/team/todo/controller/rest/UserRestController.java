@@ -1,11 +1,8 @@
 package ru.team.todo.controller.rest;
 
-
 import org.springframework.web.bind.annotation.*;
 import ru.team.todo.dto.users.*;
 import ru.team.todo.services.UserService;
-
-import java.util.List;
 
 @RequestMapping("/users")
 @RestController()
@@ -18,14 +15,13 @@ public class UserRestController {
     }
 
     @GetMapping
-    public List<UserDTO> findAllUsers(@RequestParam(required = false) String name) {
-        var request = new FindUserRequest(name);
-        return this.userService.findAllUsersBy(request);
+    public FindUserResponse findAllUsers() {
+        return this.userService.findUser(new FindUserRequest(null));
     }
 
     @GetMapping("/{name}")
-    public UserDTO findUserByName(@PathVariable("name") String name) {
-        return this.userService.findUserByName(name);
+    public FindUserResponse findUserByName(@PathVariable("name") String name) {
+        return this.userService.findUser(new FindUserRequest(name));
     }
 
     @PostMapping

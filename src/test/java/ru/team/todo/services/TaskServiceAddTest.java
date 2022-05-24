@@ -10,7 +10,6 @@ import ru.team.todo.dto.tasks.AddTaskRequest;
 import ru.team.todo.dto.tasks.AddTaskResponse;
 import ru.team.todo.repository.TaskRepository;
 import ru.team.todo.repository.UserRepository;
-import ru.team.todo.validation.requests.task.AddTaskRequestValidation;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -25,8 +24,6 @@ public class TaskServiceAddTest {
     @Mock
     private TaskRepository taskRepository;
 
-    @Mock
-    private AddTaskRequestValidation addUserValidationService;
 
     @Mock
     private UserRepository userRepository;
@@ -40,11 +37,8 @@ public class TaskServiceAddTest {
 
         AddTaskRequest request = new AddTaskRequest("testUser", "task", "desc");
 
-        when(addUserValidationService.validate(request)).thenReturn(List.of());
-
         AddTaskResponse result = service.addTask(request);
 
-        verify(addUserValidationService).validate(request);
         verify(userRepository).findByName("testUser");
         verify(taskRepository).save(any());
 

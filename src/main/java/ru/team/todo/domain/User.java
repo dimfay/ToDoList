@@ -10,8 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -25,7 +25,7 @@ public class User {
     @Column(name = "name", unique = true, nullable = false)
     private String name;
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private Set<Task> tasks;
+    private List<Task> tasks;
 
     public User() {
 
@@ -51,11 +51,11 @@ public class User {
         this.name = name;
     }
 
-    public Set<Task> getTasks() {
+    public List<Task> getTasks() {
         return this.tasks;
     }
 
-    public void setTasks(Set<Task> tasks) {
+    public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
     }
 

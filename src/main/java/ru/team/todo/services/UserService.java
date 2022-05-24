@@ -1,14 +1,12 @@
 package ru.team.todo.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import ru.team.todo.dto.users.*;
 import ru.team.todo.domain.User;
 import ru.team.todo.repository.UserRepository;
 import ru.team.todo.validation.CoreError;
 import ru.team.todo.validation.requests.user.RemoveUserRequestValidation;
-import ru.team.todo.validation.requests.user.SwitchUserRequestValidation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,21 +18,15 @@ public class UserService {
     private UserRepository repository;
     @Autowired
     private RemoveUserRequestValidation removeUserValidationService;
-    @Autowired
-    private SwitchUserRequestValidation switchUserValidationService;
 
     public AddUserResponse addUser(AddUserRequest request) {
-        var user = convert(request);
-        this.repository.save(user);
-        var response = new AddUserResponse();
-        response.setCreatedUserId(user.getId());
-        return response;
-    }
+        User tmpUser = this.repository.findByName(request.getName());
+        if (tmpUser != null) {
+            return new AddUserResponse(List.of(new CoreError("User '" + request.getName() + "' already exists!")), null);
+        }
 
-    private User convert(AddUserRequest request){
-        var user = new User();
-        user.setName(request.getName());
-        return user;
+        User user = this.repository.save(convert(request));
+        return new AddUserResponse(List.of(), convert(user));
     }
 
     public RemoveUserResponse removeUser(RemoveUserRequest request) {
@@ -52,35 +44,30 @@ public class UserService {
         return new RemoveUserResponse(List.of());
     }
 
-    public List<UserDTO> findAllUsersBy(FindUserRequest request) {
-        var specifications = getFindSpecifications(request);
-        var entities = specifications.stream()
-                .reduce(Specification::and)
-                .map(e -> repository.findAll())
-                .orElseGet(repository::findAll);
-        return entities.stream()
-                .map(this::convert)
-                .toList();
-    }
+    public FindUserResponse findUser(FindUserRequest request) {
+        String requestedUser = request.getName();
+        if (requestedUser != null) {
+            User tmpUser = this.repository.findByName(requestedUser);
+            if (tmpUser == null) {
+                return new FindUserResponse(List.of(new CoreError("User '" + requestedUser + "' not found!")), null);
+            }
 
-    public UserDTO findUserByName(String name){
-        return  convert(repository.findByName(name));
-
-    }
-
-    private List<Specification<User>> getFindSpecifications(FindUserRequest request){
-        var specifications = new ArrayList<Specification<User>>();
-        var name = request.getName();
-        if (name != null){
-            Specification<User> specification = ((root, query, criteriaBuilder)
-                    -> criteriaBuilder.equal(root.get("name"), name));
-            specifications.add(specification);
+            return new FindUserResponse(List.of(), List.of(convert(tmpUser)));
         }
-        return specifications;
+
+        List<UserDTO> dto = new ArrayList<>();
+        for (User user : this.repository.findAll()) {
+            dto.add(convert(user));
+        }
+        return new FindUserResponse(List.of(), dto);
     }
 
-    private UserDTO convert(User user){
+    private UserDTO convert(User user) {
         return new UserDTO(user.getId(), user.getName());
+    }
+
+    private User convert(AddUserRequest request) {
+        return new User(request.getName());
     }
 
 }

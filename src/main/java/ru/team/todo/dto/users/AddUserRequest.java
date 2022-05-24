@@ -5,11 +5,11 @@ import java.util.Objects;
 public class AddUserRequest {
     private String name;
 
-    public AddUserRequest(){
+    public AddUserRequest() {
 
     }
 
-    public AddUserRequest(String name){
+    public AddUserRequest(String name) {
         this.name = name;
     }
 

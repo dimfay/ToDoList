@@ -1,17 +1,19 @@
 package ru.team.todo.dto.tasks;
 
-import ru.team.todo.domain.Task;
 import ru.team.todo.validation.CoreError;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
 public class FindTasksResponse {
     private List<CoreError> errors;
-    private Collection<Task> tasks;
+    private List<TaskDTO> tasks;
 
-    public FindTasksResponse(List<CoreError> errors, Collection<Task> tasks){
+    public FindTasksResponse() {
+
+    }
+
+    public FindTasksResponse(List<CoreError> errors, List<TaskDTO> tasks){
         this.errors = errors;
         this.tasks = tasks;
     }
@@ -20,7 +22,7 @@ public class FindTasksResponse {
         return errors;
     }
 
-    public Collection<Task> getTasks() {
+    public List<TaskDTO> getTasks() {
         return tasks;
     }
 
@@ -28,7 +30,7 @@ public class FindTasksResponse {
         this.errors = errors;
     }
 
-    public void setTasks(Collection<Task> tasks) {
+    public void setTasks(List<TaskDTO> tasks) {
         this.tasks = tasks;
     }
 
