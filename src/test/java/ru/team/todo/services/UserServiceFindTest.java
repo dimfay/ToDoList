@@ -28,7 +28,9 @@ public class UserServiceFindTest {
 
     @Test
     public void shouldFindUserTest() {
-        when(repository.findByName("testUser")).thenReturn(new User("testUser"));
+        User user = new User("testUser");
+        user.setId(1);
+        when(repository.findByName("testUser")).thenReturn(user);
 
         FindUserRequest request = new FindUserRequest("testUser");
 
@@ -36,10 +38,9 @@ public class UserServiceFindTest {
 
         verify(repository).findByName("testUser");
 
-        //TODO Починить
-        //FindUserResponse excepted = new FindUserResponse(List.of(), new UserDTO(1, "testUser"));
+        FindUserResponse excepted = new FindUserResponse(List.of(), List.of(new UserDTO(1, "testUser")));
 
-        //assertEquals(excepted, result);
+        assertEquals(excepted, result);
     }
 
 }
