@@ -1,20 +1,14 @@
 package ru.team.todo.controller.rest;
 
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import ru.team.todo.dto.users.AddUserRequest;
-import ru.team.todo.dto.users.AddUserResponse;
-import ru.team.todo.dto.users.FindUserRequest;
-import ru.team.todo.dto.users.FindUserResponse;
+import org.springframework.web.bind.annotation.*;
+import ru.team.todo.dto.users.*;
 import ru.team.todo.services.UserService;
 
 import java.util.List;
 
-@RestController
+@RequestMapping("/users")
+@RestController()
 public class UserRestController {
 
     private final UserService userService;
@@ -23,17 +17,18 @@ public class UserRestController {
         this.userService = userService;
     }
 
-    @GetMapping("/users")
-    public FindUserResponse findAllUsers() {
-        return this.userService.findUsers(new FindUserRequest(List.of()));
+    @GetMapping
+    public List<UserDTO> findAllUsers(@RequestParam(required = false) String name) {
+        var request = new FindUserRequest(name);
+        return this.userService.findAllUsersBy(request);
     }
 
-    @GetMapping("/users/{name}")
-    public FindUserResponse findUserByName(@PathVariable("name") String name) {
-        return this.userService.findUsers(new FindUserRequest(List.of(name)));
+    @GetMapping("/{name}")
+    public UserDTO findUserByName(@PathVariable("name") String name) {
+        return this.userService.findUserByName(name);
     }
 
-    @PostMapping("/users")
+    @PostMapping
     public AddUserResponse addUser(@RequestBody AddUserRequest request) {
         return this.userService.addUser(request);
     }

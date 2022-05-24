@@ -2,23 +2,21 @@ package ru.team.todo.dto.users;
 
 import java.util.Objects;
 
-public class AddUserRequest implements NameableUserRequest {
-
+public class AddUserRequest {
     private String name;
 
-    public AddUserRequest() {
+    public AddUserRequest(){
+
     }
 
-    public AddUserRequest(String name) {
+    public AddUserRequest(String name){
         this.name = name;
     }
 
-    @Override
     public String getName() {
-        return this.name;
+        return name;
     }
 
-    @Override
     public void setName(String name) {
         this.name = name;
     }
@@ -27,8 +25,8 @@ public class AddUserRequest implements NameableUserRequest {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AddUserRequest request = (AddUserRequest) o;
-        return Objects.equals(name, request.name);
+        AddUserRequest that = (AddUserRequest) o;
+        return Objects.equals(name, that.name);
     }
 
     @Override

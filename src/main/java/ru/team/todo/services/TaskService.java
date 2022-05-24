@@ -1,15 +1,12 @@
 package ru.team.todo.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import ru.team.todo.domain.Task;
 import ru.team.todo.domain.User;
-import ru.team.todo.dto.tasks.AddTaskRequest;
-import ru.team.todo.dto.tasks.AddTaskResponse;
-import ru.team.todo.dto.tasks.DeleteTaskRequest;
-import ru.team.todo.dto.tasks.DeleteTaskResponse;
-import ru.team.todo.dto.tasks.FindTasksRequest;
-import ru.team.todo.dto.tasks.FindTasksResponse;
+import ru.team.todo.dto.tasks.*;
+import ru.team.todo.dto.users.UserDTO;
 import ru.team.todo.repository.TaskRepository;
 import ru.team.todo.repository.UserRepository;
 import ru.team.todo.validation.CoreError;
@@ -35,10 +32,6 @@ public class TaskService {
     private FindTaskRequestValidation findTaskByNameRequestValidation;
 
     public AddTaskResponse addTask(AddTaskRequest request) {
-        var validationResult = addTaskValidationService.validate(request);
-        if (!validationResult.isEmpty()) {
-            return new AddTaskResponse(validationResult);
-        }
         User user = this.userRepository.findByName(request.getUserName());
         if (user == null) {
             return new AddTaskResponse(List.of(new CoreError("Requested user " + request.getUserName() + " not found!")));
@@ -65,17 +58,28 @@ public class TaskService {
     }
 
     public FindTasksResponse findTasks(FindTasksRequest request) {
-        var validationResult = findTaskByNameRequestValidation.validate(request);
+        /*var validationResult = findTaskByNameRequestValidation.validate(request);
         if (!validationResult.isEmpty()) {
             return new FindTasksResponse(validationResult, List.of());
-        }
+        }*/
 
-        User user = this.userRepository.findByName(request.getUserName());
+        /*User user = this.userRepository.findByName(request.getUserName());
         if (user == null) {
             return new FindTasksResponse(List.of(new CoreError("Requested user " + request.getUserName() + " not found!")), List.of());
-        }
-
-        return new FindTasksResponse(List.of(), user.getTasks());
+        }*/
+        var tasks = taskRepository.findAllByUserName(request.getUserName());
+        return new FindTasksResponse(List.of(), tasks);
     }
 
+    public List<TaskDTO> findAllTasks(){
+        List<Task> tmp = taskRepository.findAll();
+        return tmp.stream()
+                .map(this::convert)
+                .toList();
+    }
+
+    private TaskDTO convert(Task task){
+        var userDTO = new UserDTO(task.getUser().getId(), task.getUser().getName());
+        return new TaskDTO(task.getId(), userDTO, task.getName(), task.getDescription());
+    }
 }

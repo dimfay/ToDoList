@@ -8,10 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.team.todo.dto.users.AddUserRequest;
 import ru.team.todo.dto.users.FindUserRequest;
-import ru.team.todo.dto.users.FindUserResponse;
 import ru.team.todo.services.UserService;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/ui")
@@ -25,8 +22,8 @@ public class UserUIController {
 
     @GetMapping("/users")
     public String findAllUsers(Model model) {
-        FindUserResponse response = this.userService.findUsers(new FindUserRequest(List.of()));
-        model.addAttribute("users", response.getUsers());
+        var response = this.userService.findAllUsersBy(new FindUserRequest(null));
+        model.addAttribute("users", response);
         return "users";
     }
 

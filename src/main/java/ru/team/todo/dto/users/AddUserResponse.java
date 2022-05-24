@@ -6,34 +6,35 @@ import java.util.Objects;
 import ru.team.todo.validation.CoreError;
 
 public class AddUserResponse {
+    private Integer createdUserId;
+    private List<CoreError> errors;
 
-    private final List<CoreError> errors;
+    public Integer getCreatedUserId() {
+        return createdUserId;
+    }
 
-    public AddUserResponse(List<CoreError> errors) {
-        this.errors = errors;
+    public void setCreatedUserId(Integer createdUserId) {
+        this.createdUserId = createdUserId;
     }
 
     public List<CoreError> getErrors() {
         return errors;
     }
 
+    public void setErrors(List<CoreError> errors) {
+        this.errors = errors;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AddUserResponse response = (AddUserResponse) o;
-        return Objects.equals(errors, response.errors);
+        AddUserResponse that = (AddUserResponse) o;
+        return createdUserId.equals(that.createdUserId) && errors.equals(that.errors);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(errors);
-    }
-
-    @Override
-    public String toString() {
-        return "AddUserResponse{" +
-                "errors=" + errors +
-                '}';
+        return Objects.hash(createdUserId, errors);
     }
 }
