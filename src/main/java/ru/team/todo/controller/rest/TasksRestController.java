@@ -1,9 +1,9 @@
 package ru.team.todo.controller.rest;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-import ru.team.todo.dto.tasks.FindTasksRequest;
-import ru.team.todo.dto.tasks.FindTasksResponse;
+import org.springframework.web.bind.annotation.*;
+import ru.team.todo.domain.Task;
+import ru.team.todo.dto.tasks.*;
+import ru.team.todo.dto.users.UserDTO;
 import ru.team.todo.services.TaskService;
 
 import java.util.List;
@@ -16,9 +16,27 @@ public class TasksRestController {
         this.taskService = taskService;
     }
 
-    //TODO Сделать вывод всех тасков или по другому
     @GetMapping("/tasks")
-    public FindTasksResponse findAllTasks() {
-        return taskService.findTasks(new FindTasksRequest("tmp_user", List.of()));
+    public List<TaskDTO> findAllTasks() {
+        return taskService.findAllTasks();
     }
+
+    @GetMapping("/users/{username}/tasks")
+    public List<TaskDTO> findTasksByUser(@PathVariable("username") String username){
+        FindTasksRequest request = new FindTasksRequest(username, List.of());
+        var response = taskService.findTasks(request);
+        return response.getTasks().stream().map(this::convert).toList();
+    }
+
+    @PostMapping("/users/{username}/addtask")
+    public AddTaskResponse addTask(@PathVariable("username") String username, @RequestBody AddTaskRequest request) {
+        request.setUserName(username);
+        return taskService.addTask(request);
+    }
+
+    private TaskDTO convert(Task task){
+        var userDTO = new UserDTO(task.getUser().getId(), task.getUser().getName());
+        return new TaskDTO(task.getId(), userDTO, task.getName(), task.getDescription());
+    }
+
 }

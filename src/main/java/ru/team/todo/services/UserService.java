@@ -1,18 +1,12 @@
 package ru.team.todo.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import ru.team.todo.dto.users.AddUserRequest;
-import ru.team.todo.dto.users.AddUserResponse;
-import ru.team.todo.dto.users.FindUserRequest;
-import ru.team.todo.dto.users.FindUserResponse;
-import ru.team.todo.dto.users.RemoveUserRequest;
-import ru.team.todo.dto.users.RemoveUserResponse;
+import ru.team.todo.dto.users.*;
 import ru.team.todo.domain.User;
 import ru.team.todo.repository.UserRepository;
 import ru.team.todo.validation.CoreError;
-import ru.team.todo.validation.requests.user.AddUserRequestValidation;
-import ru.team.todo.validation.requests.user.FindUserRequestValidation;
 import ru.team.todo.validation.requests.user.RemoveUserRequestValidation;
 import ru.team.todo.validation.requests.user.SwitchUserRequestValidation;
 
@@ -25,27 +19,22 @@ public class UserService {
     @Autowired
     private UserRepository repository;
     @Autowired
-    private AddUserRequestValidation addUserValidationService;
-    @Autowired
     private RemoveUserRequestValidation removeUserValidationService;
     @Autowired
     private SwitchUserRequestValidation switchUserValidationService;
-    @Autowired
-    private FindUserRequestValidation findUserValidationService;
 
     public AddUserResponse addUser(AddUserRequest request) {
-        var validationResult = this.addUserValidationService.validate(request);
-        if (!validationResult.isEmpty()) {
-            return new AddUserResponse(validationResult);
-        }
+        var user = convert(request);
+        this.repository.save(user);
+        var response = new AddUserResponse();
+        response.setCreatedUserId(user.getId());
+        return response;
+    }
 
-        User tmpUser = this.repository.findByName(request.getName());
-        if (tmpUser != null) {
-            return new AddUserResponse(List.of(new CoreError("User '" + request.getName() + "' already exists!")));
-        }
-
-        this.repository.save(new User(request.getName()));
-        return new AddUserResponse(List.of());
+    private User convert(AddUserRequest request){
+        var user = new User();
+        user.setName(request.getName());
+        return user;
     }
 
     public RemoveUserResponse removeUser(RemoveUserRequest request) {
@@ -63,31 +52,35 @@ public class UserService {
         return new RemoveUserResponse(List.of());
     }
 
-    public FindUserResponse findUsers(FindUserRequest request) {
-        var validationResult = this.findUserValidationService.validate(request);
-        if (!validationResult.isEmpty()) {
-            return new FindUserResponse(validationResult, List.of());
+    public List<UserDTO> findAllUsersBy(FindUserRequest request) {
+        var specifications = getFindSpecifications(request);
+        var entities = specifications.stream()
+                .reduce(Specification::and)
+                .map(e -> repository.findAll())
+                .orElseGet(repository::findAll);
+        return entities.stream()
+                .map(this::convert)
+                .toList();
+    }
+
+    public UserDTO findUserByName(String name){
+        return  convert(repository.findByName(name));
+
+    }
+
+    private List<Specification<User>> getFindSpecifications(FindUserRequest request){
+        var specifications = new ArrayList<Specification<User>>();
+        var name = request.getName();
+        if (name != null){
+            Specification<User> specification = ((root, query, criteriaBuilder)
+                    -> criteriaBuilder.equal(root.get("name"), name));
+            specifications.add(specification);
         }
+        return specifications;
+    }
 
-        //Если запрос пустой, возвращаем всех пользователей
-        if (request.getUsers().isEmpty()) {
-            return new FindUserResponse(List.of(), new ArrayList<>(this.repository.findAll()));
-        }
-
-        //Извлекаем каждого пользователя из репозитория по запросу
-        List<CoreError> findError = new ArrayList<>();
-        List<User> findUsers = new ArrayList<>();
-        for (String requestedUser : request.getUsers()) {
-            User user = this.repository.findByName(requestedUser);
-            if (user == null) {
-                findError.add(new CoreError("User '" + requestedUser + "' not found!"));
-                continue;
-            }
-
-            findUsers.add(user);
-        }
-
-        return new FindUserResponse(findError, findUsers);
+    private UserDTO convert(User user){
+        return new UserDTO(user.getId(), user.getName());
     }
 
 }

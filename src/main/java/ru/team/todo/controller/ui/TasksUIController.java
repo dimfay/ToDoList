@@ -25,7 +25,7 @@ public class TasksUIController {
 
     @GetMapping("/users/{username}/tasks")
     public String findAllTasks(@PathVariable("username") String username, Model model) {
-        var findUserResponse = userService.findUsers(new FindUserRequest(List.of(username)));
+        var findUserResponse = userService.findAllUsersBy(new FindUserRequest(username));
 
         FindTasksResponse response =
                 taskService.findTasks(new FindTasksRequest(username, List.of()));

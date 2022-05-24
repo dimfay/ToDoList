@@ -9,7 +9,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ru.team.todo.dto.users.AddUserRequest;
 import ru.team.todo.dto.users.AddUserResponse;
 import ru.team.todo.repository.UserRepository;
-import ru.team.todo.validation.requests.user.AddUserRequestValidation;
 
 import java.util.List;
 
@@ -42,7 +41,7 @@ public class UserServiceAddTest {
         verify(addUserValidationService).validate(any());
         verify(repository).findByName(any());
 
-        AddUserResponse excepted = new AddUserResponse(List.of());
+        AddUserResponse excepted = new AddUserResponse();
 
         assertEquals(excepted, result);
     }

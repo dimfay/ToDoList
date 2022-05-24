@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class FindTasksResponse {
-    private final List<CoreError> errors;
-    private final Collection<Task> tasks;
+    private List<CoreError> errors;
+    private Collection<Task> tasks;
 
     public FindTasksResponse(List<CoreError> errors, Collection<Task> tasks){
         this.errors = errors;
@@ -22,6 +22,14 @@ public class FindTasksResponse {
 
     public Collection<Task> getTasks() {
         return tasks;
+    }
+
+    public void setErrors(List<CoreError> errors) {
+        this.errors = errors;
+    }
+
+    public void setTasks(Collection<Task> tasks) {
+        this.tasks = tasks;
     }
 
     @Override
