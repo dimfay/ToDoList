@@ -4,7 +4,6 @@ import java.util.Objects;
 
 public class AddTaskRequest implements NameableTaskRequest {
     private String userName;
-
     private String taskName;
     private String taskDescription;
 

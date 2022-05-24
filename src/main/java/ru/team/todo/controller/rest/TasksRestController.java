@@ -3,7 +3,6 @@ package ru.team.todo.controller.rest;
 import org.springframework.web.bind.annotation.*;
 import ru.team.todo.domain.Task;
 import ru.team.todo.dto.tasks.*;
-import ru.team.todo.dto.users.AddUserRequest;
 import ru.team.todo.dto.users.UserDTO;
 import ru.team.todo.services.TaskService;
 
@@ -23,14 +22,15 @@ public class TasksRestController {
     }
 
     @GetMapping("/users/{username}/tasks")
-    public List<TaskDTO> findTasksByUser(@PathVariable("username") String username, FindTasksRequest request){
-        request.setUserName(username);
+    public List<TaskDTO> findTasksByUser(@PathVariable("username") String username){
+        FindTasksRequest request = new FindTasksRequest(username, List.of());
         var response = taskService.findTasks(request);
         return response.getTasks().stream().map(this::convert).toList();
     }
 
     @PostMapping("/users/{username}/addtask")
-    public AddTaskResponse addTask(@RequestBody AddTaskRequest request) {
+    public AddTaskResponse addTask(@PathVariable("username") String username, @RequestBody AddTaskRequest request) {
+        request.setUserName(username);
         return taskService.addTask(request);
     }
 

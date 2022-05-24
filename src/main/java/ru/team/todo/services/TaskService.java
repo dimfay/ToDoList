@@ -1,7 +1,6 @@
 package ru.team.todo.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import ru.team.todo.domain.Task;
 import ru.team.todo.domain.User;
@@ -58,15 +57,6 @@ public class TaskService {
     }
 
     public FindTasksResponse findTasks(FindTasksRequest request) {
-        /*var validationResult = findTaskByNameRequestValidation.validate(request);
-        if (!validationResult.isEmpty()) {
-            return new FindTasksResponse(validationResult, List.of());
-        }*/
-
-        /*User user = this.userRepository.findByName(request.getUserName());
-        if (user == null) {
-            return new FindTasksResponse(List.of(new CoreError("Requested user " + request.getUserName() + " not found!")), List.of());
-        }*/
         var tasks = taskRepository.findAllByUserName(request.getUserName());
         return new FindTasksResponse(List.of(), tasks);
     }
