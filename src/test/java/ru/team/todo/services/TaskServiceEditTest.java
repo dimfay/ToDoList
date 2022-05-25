@@ -7,8 +7,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.team.todo.domain.Task;
 import ru.team.todo.domain.User;
-import ru.team.todo.dto.tasks.DeleteTaskRequest;
-import ru.team.todo.dto.tasks.DeleteTaskResponse;
+import ru.team.todo.dto.tasks.EditTaskRequest;
+import ru.team.todo.dto.tasks.EditTaskResponse;
 import ru.team.todo.repository.TaskRepository;
 
 import java.util.List;
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class TaskServiceDeleteTest {
+public class TaskServiceEditTest {
 
     @Mock
     private TaskRepository taskRepository;
@@ -29,14 +29,14 @@ public class TaskServiceDeleteTest {
     private TaskService service;
 
     @Test
-    public void shouldDeleteSuccessfully(){
+    public void shouldEditSuccessfully(){
         when(taskRepository.findById(1)).thenReturn(Optional.of(new Task(1, new User("testUser"), "testTask", "desc")));
 
-        DeleteTaskResponse result = service.deleteTask(new DeleteTaskRequest(1));
+        EditTaskResponse result = service.editTask(new EditTaskRequest(1, "newName", "newDescription"));
 
-        verify(taskRepository).delete(any());
+        verify(taskRepository).save(any());
 
-        DeleteTaskResponse expected = new DeleteTaskResponse(List.of());
+        EditTaskResponse expected = new EditTaskResponse(List.of());
 
         assertEquals(expected, result);
     }
