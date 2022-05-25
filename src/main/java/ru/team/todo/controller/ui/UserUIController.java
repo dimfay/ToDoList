@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.team.todo.dto.tasks.AddTaskRequest;
 import ru.team.todo.dto.tasks.DeleteTaskRequest;
-import ru.team.todo.dto.tasks.EditTaskRequest;
 import ru.team.todo.dto.tasks.FindTasksRequest;
 import ru.team.todo.dto.tasks.FindTasksResponse;
 import ru.team.todo.dto.users.AddUserRequest;
@@ -71,7 +70,7 @@ public class UserUIController {
                              @RequestParam(name = "action", defaultValue = "") String action,
                              @ModelAttribute AddTaskRequest addTaskRequest) {
         if (action.equalsIgnoreCase("delete")) {
-            this.userService.removeUser(new DeleteUserRequest(username));
+            this.userService.deleteUser(new DeleteUserRequest(username));
         }
         else if (action.equalsIgnoreCase("newtask")) {
             addTaskRequest.setUserName(username);

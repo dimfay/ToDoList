@@ -7,7 +7,7 @@ import ru.team.todo.services.TaskService;
 
 @RestController
 @AllArgsConstructor
-public class TasksRestController {
+public class TasksListRestController {
     private final TaskService taskService;
 
     @GetMapping("/tasks")
@@ -18,12 +18,6 @@ public class TasksRestController {
     @GetMapping("/users/{username}/tasks")
     public FindTasksResponse findTasksByUser(@PathVariable("username") String username) {
         return taskService.findTask(new FindTasksRequest(username));
-    }
-
-    @PostMapping("/users/{username}/addtask")
-    public AddTaskResponse addTask(@PathVariable("username") String username, @RequestBody AddTaskRequest request) {
-        request.setUserName(username);
-        return taskService.addTask(request);
     }
 
 }

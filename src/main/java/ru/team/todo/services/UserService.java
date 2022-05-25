@@ -26,7 +26,7 @@ public class UserService {
         return new AddUserResponse(List.of(), convert(user));
     }
 
-    public DeleteUserResponse removeUser(DeleteUserRequest request) {
+    public DeleteUserResponse deleteUser(DeleteUserRequest request) {
         User tmpUser = this.repository.findByName(request.getName());
         if (tmpUser == null) {
             return new DeleteUserResponse(List.of(new CoreError("User '" + request.getName() + "' not found!")));

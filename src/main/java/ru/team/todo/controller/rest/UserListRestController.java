@@ -8,7 +8,7 @@ import ru.team.todo.services.UserService;
 @RequestMapping("/users")
 @RestController()
 @AllArgsConstructor
-public class UserRestController {
+public class UserListRestController {
     private final UserService userService;
 
     @GetMapping
@@ -19,11 +19,6 @@ public class UserRestController {
     @GetMapping("/{name}")
     public FindUserResponse findUserByName(@PathVariable("name") String name) {
         return this.userService.findUser(new FindUserRequest(name));
-    }
-
-    @PostMapping
-    public AddUserResponse addUser(@RequestBody AddUserRequest request) {
-        return this.userService.addUser(request);
     }
 
 }

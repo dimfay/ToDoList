@@ -38,7 +38,7 @@ public class UserServiceDeleteTest {
 
         when(repository.findByName("testUser")).thenReturn(new User("testUser"));
 
-        DeleteUserResponse result = service.removeUser(request);
+        DeleteUserResponse result = service.deleteUser(request);
 
         verify(removeUserValidationService).validate(any());
         verify(repository).findByName("testUser");
