@@ -48,6 +48,20 @@ public class TaskService {
         return new DeleteTaskResponse(List.of());
     }
 
+    public EditTaskResponse editTask(EditTaskRequest request) {
+        Optional<Task> value = this.taskRepository.findById(request.getId());
+        if (value.isEmpty()) {
+            return new EditTaskResponse(List.of(new CoreError("Task with id '" + request.getId() + "' not found!")));
+        }
+
+        Task task = value.get();
+        task.setName(request.getName());
+        task.setDescription(request.getDescription());
+        this.taskRepository.save(task);
+
+        return new EditTaskResponse(List.of());
+    }
+
     public FindTasksResponse findTask(FindTasksRequest request) {
         String userRequested = request.getUserName();
         if (userRequested != null) {

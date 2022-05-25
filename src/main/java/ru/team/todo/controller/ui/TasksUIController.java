@@ -2,10 +2,11 @@ package ru.team.todo.controller.ui;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.team.todo.dto.tasks.AddTaskRequest;
 
 import ru.team.todo.dto.tasks.DeleteTaskRequest;
+import ru.team.todo.dto.tasks.EditTaskRequest;
 import ru.team.todo.services.TaskService;
 
 @Controller
@@ -14,22 +15,30 @@ import ru.team.todo.services.TaskService;
 public class TasksUIController {
     private final TaskService taskService;
 
-    @PostMapping("{username}")
-    public String userView(@PathVariable("username") String username,
-                           @RequestParam(name = "action", defaultValue = "") String action,
-                           @ModelAttribute AddTaskRequest request) {
-        if (action.equalsIgnoreCase("newtask")) {
-            taskService.addTask(request);
+    @PostMapping("{username}/{taskid}")
+    public String taskAction(@PathVariable("username") String username,
+                             @PathVariable("taskid") int taskId,
+                             @RequestParam(name = "action", defaultValue = "") String action,
+                             @ModelAttribute EditTaskRequest editTaskRequest) {
+        if (action.equalsIgnoreCase("delete")) {
+            taskService.deleteTask(new DeleteTaskRequest(taskId));
+        }
+        else if (action.equalsIgnoreCase("edit")) {
+            editTaskRequest.setId(taskId);
+            taskService.editTask(editTaskRequest);
         }
         return "redirect:/ui/users/{username}";
     }
 
     @GetMapping("{username}/{taskid}")
-    public String taskView(@PathVariable("username") String username,
-                           @PathVariable("taskid") int taskId,
-                           @RequestParam(name = "action", defaultValue = "") String action) {
-        if (action.equalsIgnoreCase("delete")) {
-            taskService.deleteTask(new DeleteTaskRequest(taskId));
+    public String taskEdit(@PathVariable("username") String username,
+                             @PathVariable("taskid") int taskId,
+                             @RequestParam(name = "action", defaultValue = "") String action, Model model) {
+        if (action.equalsIgnoreCase("edit")) {
+            model.addAttribute("user", username);
+            model.addAttribute("taskid", taskId);
+            model.addAttribute("request", new EditTaskRequest());
+            return "edittask";
         }
         return "redirect:/ui/users/{username}";
     }

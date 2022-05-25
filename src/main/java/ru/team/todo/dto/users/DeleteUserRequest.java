@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RemoveUserRequest implements NameableUserRequest {
+public class DeleteUserRequest implements NameableUserRequest {
     private String name;
 }

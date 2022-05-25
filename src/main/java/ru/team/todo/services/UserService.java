@@ -26,14 +26,14 @@ public class UserService {
         return new AddUserResponse(List.of(), convert(user));
     }
 
-    public RemoveUserResponse removeUser(RemoveUserRequest request) {
+    public DeleteUserResponse removeUser(DeleteUserRequest request) {
         User tmpUser = this.repository.findByName(request.getName());
         if (tmpUser == null) {
-            return new RemoveUserResponse(List.of(new CoreError("User '" + request.getName() + "' not found!")));
+            return new DeleteUserResponse(List.of(new CoreError("User '" + request.getName() + "' not found!")));
         }
 
         this.repository.delete(tmpUser);
-        return new RemoveUserResponse(List.of());
+        return new DeleteUserResponse(List.of());
     }
 
     public FindUserResponse findUser(FindUserRequest request) {

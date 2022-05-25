@@ -33,7 +33,6 @@ public class Task {
     @ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "id", nullable = false)
     private User user;
-    @NaturalId
     @Column(name = "name", nullable = false)
     private String name;
     @Column(name = "description")
