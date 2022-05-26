@@ -34,13 +34,10 @@ public class UserServiceDeleteTest {
     public void shouldRemoveUserTest() {
         DeleteUserRequest request = new DeleteUserRequest("testUser");
 
-        when(removeUserValidationService.validate(request)).thenReturn(List.of());
-
         when(repository.findByName("testUser")).thenReturn(new User("testUser"));
 
         DeleteUserResponse result = service.deleteUser(request);
 
-        verify(removeUserValidationService).validate(any());
         verify(repository).findByName("testUser");
 
         DeleteUserResponse excepted = new DeleteUserResponse(List.of());

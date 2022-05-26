@@ -5,16 +5,17 @@ import org.springframework.stereotype.Service;
 import ru.team.todo.domain.LinkedTask;
 import ru.team.todo.domain.Task;
 import ru.team.todo.domain.User;
-import ru.team.todo.dto.linkedtasks.LinkTaskRequest;
-import ru.team.todo.dto.linkedtasks.LinkTaskResponse;
-import ru.team.todo.dto.linkedtasks.UnlinkTaskRequest;
-import ru.team.todo.dto.linkedtasks.UnlinkTaskResponse;
+import ru.team.todo.dto.linkedtasks.*;
+import ru.team.todo.dto.tasks.TaskDTO;
 import ru.team.todo.repository.LinkedTasksRepository;
 import ru.team.todo.repository.TaskRepository;
 import ru.team.todo.repository.UserRepository;
 import ru.team.todo.validation.CoreError;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class LinkedTaskService {
@@ -26,53 +27,97 @@ public class LinkedTaskService {
     @Autowired
     private UserRepository userRepository;
 
-    //TODO Добавить сюда валидации
     public LinkTaskResponse linkTask(LinkTaskRequest request) {
-        User user = this.userRepository.findByName(request.getUserName());
-        if (user == null) {
-            return new LinkTaskResponse(List.of(new CoreError("Requested user " + request.getUserName() + " not found!")));
+        var parentTaskId = request.getParentTaskId();
+        var childTaskId = request.getChildTaskId();
+
+        var parentTaskOpt = taskRepository.findById(parentTaskId);
+        var childTaskOpt = taskRepository.findById(childTaskId);
+
+        if (parentTaskOpt.isEmpty()){
+            return new LinkTaskResponse(List.of(new CoreError("Task with id " + parentTaskId + " is not found")));
+        }
+        if (childTaskOpt.isEmpty()){
+            return new LinkTaskResponse(List.of(new CoreError("Task with id " + childTaskId + " is not found")));
         }
 
-        Task firstTask = this.taskRepository.findByName(request.getFirstTask());
-        if (firstTask == null) {
-            return new LinkTaskResponse(List.of(new CoreError("First Task with name '" + request.getFirstTask() + "' not found!")));
+        var parentUser = parentTaskOpt.get().getUser();
+        var childUser = childTaskOpt.get().getUser();
+
+        if (!parentUser.equals(childUser)){
+            return new LinkTaskResponse(
+                    List.of(new CoreError("Tasks are from different users!")));
         }
 
-        Task secondTask = this.taskRepository.findByName(request.getSecondTask());
-        if (secondTask == null) {
-            return new LinkTaskResponse(List.of(new CoreError("Second Task with name '" + request.getFirstTask() + "' not found!")));
+        if (linkedTaskRepository.findByTaskIdAndLinkedTaskId(parentTaskOpt.get().getId(),
+                childTaskOpt.get().getId()) != null){
+            return new LinkTaskResponse(List.of(new CoreError("Tasks are already linked!")));
         }
 
-        this.linkedTaskRepository.save(new LinkedTask(firstTask, secondTask));
-
+        linkedTaskRepository.save(new LinkedTask(parentTaskOpt.get(), childTaskOpt.get()));
         return new LinkTaskResponse(List.of());
+
     }
 
-    //TODO Добавить сюда валидации
     public UnlinkTaskResponse unlinkTask(UnlinkTaskRequest request) {
-        User user = this.userRepository.findByName(request.getUserName());
-        if (user == null) {
-            return new UnlinkTaskResponse(List.of(new CoreError("Requested user " + request.getUserName() + " not found!")));
+        var parentTaskId = request.getParentTaskId();
+        var childTaskId = request.getChildTaskId();
+
+        var parentTaskOpt = taskRepository.findById(parentTaskId);
+        var childTaskOpt = taskRepository.findById(childTaskId);
+
+        if (parentTaskOpt.isEmpty()){
+            return new UnlinkTaskResponse(List.of(new CoreError("Task with id " + parentTaskId + " is not found")));
+        }
+        if (childTaskOpt.isEmpty()){
+            return new UnlinkTaskResponse(List.of(new CoreError("Task with id " + childTaskId + " is not found")));
         }
 
-        Task firstTask = this.taskRepository.findByName(request.getFirstTask());
-        if (firstTask == null) {
-            return new UnlinkTaskResponse(List.of(new CoreError("First Task with name '" + request.getFirstTask() + "' not found!")));
+        if (linkedTaskRepository.findByTaskIdAndLinkedTaskId(parentTaskOpt.get().getId(),
+                childTaskOpt.get().getId()) == null){
+            return new UnlinkTaskResponse(List.of(new CoreError("There was no link between the tasks!")));
         }
+        var linkedTask = linkedTaskRepository
+                .findByTaskIdAndLinkedTaskId(parentTaskOpt.get().getId(), childTaskOpt.get().getId());
 
-        Task secondTask = this.taskRepository.findByName(request.getSecondTask());
-        if (secondTask == null) {
-            return new UnlinkTaskResponse(List.of(new CoreError("Second Task with name '" + request.getFirstTask() + "' not found!")));
-        }
-
-        LinkedTask linkedTask = this.linkedTaskRepository.findByTaskIdAndLinkedTaskId(firstTask.getId(), secondTask.getId());
-        if (linkedTask == null) {
-            return new UnlinkTaskResponse(List.of(new CoreError("Task '" + request.getFirstTask() + "' and Task '" + request.getSecondTask() + "' is not linked!")));
-        }
-
-        this.linkedTaskRepository.delete(linkedTask);
-
+        linkedTaskRepository.delete(linkedTask);
         return new UnlinkTaskResponse(List.of());
+    }
+
+    public FindLinkedTasksResponse findLinkedTasks(FindLinkedTasksRequest request){
+        var taskId = request.getId();
+        if (taskId != null){
+            var task = taskRepository.findById(taskId);
+            if (task.isPresent()) {
+                var linkedTasksByTask = linkedTaskRepository.findAllByTask(task.get());
+                var linkedTasksByLinkedTask = linkedTaskRepository.findAllByLinkedTask(task.get());
+                var result = Stream.concat(linkedTasksByTask.stream(), linkedTasksByLinkedTask.stream())
+                        .collect(Collectors.toList());
+                return new FindLinkedTasksResponse(List.of(), convert(result));
+            }
+            return new FindLinkedTasksResponse(List.of(new CoreError("Requested task by id " + request.getId() +
+                    " not found!")), List.of());
+        }
+
+
+        var linkedTasks = linkedTaskRepository.findAll();
+        return new FindLinkedTasksResponse(List.of(), convert(linkedTasks));
+    }
+
+    private List<LinkedTasksDTO> convert(List<LinkedTask> linkedTasks){
+        List<LinkedTasksDTO> dtos = new ArrayList<>();
+        for (LinkedTask linkedTask : linkedTasks){
+            dtos.add(convert(linkedTask));
+        }
+        return dtos;
+    }
+
+    private LinkedTasksDTO convert(LinkedTask linkedTask){
+        var taskDTO = new TaskDTO(linkedTask.getTask().getId(),
+                linkedTask.getTask().getName(), linkedTask.getTask().getDescription());
+        var linkedTaskDTO = new TaskDTO(linkedTask.getLinkedTask().getId(),
+                linkedTask.getLinkedTask().getName(), linkedTask.getLinkedTask().getDescription());
+        return new LinkedTasksDTO(linkedTask.getId(), taskDTO, linkedTaskDTO);
     }
 
 }

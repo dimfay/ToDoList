@@ -15,6 +15,7 @@ import ru.team.todo.repository.TaskRepository;
 import ru.team.todo.repository.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
@@ -33,18 +34,16 @@ public class LinkedTaskServiceLinkTest {
 
     @Test
     public void shouldLinkTasks() {
-        when(userRepository.findByName("testUser")).thenReturn(new User("testUser"));
-        when(taskRepository.findByName("firstTask"))
-                .thenReturn(new Task(1, new User("testUser"), "firstTask", "desc"));
-        when(taskRepository.findByName("secondTask"))
-                .thenReturn(new Task(2, new User("testUser"), "secondTask", "desc"));
+        when(taskRepository.findById(1))
+                .thenReturn(Optional.of(new Task(1, new User("testUser"), "firstTask", "desc")));
+        when(taskRepository.findById(2))
+                .thenReturn(Optional.of(new Task(2, new User("testUser"), "secondTask", "desc")));
 
-        LinkTaskRequest request = new LinkTaskRequest("testUser", "firstTask", "secondTask");
+        LinkTaskRequest request = new LinkTaskRequest(1, 2);
         LinkTaskResponse result = linkedTaskService.linkTask(request);
 
-        verify(userRepository).findByName("testUser");
-        verify(taskRepository).findByName("firstTask");
-        verify(taskRepository).findByName("secondTask");
+        verify(taskRepository).findById(1);
+        verify(taskRepository).findById(2);
         verify(linkedTasksRepository).save(Mockito.any());
 
         LinkTaskResponse expected = new LinkTaskResponse(List.of());
