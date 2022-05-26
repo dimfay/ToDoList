@@ -17,10 +17,10 @@ import ru.team.todo.repository.TaskRepository;
 import ru.team.todo.repository.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class LinkedTaskServiceUnlinkTest {
@@ -37,28 +37,25 @@ public class LinkedTaskServiceUnlinkTest {
     public void shouldUnlinkTasks() {
         User user = new User("testUser");
 
-        when(userRepository.findByName("testUser")).thenReturn(user);
-
         Task firstTask = new Task(1, user, "firstTask", "desc");
         Task secondTask = new Task(2, user, "secondTask", "desc");
 
-        when(taskRepository.findByName("firstTask"))
-                .thenReturn(firstTask);
-        when(taskRepository.findByName("secondTask"))
-                .thenReturn(secondTask);
+        when(taskRepository.findById(1))
+                .thenReturn(Optional.of(firstTask));
+        when(taskRepository.findById(2))
+                .thenReturn(Optional.of(secondTask));
         when(linkedTasksRepository
                 .findByTaskIdAndLinkedTaskId(1, 2))
                 .thenReturn(new LinkedTask(1, firstTask, secondTask));
 
         UnlinkTaskRequest request =
-                new UnlinkTaskRequest("testUser", "firstTask", "secondTask");
+                new UnlinkTaskRequest(1, 2);
 
         UnlinkTaskResponse result = linkedTaskService.unlinkTask(request);
 
-        verify(userRepository).findByName("testUser");
-        verify(taskRepository).findByName("firstTask");
-        verify(taskRepository).findByName("secondTask");
-        verify(linkedTasksRepository).findByTaskIdAndLinkedTaskId(1, 2);
+        verify(taskRepository).findById(1);
+        verify(taskRepository).findById(2);
+        verify(linkedTasksRepository, times(2)).findByTaskIdAndLinkedTaskId(1, 2);
         verify(linkedTasksRepository).delete(Mockito.any());
 
         UnlinkTaskResponse expected = new UnlinkTaskResponse(List.of());

@@ -4,17 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class UnlinkTaskRequest {
-    @NotBlank
-    private String userName;
+    private Integer parentTaskId;
+    private Integer childTaskId;
 
-    @NotBlank
-    private String firstTask;
-    @NotBlank
-    private String secondTask;
 }
