@@ -1,4 +1,4 @@
-package ru.team.todo.dto.users;
+package ru.team.todo.dto.tasks;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,6 +10,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RemoveUserResponse {
+public class EditTaskResponse {
     private List<CoreError> errors;
 }

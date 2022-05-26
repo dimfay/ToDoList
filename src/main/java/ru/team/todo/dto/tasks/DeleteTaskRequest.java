@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DeleteTaskRequest implements IdTaskRequest {
+public class DeleteTaskRequest {
     private int id;
 }
 

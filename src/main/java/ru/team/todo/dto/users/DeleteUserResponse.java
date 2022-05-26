@@ -3,13 +3,13 @@ package ru.team.todo.dto.users;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.team.todo.validation.CoreError;
 
-import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddUserRequest implements NameableUserRequest {
-    @NotBlank
-    private String name;
+public class DeleteUserResponse {
+    private List<CoreError> errors;
 }

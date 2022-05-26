@@ -4,36 +4,43 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.team.todo.dto.tasks.AddTaskRequest;
-import ru.team.todo.dto.tasks.FindTasksRequest;
-import ru.team.todo.dto.tasks.FindTasksResponse;
+
+import ru.team.todo.dto.tasks.DeleteTaskRequest;
+import ru.team.todo.dto.tasks.EditTaskRequest;
 import ru.team.todo.services.TaskService;
 
 @Controller
-@RequestMapping("/ui")
+@RequestMapping("/ui/users")
 @AllArgsConstructor
 public class TasksUIController {
     private final TaskService taskService;
 
-    @GetMapping("/users/{username}/tasks")
-    public String findAllTasks(@PathVariable("username") String username, Model model) {
-        FindTasksResponse response =
-                taskService.findTask(new FindTasksRequest(username));
-        model.addAttribute("tasks", response.getTasks());
-        model.addAttribute("user", username);
-        return "tasks";
+    @PostMapping("{username}/{taskid}")
+    public String taskAction(@PathVariable("username") String username,
+                             @PathVariable("taskid") int taskId,
+                             @RequestParam(name = "action", defaultValue = "") String action,
+                             @ModelAttribute EditTaskRequest editTaskRequest) {
+        if (action.equalsIgnoreCase("delete")) {
+            taskService.deleteTask(new DeleteTaskRequest(taskId));
+        }
+        else if (action.equalsIgnoreCase("edit")) {
+            editTaskRequest.setId(taskId);
+            taskService.editTask(editTaskRequest);
+        }
+        return "redirect:/ui/users/{username}";
     }
 
-    @GetMapping("/users/{username}/addtask")
-    public String addTaskView(@PathVariable("username") String username, Model model) {
-        model.addAttribute("user", username);
-        model.addAttribute("request", new AddTaskRequest());
-        return "addtask";
+    @GetMapping("{username}/{taskid}")
+    public String taskEdit(@PathVariable("username") String username,
+                             @PathVariable("taskid") int taskId,
+                             @RequestParam(name = "action", defaultValue = "") String action, Model model) {
+        if (action.equalsIgnoreCase("edit")) {
+            model.addAttribute("user", username);
+            model.addAttribute("taskid", taskId);
+            model.addAttribute("request", new EditTaskRequest());
+            return "edittask";
+        }
+        return "redirect:/ui/users/{username}";
     }
 
-    @PostMapping("/users/{username}/addtask")
-    public String addTask(@PathVariable("username") String username, @ModelAttribute AddTaskRequest request) {
-        taskService.addTask(request);
-        return "redirect:/ui/users/{username}/tasks";
-    }
 }

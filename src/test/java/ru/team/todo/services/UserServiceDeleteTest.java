@@ -6,8 +6,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.team.todo.domain.User;
-import ru.team.todo.dto.users.RemoveUserRequest;
-import ru.team.todo.dto.users.RemoveUserResponse;
+import ru.team.todo.dto.users.DeleteUserRequest;
+import ru.team.todo.dto.users.DeleteUserResponse;
 import ru.team.todo.repository.UserRepository;
 import ru.team.todo.validation.requests.user.RemoveUserRequestValidation;
 
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class UserServiceRemoveTest {
+public class UserServiceDeleteTest {
 
     @Mock
     private UserRepository repository;
@@ -32,18 +32,18 @@ public class UserServiceRemoveTest {
 
     @Test
     public void shouldRemoveUserTest() {
-        RemoveUserRequest request = new RemoveUserRequest("testUser");
+        DeleteUserRequest request = new DeleteUserRequest("testUser");
 
         when(removeUserValidationService.validate(request)).thenReturn(List.of());
 
         when(repository.findByName("testUser")).thenReturn(new User("testUser"));
 
-        RemoveUserResponse result = service.removeUser(request);
+        DeleteUserResponse result = service.deleteUser(request);
 
         verify(removeUserValidationService).validate(any());
         verify(repository).findByName("testUser");
 
-        RemoveUserResponse excepted = new RemoveUserResponse(List.of());
+        DeleteUserResponse excepted = new DeleteUserResponse(List.of());
 
         assertEquals(excepted, result);
     }

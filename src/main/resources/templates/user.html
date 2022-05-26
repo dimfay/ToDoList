@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ToDo List</title>
+</head>
+<body>
+<h3>User: <span th:text="${user}"> User </span></h3><br>
+<form action="#" th:action="@{/ui/users/{username}?action=delete(username=${user})}" method="post">
+    <input type="hidden" th:value="${user}" id="name" name="name"/>
+    <p><input type="submit" value="Delete current user"/>
+</form>
+<table>
+    <thead>
+    <tr>
+        <th>Current tasks:</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="task : ${tasks}">
+        <td>
+            Name:
+            <span th:text="${task.name}">
+                Name
+            </span>
+            -- Description:
+            <span th:text="${task.description}">
+                Description
+            </span>
+        </td>
+        <td>
+            <a th:href="@{/ui/users/{username}/{taskid}?action=edit(username=${user}, taskid=${task.id})}">
+                Edit task
+            </a>
+        </td>
+        <td>
+            <form action="#"
+                  th:action="@{/ui/users/{username}/{taskid}?action=delete(username=${user}, taskid=${task.id})}"
+                  th:object="${deleterequest}" method="post">
+                <input type="hidden" th:value="${task.id}" id="id" name="id"/>
+                <p><input type="submit" value="Delete task"/>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<h4>Options:</h4>
+<a th:href="@{/ui/users/{username}?action=newtask(username=${user})}">New task </a><br>
+<a href="/ui/users">Back to users</a>
+</body>
+</html>
