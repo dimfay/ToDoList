@@ -10,6 +10,6 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FindLinkedTasksRequest {
-    @NotNull
+    @NotNull(message = "Must not be null")
     private Integer id;
 }

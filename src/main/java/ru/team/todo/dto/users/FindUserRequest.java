@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FindUserRequest implements NameableUserRequest {
-    @NotBlank
+    @NotBlank(message = "Must not be empty")
     private String name;
 }
 

@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DeleteTaskRequest {
-    @NotNull
+    @NotNull(message = "Must not be null")
     private Integer id;
 }
 

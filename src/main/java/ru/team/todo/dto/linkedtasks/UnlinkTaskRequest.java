@@ -11,9 +11,9 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UnlinkTaskRequest {
-    @NotNull
+    @NotNull(message = "Must not be null")
     private Integer parentTaskId;
-    @NotNull
+    @NotNull(message = "Must not be null")
     private Integer childTaskId;
 
 }
