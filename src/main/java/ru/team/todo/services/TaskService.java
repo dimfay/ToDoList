@@ -8,8 +8,6 @@ import ru.team.todo.dto.tasks.*;
 import ru.team.todo.repository.TaskRepository;
 import ru.team.todo.repository.UserRepository;
 import ru.team.todo.validation.CoreError;
-import ru.team.todo.validation.requests.task.AddTaskRequestValidation;
-import ru.team.todo.validation.requests.task.FindTaskRequestValidation;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,10 +21,6 @@ public class TaskService {
     private TaskRepository taskRepository;
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private AddTaskRequestValidation addTaskValidationService;
-    @Autowired
-    private FindTaskRequestValidation findTaskByNameRequestValidation;
 
     public AddTaskResponse addTask(AddTaskRequest request) {
         User user = this.userRepository.findByName(request.getUserName());

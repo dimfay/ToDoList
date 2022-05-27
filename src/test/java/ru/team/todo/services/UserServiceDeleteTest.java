@@ -9,12 +9,10 @@ import ru.team.todo.domain.User;
 import ru.team.todo.dto.users.DeleteUserRequest;
 import ru.team.todo.dto.users.DeleteUserResponse;
 import ru.team.todo.repository.UserRepository;
-import ru.team.todo.validation.requests.user.RemoveUserRequestValidation;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -23,9 +21,6 @@ public class UserServiceDeleteTest {
 
     @Mock
     private UserRepository repository;
-
-    @Mock
-    private RemoveUserRequestValidation removeUserValidationService;
 
     @InjectMocks
     private UserService service;

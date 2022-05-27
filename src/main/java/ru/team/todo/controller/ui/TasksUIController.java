@@ -9,6 +9,8 @@ import ru.team.todo.dto.tasks.DeleteTaskRequest;
 import ru.team.todo.dto.tasks.EditTaskRequest;
 import ru.team.todo.services.TaskService;
 
+import javax.validation.Valid;
+
 @Controller
 @RequestMapping("/ui/users")
 @AllArgsConstructor
@@ -19,7 +21,7 @@ public class TasksUIController {
     public String taskAction(@PathVariable("username") String username,
                              @PathVariable("taskid") int taskId,
                              @RequestParam(name = "action", defaultValue = "") String action,
-                             @ModelAttribute EditTaskRequest editTaskRequest) {
+                             @ModelAttribute @Valid EditTaskRequest editTaskRequest) {
         if (action.equalsIgnoreCase("delete")) {
             taskService.deleteTask(new DeleteTaskRequest(taskId));
         }

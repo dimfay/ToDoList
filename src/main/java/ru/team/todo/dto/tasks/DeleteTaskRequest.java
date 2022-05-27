@@ -4,10 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class DeleteTaskRequest {
-    private int id;
+    @NotNull(message = "Must not be null")
+    private Integer id;
 }
 
