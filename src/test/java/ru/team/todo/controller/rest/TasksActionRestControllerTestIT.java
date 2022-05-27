@@ -35,9 +35,10 @@ class TasksActionRestControllerTestIT {
     private MockMvc mockMvc;
 
     @Test
-    @DatabaseSetup(value = "classpath:dbunit/add-task-dataset.xml")
-    @ExpectedDatabase(value = "classpath:dbunit/add-task-expected.xml", assertionMode= DatabaseAssertionMode.NON_STRICT)
-    @DatabaseTearDown(value = "classpath:dbunit/add-task-teardown.xml")
+    @DatabaseSetup(value = "classpath:dbunit/tasks/action/add-task-dataset.xml")
+    @ExpectedDatabase(value = "classpath:dbunit/tasks/action/add-task-expected.xml",
+            assertionMode= DatabaseAssertionMode.NON_STRICT)
+    @DatabaseTearDown(value = "classpath:dbunit/tasks/action/add-task-teardown.xml")
     void shouldAddTask() throws Exception{
         mockMvc.perform(post("/action/task/add")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -56,9 +57,9 @@ class TasksActionRestControllerTestIT {
 
 
     @Test
-    @DatabaseSetup(value = "classpath:dbunit/delete-task-dataset.xml")
-    @ExpectedDatabase(value = "classpath:dbunit/delete-task-expected.xml", assertionMode= DatabaseAssertionMode.NON_STRICT)
-    @DatabaseTearDown(value = "classpath:dbunit/delete-task-teardown.xml")
+    @DatabaseSetup(value = "classpath:dbunit/tasks/action/delete-task-dataset.xml")
+    @ExpectedDatabase(value = "classpath:dbunit/tasks/action/delete-task-expected.xml", assertionMode= DatabaseAssertionMode.NON_STRICT)
+    @DatabaseTearDown(value = "classpath:dbunit/tasks/action/delete-task-teardown.xml")
     void shouldDeleteTask() throws Exception {
         mockMvc.perform(post("/action/task/delete")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -75,9 +76,9 @@ class TasksActionRestControllerTestIT {
     }
 
     @Test
-    @DatabaseSetup(value = "classpath:dbunit/edit-task-dataset.xml")
-    @ExpectedDatabase(value = "classpath:dbunit/edit-task-expected.xml", assertionMode= DatabaseAssertionMode.NON_STRICT)
-    @DatabaseTearDown(value = "classpath:dbunit/edit-task-teardown.xml")
+    @DatabaseSetup(value = "classpath:dbunit/tasks/action/edit-task-dataset.xml")
+    @ExpectedDatabase(value = "classpath:dbunit/tasks/action/edit-task-expected.xml", assertionMode= DatabaseAssertionMode.NON_STRICT)
+    @DatabaseTearDown(value = "classpath:dbunit/tasks/action/edit-task-teardown.xml")
     void shouldEditTask() throws Exception {
         mockMvc.perform(post("/action/task/edit")
                 .contentType(MediaType.APPLICATION_JSON)
