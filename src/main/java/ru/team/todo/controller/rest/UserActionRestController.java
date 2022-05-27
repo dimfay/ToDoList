@@ -9,6 +9,8 @@ import ru.team.todo.dto.users.AddUserRequest;
 import ru.team.todo.dto.users.DeleteUserRequest;
 import ru.team.todo.services.UserService;
 
+import javax.validation.Valid;
+
 @RequestMapping("/action/user")
 @RestController()
 @AllArgsConstructor
@@ -16,12 +18,12 @@ public class UserActionRestController {
     private final UserService userService;
 
     @PostMapping("/add")
-    public Object addUser(@RequestBody AddUserRequest request) {
+    public Object addUser(@RequestBody @Valid AddUserRequest request) {
         return this.userService.addUser(request);
     }
 
     @PostMapping("/delete")
-    public Object deleteUser(@RequestBody DeleteUserRequest request) {
+    public Object deleteUser(@RequestBody @Valid DeleteUserRequest request) {
         return this.userService.deleteUser(request);
     }
 

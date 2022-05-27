@@ -13,6 +13,8 @@ import ru.team.todo.dto.tasks.EditTaskRequest;
 import ru.team.todo.dto.tasks.EditTaskResponse;
 import ru.team.todo.services.TaskService;
 
+import javax.validation.Valid;
+
 @RequestMapping("/action/task")
 @RestController()
 @AllArgsConstructor
@@ -20,17 +22,17 @@ public class TasksActionRestController {
     private final TaskService taskService;
 
     @PostMapping("/add")
-    public AddTaskResponse addTask(@RequestBody AddTaskRequest request) {
+    public AddTaskResponse addTask(@RequestBody @Valid AddTaskRequest request) {
         return taskService.addTask(request);
     }
 
     @PostMapping("/delete")
-    public DeleteTaskResponse deleteTask(@RequestBody DeleteTaskRequest request) {
+    public DeleteTaskResponse deleteTask(@RequestBody @Valid DeleteTaskRequest request) {
         return taskService.deleteTask(request);
     }
 
     @PostMapping("/edit")
-    public EditTaskResponse editTask(@RequestBody EditTaskRequest request) {
+    public EditTaskResponse editTask(@RequestBody @Valid EditTaskRequest request) {
         return taskService.editTask(request);
     }
 
