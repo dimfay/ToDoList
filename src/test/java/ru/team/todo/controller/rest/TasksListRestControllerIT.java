@@ -1,12 +1,8 @@
 package ru.team.todo.controller.rest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
-import com.github.springtestdbunit.annotation.ExpectedDatabase;
-import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,12 +14,9 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.web.servlet.MockMvc;
-import ru.team.todo.dto.tasks.TaskDTO;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -45,13 +38,12 @@ class TasksListRestControllerIT {
         mockMvc.perform(get("/tasks").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.errors").value(new ArrayList<>()))
-                .andExpect(jsonPath("$.tasks[0].id").value(1))
-                .andExpect(jsonPath("$.tasks[0].name").value("test name"))
-                .andExpect(jsonPath("$.tasks[0].description").value("test description"))
-                .andExpect(jsonPath("$.tasks[1].id").value(2))
-                .andExpect(jsonPath("$.tasks[1].name").value("test name"))
-                .andExpect(jsonPath("$.tasks[1].description").value("test description"));
-
+                .andExpect(jsonPath("$.tasks.size()").value(2))
+                .andExpect(jsonPath("$.tasks[*].id", Matchers.containsInAnyOrder(1, 2)))
+                .andExpect(jsonPath("$.tasks[*].name",
+                        Matchers.containsInAnyOrder("test name1", "test name2")))
+                .andExpect(jsonPath("$.tasks[*].description",
+                        Matchers.containsInAnyOrder("test description1", "test description2")));
     }
 
     @Test
@@ -61,6 +53,7 @@ class TasksListRestControllerIT {
         mockMvc.perform(get("/users/{username}/tasks", "admin").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.errors").value(new ArrayList<>()))
+                .andExpect(jsonPath("$.tasks.size()").value("1"))
                 .andExpect(jsonPath("$.tasks[0].id").value("1"))
                 .andExpect(jsonPath("$.tasks[0].name").value("test admin"))
                 .andExpect(jsonPath("$.tasks[0].description").value("test description"));
