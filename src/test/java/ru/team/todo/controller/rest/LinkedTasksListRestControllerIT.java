@@ -10,7 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
@@ -24,17 +24,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
+@DirtiesContext
 @AutoConfigureMockMvc
 @TestExecutionListeners(value = {DependencyInjectionTestExecutionListener.class, DbUnitTestExecutionListener.class},
         mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS)
 class LinkedTasksListRestControllerIT {
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @Test
     @DatabaseSetup(value = "classpath:dbunit/linkedtasks/list/find-linkedtasks-dataset.xml")
-    @ExpectedDatabase(value="classpath:dbunit/linkedtasks/list/find-linkedtasks-dataset.xml",
-        assertionMode = DatabaseAssertionMode.NON_STRICT)
     @DatabaseTearDown(value="classpath:dbunit/linkedtasks/list/find-linkedtasks-dataset.xml")
     void shouldFindAllLinkedTasks()throws Exception{
         mockMvc.perform(get("/linkedtasks"))
@@ -53,8 +52,6 @@ class LinkedTasksListRestControllerIT {
 
     @Test
     @DatabaseSetup(value = "classpath:dbunit/linkedtasks/list/find-linkedtasks-id-dataset.xml")
-    @ExpectedDatabase(value="classpath:dbunit/linkedtasks/list/find-linkedtasks-id-dataset.xml",
-            assertionMode = DatabaseAssertionMode.NON_STRICT)
     @DatabaseTearDown(value="classpath:dbunit/linkedtasks/list/find-linkedtasks-id-dataset.xml")
     void shouldFindLinkedTasksById() throws Exception{
             mockMvc.perform(get("/linkedtasks/{id}", "3"))

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
@@ -26,6 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
+@DirtiesContext
 @AutoConfigureMockMvc
 @TestExecutionListeners(listeners = {DependencyInjectionTestExecutionListener.class, DbUnitTestExecutionListener.class},
         mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS)
@@ -77,7 +79,8 @@ class TasksActionRestControllerTestIT {
 
     @Test
     @DatabaseSetup(value = "classpath:dbunit/tasks/action/edit-task-dataset.xml")
-    @ExpectedDatabase(value = "classpath:dbunit/tasks/action/edit-task-expected.xml", assertionMode= DatabaseAssertionMode.NON_STRICT)
+    @ExpectedDatabase(value = "classpath:dbunit/tasks/action/edit-task-expected.xml",
+            assertionMode= DatabaseAssertionMode.NON_STRICT)
     @DatabaseTearDown(value = "classpath:dbunit/tasks/action/edit-task-teardown.xml")
     void shouldEditTask() throws Exception {
         mockMvc.perform(post("/action/task/edit")
