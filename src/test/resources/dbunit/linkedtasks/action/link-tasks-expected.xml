@@ -1,0 +1,19 @@
+<dataset>
+    <users id="5"
+           name="admin"
+    />
+    <tasks id="1"
+           userId="5"
+           name="first task"
+           description="first description"
+    />
+    <tasks id="2"
+           userId="5"
+           name="second task"
+           description="second description"
+    />
+    <linkedTasks id="1"
+                 taskId="1"
+                 linkedTaskId="2"
+    />
+</dataset>

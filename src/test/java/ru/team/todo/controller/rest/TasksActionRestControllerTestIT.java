@@ -1,6 +1,7 @@
 package ru.team.todo.controller.rest;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
+import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import com.github.springtestdbunit.annotation.ExpectedDatabase;
@@ -13,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
@@ -27,7 +27,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-@DirtiesContext
 @AutoConfigureMockMvc
 @TestExecutionListeners(listeners = {DependencyInjectionTestExecutionListener.class, DbUnitTestExecutionListener.class},
         mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS)
@@ -40,7 +39,8 @@ class TasksActionRestControllerTestIT {
     @DatabaseSetup(value = "classpath:dbunit/tasks/action/add-task-dataset.xml")
     @ExpectedDatabase(value = "classpath:dbunit/tasks/action/add-task-expected.xml",
             assertionMode= DatabaseAssertionMode.NON_STRICT)
-    @DatabaseTearDown(value = "classpath:dbunit/tasks/action/add-task-teardown.xml")
+    @DatabaseTearDown(value = "classpath:dbunit/tasks/action/add-task-teardown.xml",
+        type = DatabaseOperation.DELETE_ALL)
     void shouldAddTask() throws Exception{
         mockMvc.perform(post("/action/task/add")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -61,7 +61,8 @@ class TasksActionRestControllerTestIT {
     @Test
     @DatabaseSetup(value = "classpath:dbunit/tasks/action/delete-task-dataset.xml")
     @ExpectedDatabase(value = "classpath:dbunit/tasks/action/delete-task-expected.xml", assertionMode= DatabaseAssertionMode.NON_STRICT)
-    @DatabaseTearDown(value = "classpath:dbunit/tasks/action/delete-task-teardown.xml")
+    @DatabaseTearDown(value = "classpath:dbunit/tasks/action/delete-task-teardown.xml",
+        type = DatabaseOperation.DELETE_ALL)
     void shouldDeleteTask() throws Exception {
         mockMvc.perform(post("/action/task/delete")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -81,7 +82,8 @@ class TasksActionRestControllerTestIT {
     @DatabaseSetup(value = "classpath:dbunit/tasks/action/edit-task-dataset.xml")
     @ExpectedDatabase(value = "classpath:dbunit/tasks/action/edit-task-expected.xml",
             assertionMode= DatabaseAssertionMode.NON_STRICT)
-    @DatabaseTearDown(value = "classpath:dbunit/tasks/action/edit-task-teardown.xml")
+    @DatabaseTearDown(value = "classpath:dbunit/tasks/action/edit-task-teardown.xml",
+    type = DatabaseOperation.DELETE_ALL)
     void shouldEditTask() throws Exception {
         mockMvc.perform(post("/action/task/edit")
                 .contentType(MediaType.APPLICATION_JSON)

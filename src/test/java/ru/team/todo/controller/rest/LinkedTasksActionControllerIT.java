@@ -29,49 +29,55 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestExecutionListeners(value = {DependencyInjectionTestExecutionListener.class, DbUnitTestExecutionListener.class},
-mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS)
-class UserActionRestControllerIT {
+        mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS)
+class LinkedTasksActionControllerIT {
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    @DatabaseSetup(value = "classpath:dbunit/user/action/add-user-dataset.xml")
-    @ExpectedDatabase(value = "classpath:dbunit/user/action/add-user-expected.xml",
-        assertionMode = DatabaseAssertionMode.NON_STRICT)
-    @DatabaseTearDown(value = "classpath:dbunit/user/action/add-user-expected.xml",
+    @DatabaseSetup(value = "classpath:dbunit/linkedtasks/action/link-tasks-dataset.xml")
+    @ExpectedDatabase(value = "classpath:dbunit/linkedtasks/action/link-tasks-expected.xml",
+            assertionMode= DatabaseAssertionMode.NON_STRICT)
+    @DatabaseTearDown(value = "classpath:dbunit/linkedtasks/action/link-tasks-teardown.xml",
             type = DatabaseOperation.DELETE_ALL)
-    void shouldAddUser() throws Exception {
-        mockMvc.perform(post("/action/user/add")
+    void shouldLinkTasks() throws Exception {
+        mockMvc.perform(post("/action/linkedtasks/link")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(addUserJSON()))
+                .content(linkTasksJSON()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.errors").value(new ArrayList<>()))
-                .andExpect(jsonPath("$.user.name").value("admin"));
+                .andExpect(jsonPath("$.errors").value(new ArrayList<>()));
+
+
+
     }
 
-    private String addUserJSON() throws JSONException{
+    private String linkTasksJSON() throws JSONException {
         return new JSONObject()
-                .put("name", "admin")
+                .put("parentTaskId", 1)
+                .put("childTaskId", 2)
                 .toString();
     }
 
     @Test
-    @DatabaseSetup(value = "classpath:dbunit/user/action/delete-user-dataset.xml")
-    @ExpectedDatabase(value = "classpath:dbunit/user/action/delete-user-expected.xml",
-        assertionMode = DatabaseAssertionMode.NON_STRICT)
-    @DatabaseTearDown(value = "classpath:dbunit/user/action/delete-user-teardown.xml",
+    @DatabaseSetup(value = "classpath:dbunit/linkedtasks/action/unlink-tasks-dataset.xml")
+    @ExpectedDatabase(value = "classpath:dbunit/linkedtasks/action/unlink-tasks-expected.xml",
+            assertionMode= DatabaseAssertionMode.NON_STRICT)
+    @DatabaseTearDown(value = "classpath:dbunit/linkedtasks/action/unlink-tasks-teardown.xml",
             type = DatabaseOperation.DELETE_ALL)
-    void shouldDeleteUser() throws Exception{
-        mockMvc.perform(post("/action/user/delete")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(deleteUserJSON()))
+    void shouldUnlinkTasks() throws Exception {
+        mockMvc.perform(post("/action/linkedtasks/unlink")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(unlinkTasksJSON()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.errors").value(new ArrayList<>()));
+
+
     }
 
-    private String deleteUserJSON() throws JSONException{
+    private String unlinkTasksJSON() throws JSONException {
         return new JSONObject()
-                .put("name", "loshara")
+                .put("parentTaskId", 1)
+                .put("childTaskId", 2)
                 .toString();
     }
 }

@@ -1,16 +1,14 @@
 package ru.team.todo.controller.rest;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
+import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
-import com.github.springtestdbunit.annotation.ExpectedDatabase;
-import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
@@ -24,7 +22,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-@DirtiesContext
 @AutoConfigureMockMvc
 @TestExecutionListeners(value = {DependencyInjectionTestExecutionListener.class, DbUnitTestExecutionListener.class},
         mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS)
@@ -34,7 +31,8 @@ class LinkedTasksListRestControllerIT {
 
     @Test
     @DatabaseSetup(value = "classpath:dbunit/linkedtasks/list/find-linkedtasks-dataset.xml")
-    @DatabaseTearDown(value="classpath:dbunit/linkedtasks/list/find-linkedtasks-dataset.xml")
+    @DatabaseTearDown(value="classpath:dbunit/linkedtasks/list/find-linkedtasks-dataset.xml",
+            type = DatabaseOperation.DELETE_ALL)
     void shouldFindAllLinkedTasks()throws Exception{
         mockMvc.perform(get("/linkedtasks"))
                 .andExpect(status().isOk())
@@ -52,7 +50,8 @@ class LinkedTasksListRestControllerIT {
 
     @Test
     @DatabaseSetup(value = "classpath:dbunit/linkedtasks/list/find-linkedtasks-id-dataset.xml")
-    @DatabaseTearDown(value="classpath:dbunit/linkedtasks/list/find-linkedtasks-id-dataset.xml")
+    @DatabaseTearDown(value="classpath:dbunit/linkedtasks/list/find-linkedtasks-id-dataset.xml",
+            type = DatabaseOperation.DELETE_ALL)
     void shouldFindLinkedTasksById() throws Exception{
             mockMvc.perform(get("/linkedtasks/{id}", "3"))
             .andExpect(status().isOk())
