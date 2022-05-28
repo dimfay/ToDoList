@@ -19,12 +19,12 @@ public class LinkedTasksActionController {
     private final LinkedTaskService linkedTaskService;
 
     @PostMapping("/link")
-    public LinkTaskResponse linkTasks(@RequestBody @Valid LinkTaskRequest request){
+    public LinkTaskResponse linkTasks(@RequestBody @Valid LinkTaskRequest request) {
         return linkedTaskService.linkTask(request);
     }
 
     @PostMapping("/unlink")
-    public UnlinkTaskResponse unlinkTasks(@RequestBody @Valid UnlinkTaskRequest request){
+    public UnlinkTaskResponse unlinkTasks(@RequestBody @Valid UnlinkTaskRequest request) {
         return linkedTaskService.unlinkTask(request);
     }
 

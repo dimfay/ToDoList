@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class FindUserRequest implements NameableUserRequest {
+public class FindUserRequest {
     @NotBlank(message = "Must not be empty")
     private String name;
 }

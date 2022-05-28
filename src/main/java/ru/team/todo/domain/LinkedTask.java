@@ -19,6 +19,8 @@ import java.util.Objects;
 @Table(name = "linkedTasks")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class LinkedTask {
 
     @Id
@@ -32,16 +34,6 @@ public class LinkedTask {
     @ManyToOne
     @JoinColumn(name = "linkedTaskId", referencedColumnName = "id", nullable = false)
     private Task linkedTask;
-
-    public LinkedTask() {
-
-    }
-
-    public LinkedTask(Integer id, Task task, Task linkedTask) {
-        this.id = id;
-        this.task = task;
-        this.linkedTask = linkedTask;
-    }
 
     public LinkedTask(Task task, Task linkedTask) {
         this.task = task;

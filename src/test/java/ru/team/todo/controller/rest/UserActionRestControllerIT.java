@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestExecutionListeners(value = {DependencyInjectionTestExecutionListener.class, DbUnitTestExecutionListener.class},
-mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS)
+        mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS)
 class UserActionRestControllerIT {
     @Autowired
     private MockMvc mockMvc;
@@ -37,19 +37,19 @@ class UserActionRestControllerIT {
     @Test
     @DatabaseSetup(value = "classpath:dbunit/user/action/add-user-dataset.xml")
     @ExpectedDatabase(value = "classpath:dbunit/user/action/add-user-expected.xml",
-        assertionMode = DatabaseAssertionMode.NON_STRICT)
+            assertionMode = DatabaseAssertionMode.NON_STRICT)
     @DatabaseTearDown(value = "classpath:dbunit/user/action/add-user-expected.xml",
             type = DatabaseOperation.DELETE_ALL)
     void shouldAddUser() throws Exception {
         mockMvc.perform(post("/action/user/add")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(addUserJSON()))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(addUserJSON()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.errors").value(new ArrayList<>()))
                 .andExpect(jsonPath("$.user.name").value("admin"));
     }
 
-    private String addUserJSON() throws JSONException{
+    private String addUserJSON() throws JSONException {
         return new JSONObject()
                 .put("name", "admin")
                 .toString();
@@ -58,18 +58,18 @@ class UserActionRestControllerIT {
     @Test
     @DatabaseSetup(value = "classpath:dbunit/user/action/delete-user-dataset.xml")
     @ExpectedDatabase(value = "classpath:dbunit/user/action/delete-user-expected.xml",
-        assertionMode = DatabaseAssertionMode.NON_STRICT)
+            assertionMode = DatabaseAssertionMode.NON_STRICT)
     @DatabaseTearDown(value = "classpath:dbunit/user/action/delete-user-teardown.xml",
             type = DatabaseOperation.DELETE_ALL)
-    void shouldDeleteUser() throws Exception{
+    void shouldDeleteUser() throws Exception {
         mockMvc.perform(post("/action/user/delete")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(deleteUserJSON()))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(deleteUserJSON()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.errors").value(new ArrayList<>()));
     }
 
-    private String deleteUserJSON() throws JSONException{
+    private String deleteUserJSON() throws JSONException {
         return new JSONObject()
                 .put("name", "loshara")
                 .toString();

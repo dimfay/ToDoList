@@ -14,7 +14,6 @@ import ru.team.todo.dto.linkedtasks.UnlinkTaskRequest;
 import ru.team.todo.dto.linkedtasks.UnlinkTaskResponse;
 import ru.team.todo.repository.LinkedTasksRepository;
 import ru.team.todo.repository.TaskRepository;
-import ru.team.todo.repository.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,8 +27,6 @@ public class LinkedTaskServiceUnlinkTest {
     private LinkedTasksRepository linkedTasksRepository;
     @Mock
     private TaskRepository taskRepository;
-    @Mock
-    private UserRepository userRepository;
     @InjectMocks
     private LinkedTaskService linkedTaskService;
 

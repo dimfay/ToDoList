@@ -5,5 +5,4 @@ import ru.team.todo.domain.Task;
 
 public interface TaskRepository extends JpaRepository<Task, Integer> {
 
-    Task findByName(String name);
 }

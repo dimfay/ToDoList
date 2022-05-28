@@ -34,8 +34,8 @@ public class TasksUIController {
 
     @GetMapping("{username}/{taskid}")
     public String taskEdit(@PathVariable("username") String username,
-                             @PathVariable("taskid") int taskId,
-                             @RequestParam(name = "action", defaultValue = "") String action, Model model) {
+                           @PathVariable("taskid") int taskId,
+                           @RequestParam(name = "action", defaultValue = "") String action, Model model) {
         if (action.equalsIgnoreCase("edit")) {
             model.addAttribute("user", username);
             model.addAttribute("taskid", taskId);

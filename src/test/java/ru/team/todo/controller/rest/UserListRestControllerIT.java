@@ -18,7 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 
-import  static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestExecutionListeners(value = {DependencyInjectionTestExecutionListener.class, DbUnitTestExecutionListener.class},
-    mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS)
+        mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS)
 class UserListRestControllerIT {
 
     @Autowired
@@ -51,7 +51,7 @@ class UserListRestControllerIT {
     @DatabaseSetup(value = "classpath:dbunit/user/list/find-all-users-name-dataset.xml")
     @DatabaseTearDown(value = "classpath:dbunit/user/list/find-all-users-name-dataset.xml",
             type = DatabaseOperation.DELETE_ALL)
-    void shouldFindUserByName() throws Exception{
+    void shouldFindUserByName() throws Exception {
         mockMvc.perform(get("/users/{name}", "admin").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.errors").value(new ArrayList<>()))
