@@ -31,9 +31,9 @@ class LinkedTasksListRestControllerIT {
 
     @Test
     @DatabaseSetup(value = "classpath:dbunit/linkedtasks/list/find-linkedtasks-dataset.xml")
-    @DatabaseTearDown(value="classpath:dbunit/linkedtasks/list/find-linkedtasks-dataset.xml",
+    @DatabaseTearDown(value = "classpath:dbunit/linkedtasks/list/find-linkedtasks-dataset.xml",
             type = DatabaseOperation.DELETE_ALL)
-    void shouldFindAllLinkedTasks()throws Exception{
+    void shouldFindAllLinkedTasks() throws Exception {
         mockMvc.perform(get("/linkedtasks"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.errors").value(new ArrayList<>()))
@@ -50,20 +50,20 @@ class LinkedTasksListRestControllerIT {
 
     @Test
     @DatabaseSetup(value = "classpath:dbunit/linkedtasks/list/find-linkedtasks-id-dataset.xml")
-    @DatabaseTearDown(value="classpath:dbunit/linkedtasks/list/find-linkedtasks-id-dataset.xml",
+    @DatabaseTearDown(value = "classpath:dbunit/linkedtasks/list/find-linkedtasks-id-dataset.xml",
             type = DatabaseOperation.DELETE_ALL)
-    void shouldFindLinkedTasksById() throws Exception{
-            mockMvc.perform(get("/linkedtasks/{id}", "3"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.errors").value(new ArrayList<>()))
-            .andExpect(jsonPath("$.linkedTasks.size()").value(1))
-            .andExpect(jsonPath("$.linkedTasks[*].id").value(2))
-            .andExpect(jsonPath("$.linkedTasks[*].task.id").value(3))
-            .andExpect(jsonPath("$.linkedTasks[*].task.name").value("third task"))
-            .andExpect(jsonPath("$.linkedTasks[*].task.description").value("third description"))
-            .andExpect(jsonPath("$.linkedTasks[*].linkedTask.id").value(4))
-            .andExpect(jsonPath("$.linkedTasks[*].linkedTask.name").value("fourth task"))
-            .andExpect(jsonPath("$.linkedTasks[*].linkedTask.description").value("fourth description"));
+    void shouldFindLinkedTasksById() throws Exception {
+        mockMvc.perform(get("/linkedtasks/{id}", "3"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.errors").value(new ArrayList<>()))
+                .andExpect(jsonPath("$.linkedTasks.size()").value(1))
+                .andExpect(jsonPath("$.linkedTasks[*].id").value(2))
+                .andExpect(jsonPath("$.linkedTasks[*].task.id").value(3))
+                .andExpect(jsonPath("$.linkedTasks[*].task.name").value("third task"))
+                .andExpect(jsonPath("$.linkedTasks[*].task.description").value("third description"))
+                .andExpect(jsonPath("$.linkedTasks[*].linkedTask.id").value(4))
+                .andExpect(jsonPath("$.linkedTasks[*].linkedTask.name").value("fourth task"))
+                .andExpect(jsonPath("$.linkedTasks[*].linkedTask.description").value("fourth description"));
 
         mockMvc.perform(get("/linkedtasks/{id}", "4"))
                 .andExpect(status().isOk())
@@ -77,5 +77,5 @@ class LinkedTasksListRestControllerIT {
                 .andExpect(jsonPath("$.linkedTasks[*].linkedTask.name").value("fourth task"))
                 .andExpect(jsonPath("$.linkedTasks[*].linkedTask.description").value("fourth description"));
 
-}
+    }
 }

@@ -38,10 +38,10 @@ class TasksActionRestControllerTestIT {
     @Test
     @DatabaseSetup(value = "classpath:dbunit/tasks/action/add-task-dataset.xml")
     @ExpectedDatabase(value = "classpath:dbunit/tasks/action/add-task-expected.xml",
-            assertionMode= DatabaseAssertionMode.NON_STRICT)
+            assertionMode = DatabaseAssertionMode.NON_STRICT)
     @DatabaseTearDown(value = "classpath:dbunit/tasks/action/add-task-teardown.xml",
-        type = DatabaseOperation.DELETE_ALL)
-    void shouldAddTask() throws Exception{
+            type = DatabaseOperation.DELETE_ALL)
+    void shouldAddTask() throws Exception {
         mockMvc.perform(post("/action/task/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(addTaskJSON()))
@@ -49,7 +49,7 @@ class TasksActionRestControllerTestIT {
                 .andExpect(jsonPath("$.errors").value(new ArrayList<>()));
     }
 
-    private String addTaskJSON() throws JSONException{
+    private String addTaskJSON() throws JSONException {
         return new JSONObject()
                 .put("userName", "Administrator")
                 .put("taskName", "test name")
@@ -60,13 +60,13 @@ class TasksActionRestControllerTestIT {
 
     @Test
     @DatabaseSetup(value = "classpath:dbunit/tasks/action/delete-task-dataset.xml")
-    @ExpectedDatabase(value = "classpath:dbunit/tasks/action/delete-task-expected.xml", assertionMode= DatabaseAssertionMode.NON_STRICT)
+    @ExpectedDatabase(value = "classpath:dbunit/tasks/action/delete-task-expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
     @DatabaseTearDown(value = "classpath:dbunit/tasks/action/delete-task-teardown.xml",
-        type = DatabaseOperation.DELETE_ALL)
+            type = DatabaseOperation.DELETE_ALL)
     void shouldDeleteTask() throws Exception {
         mockMvc.perform(post("/action/task/delete")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(deleteTaskJSON()))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(deleteTaskJSON()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.errors").value(new ArrayList<>()));
 
@@ -81,18 +81,18 @@ class TasksActionRestControllerTestIT {
     @Test
     @DatabaseSetup(value = "classpath:dbunit/tasks/action/edit-task-dataset.xml")
     @ExpectedDatabase(value = "classpath:dbunit/tasks/action/edit-task-expected.xml",
-            assertionMode= DatabaseAssertionMode.NON_STRICT)
+            assertionMode = DatabaseAssertionMode.NON_STRICT)
     @DatabaseTearDown(value = "classpath:dbunit/tasks/action/edit-task-teardown.xml",
-    type = DatabaseOperation.DELETE_ALL)
+            type = DatabaseOperation.DELETE_ALL)
     void shouldEditTask() throws Exception {
         mockMvc.perform(post("/action/task/edit")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(editTaskJSON()))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(editTaskJSON()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.errors").value(new ArrayList<>()));
     }
 
-    private String editTaskJSON() throws JSONException{
+    private String editTaskJSON() throws JSONException {
         return new JSONObject()
                 .put("id", "1")
                 .put("name", "new name")

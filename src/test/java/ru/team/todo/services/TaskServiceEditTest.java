@@ -29,7 +29,7 @@ public class TaskServiceEditTest {
     private TaskService service;
 
     @Test
-    public void shouldEditSuccessfully(){
+    public void shouldEditSuccessfully() {
         when(taskRepository.findById(1)).thenReturn(Optional.of(new Task(1, new User("testUser"), "testTask", "desc")));
 
         EditTaskResponse result = service.editTask(new EditTaskRequest(1, "newName", "newDescription"));

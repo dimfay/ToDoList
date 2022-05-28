@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddTaskRequest implements NameableTaskRequest {
+public class AddTaskRequest {
     @NotBlank(message = "Must not be empty")
     private String userName;
     @NotBlank(message = "Must not be empty")

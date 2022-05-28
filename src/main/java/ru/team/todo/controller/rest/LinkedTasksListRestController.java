@@ -16,12 +16,12 @@ public class LinkedTasksListRestController {
     private final LinkedTaskService linkedTaskService;
 
     @GetMapping
-    public FindLinkedTasksResponse findAllLinkedTasks(){
+    public FindLinkedTasksResponse findAllLinkedTasks() {
         return linkedTaskService.findLinkedTasks(new FindLinkedTasksRequest(null));
     }
 
     @GetMapping("/{id}")
-    public FindLinkedTasksResponse findLinkedTasksById(@PathVariable("id") Integer id){
+    public FindLinkedTasksResponse findLinkedTasksById(@PathVariable("id") Integer id) {
         return linkedTaskService.findLinkedTasks(new FindLinkedTasksRequest(id));
     }
 }

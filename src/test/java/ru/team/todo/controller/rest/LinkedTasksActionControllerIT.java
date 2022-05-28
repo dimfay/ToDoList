@@ -30,23 +30,22 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @TestExecutionListeners(value = {DependencyInjectionTestExecutionListener.class, DbUnitTestExecutionListener.class},
         mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS)
-class LinkedTasksActionControllerIT {
+public class LinkedTasksActionControllerIT {
     @Autowired
     private MockMvc mockMvc;
 
     @Test
     @DatabaseSetup(value = "classpath:dbunit/linkedtasks/action/link-tasks-dataset.xml")
     @ExpectedDatabase(value = "classpath:dbunit/linkedtasks/action/link-tasks-expected.xml",
-            assertionMode= DatabaseAssertionMode.NON_STRICT)
+            assertionMode = DatabaseAssertionMode.NON_STRICT)
     @DatabaseTearDown(value = "classpath:dbunit/linkedtasks/action/link-tasks-teardown.xml",
             type = DatabaseOperation.DELETE_ALL)
     void shouldLinkTasks() throws Exception {
         mockMvc.perform(post("/action/linkedtasks/link")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(linkTasksJSON()))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(linkTasksJSON()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.errors").value(new ArrayList<>()));
-
 
 
     }
@@ -61,7 +60,7 @@ class LinkedTasksActionControllerIT {
     @Test
     @DatabaseSetup(value = "classpath:dbunit/linkedtasks/action/unlink-tasks-dataset.xml")
     @ExpectedDatabase(value = "classpath:dbunit/linkedtasks/action/unlink-tasks-expected.xml",
-            assertionMode= DatabaseAssertionMode.NON_STRICT)
+            assertionMode = DatabaseAssertionMode.NON_STRICT)
     @DatabaseTearDown(value = "classpath:dbunit/linkedtasks/action/unlink-tasks-teardown.xml",
             type = DatabaseOperation.DELETE_ALL)
     void shouldUnlinkTasks() throws Exception {

@@ -35,7 +35,7 @@ class TasksListRestControllerIT {
     @Test
     @DatabaseSetup(value = "classpath:dbunit/tasks/list/find-tasks-dataset.xml")
     @DatabaseTearDown(value = "classpath:dbunit/tasks/list/find-tasks-dataset.xml",
-        type = DatabaseOperation.DELETE_ALL)
+            type = DatabaseOperation.DELETE_ALL)
     void shouldFindAllTasks() throws Exception {
         mockMvc.perform(get("/tasks").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

@@ -1,6 +1,8 @@
 package ru.team.todo.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
 
@@ -20,6 +22,8 @@ import java.util.Objects;
 @Table(name = "users")
 @Setter
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id
@@ -31,10 +35,6 @@ public class User {
     private String name;
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Task> tasks;
-
-    public User() {
-
-    }
 
     public User(String name) {
         this.name = name;

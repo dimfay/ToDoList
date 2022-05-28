@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddUserRequest implements NameableUserRequest {
+public class AddUserRequest {
     @NotBlank(message = "Must not be empty")
     @Length(min = 3, max = 15, message = "Username must not be less than 3 or more than 15 characters")
     private String name;

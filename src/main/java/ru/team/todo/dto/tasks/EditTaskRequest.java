@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EditTaskRequest {
-    @NotNull(message = "Must not be empty")
+    @NotNull(message = "Must not be null")
     private Integer id;
     @NotBlank(message = "Must not be empty")
     @Length(max = 16, message = "Task name must not be more than 16 characters")

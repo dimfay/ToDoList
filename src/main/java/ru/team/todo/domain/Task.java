@@ -24,6 +24,8 @@ import java.util.Set;
 @Table(name = "tasks")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Task {
 
     @Id
@@ -40,10 +42,6 @@ public class Task {
 
     @OneToMany(mappedBy = "task", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<LinkedTask> linkedTasks;
-
-    public Task() {
-
-    }
 
     public Task(Integer id, User user, String name, String desc) {
         this.id = id;

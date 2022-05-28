@@ -24,7 +24,6 @@ public class TaskServiceAddTest {
     @Mock
     private TaskRepository taskRepository;
 
-
     @Mock
     private UserRepository userRepository;
 

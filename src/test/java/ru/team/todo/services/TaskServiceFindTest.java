@@ -21,10 +21,8 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class TaskServiceFindTest {
 
-
     @Mock
     private UserRepository userRepository;
-
 
     @InjectMocks
     private TaskService service;

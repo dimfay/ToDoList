@@ -29,7 +29,7 @@ public class TaskServiceDeleteTest {
     private TaskService service;
 
     @Test
-    public void shouldDeleteSuccessfully(){
+    public void shouldDeleteSuccessfully() {
         when(taskRepository.findById(1)).thenReturn(Optional.of(new Task(1, new User("testUser"), "testTask", "desc")));
 
         DeleteTaskResponse result = service.deleteTask(new DeleteTaskRequest(1));

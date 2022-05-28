@@ -12,6 +12,4 @@ import javax.validation.constraints.NotBlank;
 public class FindTasksRequest {
     @NotBlank(message = "Must not be empty")
     private String userName;
-    //Не зачем нам пока искать конкретные таски у пользователя
-    //private String task;
 }
