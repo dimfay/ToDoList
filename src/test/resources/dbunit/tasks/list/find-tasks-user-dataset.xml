@@ -1,0 +1,21 @@
+<dataset>
+    <users id="5"
+           name="admin"
+    />
+
+    <users id="6"
+           name="loshara"
+    />
+
+    <tasks id="1"
+           userId="5"
+           name="test admin"
+           description="test description"
+    />
+    <tasks id="2"
+           userId="6"
+           name="test loshara"
+           description="test description"
+    />
+
+</dataset>

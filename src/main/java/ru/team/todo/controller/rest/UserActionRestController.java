@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import ru.team.todo.dto.users.AddUserRequest;
+import ru.team.todo.dto.users.AddUserResponse;
 import ru.team.todo.dto.users.DeleteUserRequest;
+import ru.team.todo.dto.users.DeleteUserResponse;
 import ru.team.todo.services.UserService;
 
 import javax.validation.Valid;
@@ -25,12 +27,12 @@ public class UserActionRestController {
     private final UserService userService;
 
     @PostMapping("/add")
-    public Object addUser(@RequestBody @Valid AddUserRequest request) {
+    public AddUserResponse addUser(@RequestBody @Valid AddUserRequest request) {
         return this.userService.addUser(request);
     }
 
     @PostMapping("/delete")
-    public Object deleteUser(@RequestBody @Valid DeleteUserRequest request) {
+    public DeleteUserResponse deleteUser(@RequestBody @Valid DeleteUserRequest request) {
         return this.userService.deleteUser(request);
     }
 
