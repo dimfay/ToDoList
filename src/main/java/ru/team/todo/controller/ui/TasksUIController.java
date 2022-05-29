@@ -17,7 +17,7 @@ import javax.validation.Valid;
 public class TasksUIController {
     private final TaskService taskService;
 
-    @PostMapping("{username}/{taskid}")
+    @PostMapping("{username}/tasks/{taskid}")
     public String taskAction(@PathVariable("username") String username,
                              @PathVariable("taskid") int taskId,
                              @RequestParam(name = "action", defaultValue = "") String action,
@@ -32,7 +32,7 @@ public class TasksUIController {
         return "redirect:/ui/users/{username}";
     }
 
-    @GetMapping("{username}/{taskid}")
+    @GetMapping("{username}/tasks/{taskid}")
     public String taskEdit(@PathVariable("username") String username,
                            @PathVariable("taskid") int taskId,
                            @RequestParam(name = "action", defaultValue = "") String action, Model model) {
