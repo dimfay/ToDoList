@@ -1,6 +1,5 @@
 package ru.team.todo.controller.ui;
 
-import liquibase.pro.packaged.V;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,8 +19,6 @@ import ru.team.todo.dto.users.FindUserResponse;
 import ru.team.todo.dto.users.DeleteUserRequest;
 import ru.team.todo.services.TaskService;
 import ru.team.todo.services.UserService;
-
-import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/ui/users")
@@ -71,7 +68,7 @@ public class UserUIController {
     @PostMapping("{username}")
     public String userAction(@PathVariable("username") String username,
                              @RequestParam(name = "action", defaultValue = "") String action,
-                             @ModelAttribute @Valid AddTaskRequest addTaskRequest) {
+                             @ModelAttribute AddTaskRequest addTaskRequest) {
         if (action.equalsIgnoreCase("delete")) {
             this.userService.deleteUser(new DeleteUserRequest(username));
         }

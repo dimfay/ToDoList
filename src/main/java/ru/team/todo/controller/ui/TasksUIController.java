@@ -9,19 +9,17 @@ import ru.team.todo.dto.tasks.DeleteTaskRequest;
 import ru.team.todo.dto.tasks.EditTaskRequest;
 import ru.team.todo.services.TaskService;
 
-import javax.validation.Valid;
-
 @Controller
 @RequestMapping("/ui/users")
 @AllArgsConstructor
 public class TasksUIController {
     private final TaskService taskService;
 
-    @PostMapping("{username}/{taskid}")
+    @PostMapping("{username}/tasks/{taskid}")
     public String taskAction(@PathVariable("username") String username,
                              @PathVariable("taskid") int taskId,
                              @RequestParam(name = "action", defaultValue = "") String action,
-                             @ModelAttribute @Valid EditTaskRequest editTaskRequest) {
+                             @ModelAttribute EditTaskRequest editTaskRequest) {
         if (action.equalsIgnoreCase("delete")) {
             taskService.deleteTask(new DeleteTaskRequest(taskId));
         }
@@ -32,7 +30,7 @@ public class TasksUIController {
         return "redirect:/ui/users/{username}";
     }
 
-    @GetMapping("{username}/{taskid}")
+    @GetMapping("{username}/tasks/{taskid}")
     public String taskEdit(@PathVariable("username") String username,
                            @PathVariable("taskid") int taskId,
                            @RequestParam(name = "action", defaultValue = "") String action, Model model) {

@@ -29,13 +29,13 @@
             </span>
         </td>
         <td>
-            <a th:href="@{/ui/users/{username}/{taskid}?action=edit(username=${user}, taskid=${task.id})}">
+            <a th:href="@{/ui/users/{username}/tasks/{taskid}?action=edit(username=${user}, taskid=${task.id})}">
                 Edit task
             </a>
         </td>
         <td>
             <form action="#"
-                  th:action="@{/ui/users/{username}/{taskid}?action=delete(username=${user}, taskid=${task.id})}"
+                  th:action="@{/ui/users/{username}/tasks/{taskid}?action=delete(username=${user}, taskid=${task.id})}"
                   th:object="${deleterequest}" method="post">
                 <input type="hidden" th:value="${task.id}" id="id" name="id"/>
                 <p><input type="submit" value="Delete task"/>

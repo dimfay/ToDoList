@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>Edit task</h1>
-<form action="#" th:action="@{/ui/users/{username}/{task}?action=edit(username=${user}, task=${taskid})}"
+<form action="#" th:action="@{/ui/users/{username}/tasks/{task}?action=edit(username=${user}, task=${taskid})}"
       th:object="${request}" method="post">
     <input type="hidden" th:value="${taskid}" id="id" name="id"/>
     <p>Name: <input type="text" th:field="*{name}"/></p>
