@@ -1,6 +1,6 @@
 package ru.team.todo.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.team.todo.domain.Task;
 import ru.team.todo.domain.User;
@@ -15,12 +15,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class TaskService {
 
-    @Autowired
-    private TaskRepository taskRepository;
-    @Autowired
-    private UserRepository userRepository;
+    private final TaskRepository taskRepository;
+    private final UserRepository userRepository;
 
     public AddTaskResponse addTask(AddTaskRequest request) {
         User user = this.userRepository.findByName(request.getUserName());

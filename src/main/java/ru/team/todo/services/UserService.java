@@ -1,6 +1,6 @@
 package ru.team.todo.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.team.todo.dto.users.*;
 import ru.team.todo.domain.User;
@@ -11,10 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class UserService {
 
-    @Autowired
-    private UserRepository repository;
+    private final UserRepository repository;
 
     public AddUserResponse addUser(AddUserRequest request) {
         User tmpUser = this.repository.findByName(request.getName());

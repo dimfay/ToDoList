@@ -1,13 +1,12 @@
 package ru.team.todo.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.team.todo.domain.LinkedTask;
 import ru.team.todo.dto.linkedtasks.*;
 import ru.team.todo.dto.tasks.TaskDTO;
 import ru.team.todo.repository.LinkedTasksRepository;
 import ru.team.todo.repository.TaskRepository;
-import ru.team.todo.repository.UserRepository;
 import ru.team.todo.validation.CoreError;
 
 import java.util.ArrayList;
@@ -16,14 +15,11 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
+@AllArgsConstructor
 public class LinkedTaskService {
 
-    @Autowired
-    private LinkedTasksRepository linkedTaskRepository;
-    @Autowired
-    private TaskRepository taskRepository;
-    @Autowired
-    private UserRepository userRepository;
+    private final LinkedTasksRepository linkedTaskRepository;
+    private final TaskRepository taskRepository;
 
     public LinkTaskResponse linkTask(LinkTaskRequest request) {
         var parentTaskId = request.getParentTaskId();
