@@ -5,12 +5,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import ru.team.todo.dto.CoreError;
 import ru.team.todo.dto.users.*;
 import ru.team.todo.services.UserService;
 
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 @RequestMapping("/users")
 @RestController()
@@ -40,12 +41,12 @@ public class UserRestController {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
+    public List<CoreError> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        List<CoreError> errors = new ArrayList<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();
             String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
+            errors.add(new CoreError("Error on field: '" + fieldName + "': " + errorMessage));
         });
         return errors;
     }
