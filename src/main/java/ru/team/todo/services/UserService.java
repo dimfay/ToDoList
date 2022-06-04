@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.team.todo.dto.users.*;
 import ru.team.todo.domain.User;
 import ru.team.todo.repository.UserRepository;
-import ru.team.todo.validation.CoreError;
+import ru.team.todo.dto.CoreError;
 
 import java.util.ArrayList;
 import java.util.List;

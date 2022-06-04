@@ -1,4 +1,4 @@
-package ru.team.todo.validation;
+package ru.team.todo.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -7,7 +7,7 @@ import ru.team.todo.dto.linkedtasks.*;
 import ru.team.todo.dto.tasks.TaskDTO;
 import ru.team.todo.repository.LinkedTasksRepository;
 import ru.team.todo.repository.TaskRepository;
-import ru.team.todo.validation.CoreError;
+import ru.team.todo.dto.CoreError;
 
 import java.util.ArrayList;
 import java.util.List;
