@@ -5,7 +5,7 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.team.todo.validation.CoreError;
+import ru.team.todo.dto.CoreError;
 
 @Data
 @NoArgsConstructor

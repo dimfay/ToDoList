@@ -2,7 +2,7 @@ package ru.team.todo.dto.linkedtasks;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import ru.team.todo.validation.CoreError;
+import ru.team.todo.dto.CoreError;
 
 import java.util.List;
 
