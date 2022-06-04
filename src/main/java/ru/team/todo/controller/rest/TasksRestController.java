@@ -4,43 +4,42 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-import ru.team.todo.dto.tasks.AddTaskRequest;
-import ru.team.todo.dto.tasks.AddTaskResponse;
-import ru.team.todo.dto.tasks.DeleteTaskRequest;
-import ru.team.todo.dto.tasks.DeleteTaskResponse;
-import ru.team.todo.dto.tasks.EditTaskRequest;
-import ru.team.todo.dto.tasks.EditTaskResponse;
+import org.springframework.web.bind.annotation.*;
+import ru.team.todo.dto.tasks.*;
 import ru.team.todo.services.TaskService;
 
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
-@RequestMapping("/action/task")
-@RestController()
+@RestController
 @AllArgsConstructor
-public class TasksActionRestController {
+public class TasksRestController {
     private final TaskService taskService;
 
-    @PostMapping("/add")
+    @GetMapping("/tasks")
+    public FindTasksResponse findAllTasks() {
+        return taskService.findTask(new FindTasksRequest(null));
+    }
+
+    @PostMapping("/tasks")
     public AddTaskResponse addTask(@RequestBody @Valid AddTaskRequest request) {
         return taskService.addTask(request);
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/tasks")
     public DeleteTaskResponse deleteTask(@RequestBody @Valid DeleteTaskRequest request) {
         return taskService.deleteTask(request);
     }
 
-    @PostMapping("/edit")
+    @PutMapping("/tasks")
     public EditTaskResponse editTask(@RequestBody @Valid EditTaskRequest request) {
         return taskService.editTask(request);
+    }
+
+    @GetMapping("/users/{username}/tasks")
+    public FindTasksResponse findTasksByUser(@PathVariable("username") String username) {
+        return taskService.findTask(new FindTasksRequest(username));
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
