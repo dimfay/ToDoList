@@ -46,7 +46,7 @@ public class UserRestControllerTest {
                 .andExpect(jsonPath("$.users[0].id").value(5))
                 .andExpect(jsonPath("$.users[0].name").value("admin"))
                 .andExpect(jsonPath("$.users[1].id").value(6))
-                .andExpect(jsonPath("$.users[1].name").value("loshara"));
+                .andExpect(jsonPath("$.users[1].name").value("other"));
     }
 
     @Test
@@ -94,7 +94,7 @@ public class UserRestControllerTest {
 
     private static String deleteUserJSON() throws JSONException {
         return new JSONObject()
-                .put("name", "loshara")
+                .put("name", "other")
                 .toString();
     }
 
